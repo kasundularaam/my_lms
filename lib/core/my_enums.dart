@@ -1,0 +1,1 @@
+enum AuthNav { toLogin, toSignUp }
