@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/logic/cubit/auth_cubit.dart';
+import 'package:my_lms/presentation/router/app_router.dart';
 
 import 'package:my_lms/presentation/screens/widgets/my_button.dart';
 import 'package:my_lms/presentation/screens/widgets/my_text_field.dart';
@@ -22,6 +25,12 @@ class _LoginPageState extends State<LoginPage> {
   FocusNode _passwordFocusNode = FocusNode();
 
   @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<AuthCubit>(context).loadInitState();
+  }
+
+  @override
   void dispose() {
     _passwordFocusNode.dispose();
     super.dispose();
@@ -43,6 +52,52 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(
           height: 300,
         ),
+        BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is AuthSucceed) {
+              Navigator.popAndPushNamed(context, AppRouter.home);
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthInitial) {
+              return buildInitialState();
+            } else if (state is AuthLoading) {
+              return buildLoadingState();
+            } else if (state is AuthFailed) {
+              return buildFailedState();
+            } else {
+              return Text("nothing to show");
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget buildLoadingState() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  Widget buildFailedState() {
+    return Column(children: [
+      Text(
+        "Authentication Failed",
+        style: TextStyle(
+          fontSize: 20,
+        ),
+      ),
+      TextButton(
+        onPressed: () => BlocProvider.of<AuthCubit>(context).loadInitState(),
+        child: Text("Try Again"),
+      ),
+    ]);
+  }
+
+  Widget buildInitialState() {
+    return Column(
+      children: [
         MyTextField(
           onChanged: (email) => _email = email,
           onSubmitted: (_) {

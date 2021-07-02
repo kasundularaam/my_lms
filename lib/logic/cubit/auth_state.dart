@@ -24,6 +24,23 @@ class AuthSucceed extends AuthState {
   int get hashCode => user.hashCode;
 }
 
+class AuthCheckUserStatus extends AuthState {
+  final bool userStatus;
+  AuthCheckUserStatus({
+    required this.userStatus,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AuthCheckUserStatus && other.userStatus == userStatus;
+  }
+
+  @override
+  int get hashCode => userStatus.hashCode;
+}
+
 class AuthFailed extends AuthState {
   final String errorMsg;
   AuthFailed({

@@ -30,4 +30,18 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthFailed(errorMsg: e.toString()));
     }
   }
+
+  Future<void> checkUserStatus() async {
+    try {
+      emit(AuthLoading());
+      bool userStatus = await FirebaseRepo.checkUserStatus();
+      emit(AuthCheckUserStatus(userStatus: userStatus));
+    } catch (e) {
+      emit(AuthFailed(errorMsg: e.toString()));
+    }
+  }
+
+  void loadInitState() {
+    emit(AuthInitial());
+  }
 }

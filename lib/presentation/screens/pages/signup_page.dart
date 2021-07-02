@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/data/models/user_model.dart';
+import 'package:my_lms/logic/cubit/auth_cubit.dart';
+import 'package:my_lms/presentation/router/app_router.dart';
 
 import 'package:my_lms/presentation/screens/widgets/my_button.dart';
 import 'package:my_lms/presentation/screens/widgets/my_text_field.dart';
@@ -26,6 +29,12 @@ class _SignUpPageState extends State<SignUpPage> {
   FocusNode _emailFocusNode = FocusNode();
 
   @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<AuthCubit>(context).loadInitState();
+  }
+
+  @override
   void dispose() {
     _passwordFocusNode.dispose();
     _emailFocusNode.dispose();
@@ -48,6 +57,32 @@ class _SignUpPageState extends State<SignUpPage> {
         SizedBox(
           height: 200,
         ),
+        BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is AuthSucceed) {
+              Navigator.popAndPushNamed(context, AppRouter.home);
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthInitial) {
+              return buildInitState();
+            } else if (state is AuthLoading) {
+              return buildLoadingState();
+            }
+            if (state is AuthFailed) {
+              return buildFailedState();
+            } else {
+              return Text("nothing to show");
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget buildInitState() {
+    return Column(
+      children: [
         MyTextField(
           onChanged: (name) => _name = name,
           onSubmitted: (_) {
@@ -113,5 +148,26 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       ],
     );
+  }
+
+  Widget buildLoadingState() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  Widget buildFailedState() {
+    return Column(children: [
+      Text(
+        "Authentication Failed",
+        style: TextStyle(
+          fontSize: 20,
+        ),
+      ),
+      TextButton(
+        onPressed: () => BlocProvider.of<AuthCubit>(context).loadInitState(),
+        child: Text("Try Again"),
+      ),
+    ]);
   }
 }
