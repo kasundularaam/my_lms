@@ -1,24 +1,24 @@
 import 'dart:convert';
 
-class User {
+class LmsUser {
   String uid;
   String name;
   String email;
   String streamId;
-  User({
+  LmsUser({
     required this.uid,
     required this.name,
     required this.email,
     required this.streamId,
   });
 
-  User copyWith({
+  LmsUser copyWith({
     String? uid,
     String? name,
     String? email,
     String? streamId,
   }) {
-    return User(
+    return LmsUser(
       uid: uid ?? this.uid,
       name: name ?? this.name,
       email: email ?? this.email,
@@ -35,8 +35,8 @@ class User {
     };
   }
 
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
+  factory LmsUser.fromMap(Map<String, dynamic> map) {
+    return LmsUser(
       uid: map['uid'],
       name: map['name'],
       email: map['email'],
@@ -46,7 +46,8 @@ class User {
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) => User.fromMap(json.decode(source));
+  factory LmsUser.fromJson(String source) =>
+      LmsUser.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -57,7 +58,7 @@ class User {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is User &&
+    return other is LmsUser &&
         other.uid == uid &&
         other.name == name &&
         other.email == email &&

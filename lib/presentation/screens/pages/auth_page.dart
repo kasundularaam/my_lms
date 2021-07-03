@@ -16,19 +16,36 @@ class _AuthPageState extends State<AuthPage> {
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<AuthCubit>(context).initializeApp();
+  }
+
+  Future<void> checkUserStatus() async {
+    await Future.delayed(Duration(milliseconds: 300));
     BlocProvider.of<AuthCubit>(context).checkUserStatus();
+  }
+
+  Future<void> goToHome() async {
+    await Future.delayed(Duration(milliseconds: 300));
+    Navigator.popAndPushNamed(context, AppRouter.home);
+  }
+
+  Future<void> navigateToLogin() async {
+    await Future.delayed(Duration(milliseconds: 300));
+    BlocProvider.of<AuthscreenNavCubit>(context)
+        .authNavigate(authNav: AuthNav.toLogin);
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is AuthCheckUserStatus) {
+        if (state is AuthAppInitializeSucceed) {
+          checkUserStatus();
+        } else if (state is AuthCheckUserStatus) {
           if (state.userStatus) {
-            Navigator.popAndPushNamed(context, AppRouter.home);
+            goToHome();
           } else {
-            BlocProvider.of<AuthscreenNavCubit>(context)
-                .authNavigate(authNav: AuthNav.toLogin);
+            navigateToLogin();
           }
         }
       },
@@ -36,22 +53,34 @@ class _AuthPageState extends State<AuthPage> {
         if (state is AuthLoading) {
           return Container(
             child: Center(
-              child: Text("authenticating..."),
+              child: Text(state.loadingMsg),
             ),
           );
         } else if (state is AuthFailed) {
-          return buildFailedState();
+          return buildFailedState(state.errorMsg);
+        } else if (state is AuthAppInitializeSucceed) {
+          return Container(
+            child: Center(
+              child: Text(state.succeedMsg),
+            ),
+          );
+        } else if (state is AuthCheckUserStatus) {
+          return Container(
+            child: Center(
+              child: Text(state.statusMsg),
+            ),
+          );
         } else {
-          return Text("nothing to show");
+          return Text("un handled state excecuted!");
         }
       },
     );
   }
 
-  Widget buildFailedState() {
+  Widget buildFailedState(String errorMsg) {
     return Column(children: [
       Text(
-        "Authentication Failed",
+        errorMsg,
         style: TextStyle(
           fontSize: 20,
         ),

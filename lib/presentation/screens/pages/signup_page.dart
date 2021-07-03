@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_lms/data/models/user_model.dart';
+import 'package:my_lms/data/models/lms_user_model.dart';
 import 'package:my_lms/logic/cubit/auth_cubit.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
 
@@ -9,7 +9,7 @@ import 'package:my_lms/presentation/screens/widgets/my_text_field.dart';
 
 class SignUpPage extends StatefulWidget {
   final Function() goToLogin;
-  final Function(User user, String password) signUp;
+  final Function(LmsUser user, String password) signUp;
   const SignUpPage({
     Key? key,
     required this.goToLogin,
@@ -125,7 +125,7 @@ class _SignUpPageState extends State<SignUpPage> {
         MyButton(
           btnText: "Sign Up",
           onPressed: () => widget.signUp(
-            User(
+            LmsUser(
                 uid: "200129001050",
                 name: _name,
                 email: _email,

@@ -17,15 +17,8 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => AuthscreenNavCubit(),
-        ),
-        BlocProvider(
-          create: (context) => AuthCubit(),
-        )
-      ],
+    return BlocProvider(
+      create: (context) => AuthscreenNavCubit(),
       child: Scaffold(
         body: BlocBuilder<AuthscreenNavCubit, AuthscreenNavState>(
           builder: (context, state) {
@@ -44,7 +37,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 return SignUpPage(
                   signUp: (user, password) {
                     BlocProvider.of<AuthCubit>(context)
-                        .signUpNewUser(user: user, password: password);
+                        .signUpNewUser(lmsUser: user, password: password);
                   },
                   goToLogin: () {
                     BlocProvider.of<AuthscreenNavCubit>(context)

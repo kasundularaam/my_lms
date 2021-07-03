@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/logic/cubit/auth_cubit.dart';
@@ -14,7 +16,11 @@ class AppRouter {
   const AppRouter._();
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    AuthCubit _authCubit = AuthCubit();
+    FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    AuthCubit _authCubit = AuthCubit(firebaseAuth: _firebaseAuth);
+    print("========================================================");
+    print("NEW INSTANCE CREATED FOR FIREBASEAUTH AND AUTH CUBIT");
+    print("========================================================");
     switch (settings.name) {
       case home:
         return MaterialPageRoute(
