@@ -52,52 +52,6 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(
           height: 300,
         ),
-        BlocConsumer<AuthCubit, AuthState>(
-          listener: (context, state) {
-            if (state is AuthSucceed) {
-              Navigator.popAndPushNamed(context, AppRouter.home);
-            }
-          },
-          builder: (context, state) {
-            if (state is AuthInitial) {
-              return buildInitialState();
-            } else if (state is AuthLoading) {
-              return buildLoadingState();
-            } else if (state is AuthFailed) {
-              return buildFailedState();
-            } else {
-              return Text("nothing to show");
-            }
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget buildLoadingState() {
-    return Center(
-      child: CircularProgressIndicator(),
-    );
-  }
-
-  Widget buildFailedState() {
-    return Column(children: [
-      Text(
-        "Authentication Failed",
-        style: TextStyle(
-          fontSize: 20,
-        ),
-      ),
-      TextButton(
-        onPressed: () => BlocProvider.of<AuthCubit>(context).loadInitState(),
-        child: Text("Try Again"),
-      ),
-    ]);
-  }
-
-  Widget buildInitialState() {
-    return Column(
-      children: [
         MyTextField(
           onChanged: (email) => _email = email,
           onSubmitted: (_) {
@@ -123,6 +77,86 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(
           height: 20,
         ),
+        BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is AuthSucceed) {
+              Navigator.popAndPushNamed(context, AppRouter.home);
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthInitial) {
+              return buildInitialState();
+            } else if (state is AuthLoading) {
+              return buildLoadingState();
+            } else if (state is AuthFailed) {
+              return buildFailedState(state.errorMsg);
+            } else if (state is AuthInvalidValue) {
+              return buildInvalidValueState(state.errorMsg);
+            } else {
+              return Text("nothing to show");
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget buildLoadingState() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  Widget buildFailedState(String errorMsg) {
+    return Column(children: [
+      Text(
+        errorMsg,
+      ),
+      TextButton(
+        onPressed: () => BlocProvider.of<AuthCubit>(context).loadInitState(),
+        child: Text("Try Again"),
+      ),
+      SizedBox(
+        height: 20,
+      ),
+      GestureDetector(
+        onTap: () => widget.goToSignUp(),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text("SignUp"),
+        ),
+      ),
+    ]);
+  }
+
+  Widget buildInvalidValueState(String errorMsg) {
+    return Column(
+      children: [
+        Text(errorMsg),
+        SizedBox(
+          height: 20,
+        ),
+        MyButton(
+          btnText: "Log In",
+          onPressed: () => widget.logIn(_email, _password),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        GestureDetector(
+          onTap: () => widget.goToSignUp(),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text("SignUp"),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildInitialState() {
+    return Column(
+      children: [
         MyButton(
           btnText: "Log In",
           onPressed: () => widget.logIn(_email, _password),

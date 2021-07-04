@@ -57,32 +57,6 @@ class _SignUpPageState extends State<SignUpPage> {
         SizedBox(
           height: 200,
         ),
-        BlocConsumer<AuthCubit, AuthState>(
-          listener: (context, state) {
-            if (state is AuthSucceed) {
-              Navigator.popAndPushNamed(context, AppRouter.home);
-            }
-          },
-          builder: (context, state) {
-            if (state is AuthInitial) {
-              return buildInitState();
-            } else if (state is AuthLoading) {
-              return buildLoadingState();
-            }
-            if (state is AuthFailed) {
-              return buildFailedState();
-            } else {
-              return Text("nothing to show");
-            }
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget buildInitState() {
-    return Column(
-      children: [
         MyTextField(
           onChanged: (name) => _name = name,
           onSubmitted: (_) {
@@ -122,6 +96,33 @@ class _SignUpPageState extends State<SignUpPage> {
         SizedBox(
           height: 20,
         ),
+        BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is AuthSucceed) {
+              Navigator.popAndPushNamed(context, AppRouter.home);
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthInitial) {
+              return buildInitState();
+            } else if (state is AuthLoading) {
+              return buildLoadingState();
+            } else if (state is AuthFailed) {
+              return buildFailedState();
+            } else if (state is AuthInvalidValue) {
+              return buildInvalidValueState(state.errorMsg);
+            } else {
+              return Text("nothing to show");
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget buildInitState() {
+    return Column(
+      children: [
         MyButton(
           btnText: "Sign Up",
           onPressed: () => widget.signUp(
@@ -150,6 +151,38 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  Widget buildInvalidValueState(String errorMsg) {
+    return Column(
+      children: [
+        Text(errorMsg),
+        SizedBox(
+          height: 20,
+        ),
+        MyButton(
+          btnText: "Sign Up",
+          onPressed: () => widget.signUp(
+            LmsUser(
+                uid: "200129001050",
+                name: _name,
+                email: _email,
+                streamId: "engineeringtec"),
+            _password,
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        GestureDetector(
+          onTap: () => widget.goToLogin(),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text("LogIn"),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget buildLoadingState() {
     return Center(
       child: CircularProgressIndicator(),
@@ -167,6 +200,16 @@ class _SignUpPageState extends State<SignUpPage> {
       TextButton(
         onPressed: () => BlocProvider.of<AuthCubit>(context).loadInitState(),
         child: Text("Try Again"),
+      ),
+      SizedBox(
+        height: 20,
+      ),
+      GestureDetector(
+        onTap: () => widget.goToLogin(),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text("LogIn"),
+        ),
       ),
     ]);
   }

@@ -16,11 +16,6 @@ class _AuthPageState extends State<AuthPage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<AuthCubit>(context).initializeApp();
-  }
-
-  Future<void> checkUserStatus() async {
-    await Future.delayed(Duration(milliseconds: 300));
     BlocProvider.of<AuthCubit>(context).checkUserStatus();
   }
 
@@ -39,9 +34,7 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is AuthAppInitializeSucceed) {
-          checkUserStatus();
-        } else if (state is AuthCheckUserStatus) {
+        if (state is AuthCheckUserStatus) {
           if (state.userStatus) {
             goToHome();
           } else {
@@ -58,12 +51,6 @@ class _AuthPageState extends State<AuthPage> {
           );
         } else if (state is AuthFailed) {
           return buildFailedState(state.errorMsg);
-        } else if (state is AuthAppInitializeSucceed) {
-          return Container(
-            child: Center(
-              child: Text(state.succeedMsg),
-            ),
-          );
         } else if (state is AuthCheckUserStatus) {
           return Container(
             child: Center(

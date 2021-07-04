@@ -17,6 +17,7 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
+    print("AUTHSCREEN BUILD");
     return BlocProvider(
       create: (context) => AuthscreenNavCubit(),
       child: Scaffold(

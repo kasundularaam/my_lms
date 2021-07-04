@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/logic/cubit/auth_cubit.dart';
@@ -29,6 +28,7 @@ class AppRouter {
           ),
         );
       case authScreen:
+        print("GO TO AUTHSCREEN");
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _authCubit,

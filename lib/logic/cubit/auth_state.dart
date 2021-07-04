@@ -22,39 +22,7 @@ class AuthLoading extends AuthState {
   int get hashCode => loadingMsg.hashCode;
 }
 
-class AuthAppInitializeSucceed extends AuthState {
-  final String succeedMsg;
-  AuthAppInitializeSucceed({
-    required this.succeedMsg,
-  });
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is AuthAppInitializeSucceed && other.succeedMsg == succeedMsg;
-  }
-
-  @override
-  int get hashCode => succeedMsg.hashCode;
-}
-
-class AuthSucceed extends AuthState {
-  final LmsUser lmsUser;
-  AuthSucceed({
-    required this.lmsUser,
-  });
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is AuthSucceed && other.lmsUser == lmsUser;
-  }
-
-  @override
-  int get hashCode => lmsUser.hashCode;
-}
+class AuthSucceed extends AuthState {}
 
 class AuthCheckUserStatus extends AuthState {
   final bool userStatus;
@@ -75,6 +43,23 @@ class AuthCheckUserStatus extends AuthState {
 
   @override
   int get hashCode => userStatus.hashCode ^ statusMsg.hashCode;
+}
+
+class AuthInvalidValue extends AuthState {
+  final String errorMsg;
+  AuthInvalidValue({
+    required this.errorMsg,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AuthInvalidValue && other.errorMsg == errorMsg;
+  }
+
+  @override
+  int get hashCode => errorMsg.hashCode;
 }
 
 class AuthFailed extends AuthState {
