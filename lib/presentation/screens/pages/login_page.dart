@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/core/my_enums.dart';
 import 'package:my_lms/logic/cubit/auth_cubit.dart';
-import 'package:my_lms/presentation/router/app_router.dart';
+import 'package:my_lms/logic/cubit/authscreen_nav_cubit.dart';
 
 import 'package:my_lms/presentation/screens/widgets/my_button.dart';
 import 'package:my_lms/presentation/screens/widgets/my_text_field.dart';
@@ -38,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("we are in login page");
     return ListView(
       children: [
         SizedBox(
@@ -80,7 +82,8 @@ class _LoginPageState extends State<LoginPage> {
         BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthSucceed) {
-              Navigator.popAndPushNamed(context, AppRouter.home);
+              BlocProvider.of<AuthscreenNavCubit>(context)
+                  .authNavigate(authNav: AuthNav.toAuthPage);
             }
           },
           builder: (context, state) {
@@ -93,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
             } else if (state is AuthInvalidValue) {
               return buildInvalidValueState(state.errorMsg);
             } else {
-              return Text("nothing to show");
+              return Text("unhandled state excecuted!");
             }
           },
         ),

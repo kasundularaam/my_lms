@@ -17,7 +17,6 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
-    print("AUTHSCREEN BUILD");
     return BlocProvider(
       create: (context) => AuthscreenNavCubit(),
       child: Scaffold(
@@ -45,6 +44,8 @@ class _AuthScreenState extends State<AuthScreen> {
                         .authNavigate(authNav: AuthNav.toLogin);
                   },
                 );
+              } else if (state.authNav == AuthNav.toAuthPage) {
+                return AuthPage();
               } else {
                 return Text("nothing to show");
               }

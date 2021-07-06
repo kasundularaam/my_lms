@@ -1,1 +1,1 @@
-enum AuthNav { toLogin, toSignUp }
+enum AuthNav { toLogin, toSignUp, toAuthPage }

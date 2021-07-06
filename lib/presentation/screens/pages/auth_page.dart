@@ -32,33 +32,23 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state is AuthCheckUserStatus) {
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state) {
+        if (state is AuthFailed) {
+          return buildFailedState(state.errorMsg);
+        } else if (state is AuthCheckUserStatus) {
           if (state.userStatus) {
             goToHome();
           } else {
             navigateToLogin();
           }
-        }
-      },
-      builder: (context, state) {
-        if (state is AuthLoading) {
-          return Container(
-            child: Center(
-              child: Text(state.loadingMsg),
-            ),
-          );
-        } else if (state is AuthFailed) {
-          return buildFailedState(state.errorMsg);
-        } else if (state is AuthCheckUserStatus) {
           return Container(
             child: Center(
               child: Text(state.statusMsg),
             ),
           );
         } else {
-          return Text("un handled state excecuted!");
+          return Text("unhandled state excecuted!");
         }
       },
     );

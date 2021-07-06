@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:my_lms/data/models/lms_user_model.dart';
 
 class FirebaseRepo {
@@ -16,11 +13,9 @@ class FirebaseRepo {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-        throw e;
+        throw 'No user found for that email.';
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-        throw e;
+        throw 'Wrong password provided for that user.';
       }
     }
   }
@@ -36,23 +31,31 @@ class FirebaseRepo {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-        throw e;
+        throw 'The password provided is too weak.';
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-        throw e;
+        throw 'The account already exists for that email.';
       }
     } catch (e) {
       throw e;
     }
   }
 
-  static Future<bool> checkUserStatus(
-      {required FirebaseAuth firebaseAuth}) async {
+  static bool checkUserStatus({required FirebaseAuth firebaseAuth}) {
     try {
-      await Future.delayed(Duration(seconds: 3));
-      Random random = new Random();
-      return random.nextBool();
+      User? currenUser = firebaseAuth.currentUser;
+      if (currenUser != null) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<void> logOutUser({required FirebaseAuth firebaseAuth}) async {
+    try {
+      await firebaseAuth.signOut();
     } catch (e) {
       throw e;
     }

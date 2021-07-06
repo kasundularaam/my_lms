@@ -16,58 +16,60 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> loginWithEmailAndpswd(
       {required String email, required String password}) async {
-    try {
-      bool validEmail = ValueValidator.validateEmail(email: email);
-      bool validPassword = ValueValidator.validatePassword(password: password);
-      if (validEmail) {
-        if (validPassword) {
+    String emailFeedback = ValueValidator.validateEmail(email: email);
+    String passwordFeedback =
+        ValueValidator.validatePassword(password: password);
+    if (emailFeedback == ValueValidator.validEmail) {
+      if (passwordFeedback == ValueValidator.validPassword) {
+        try {
           emit(AuthLoading(loadingMsg: "Logging to your account..."));
           await FirebaseRepo.loginWithEmailAndpswd(
               firebaseAuth: firebaseAuth, email: email, password: password);
           emit(AuthSucceed());
-        } else {
-          emit(AuthInvalidValue(
-              errorMsg: "Password must contains atleast 6 characters"));
+        } catch (e) {
+          emit(AuthFailed(errorMsg: e.toString()));
         }
       } else {
-        emit(AuthInvalidValue(
-            errorMsg:
-                "email you entered is not in valid format please check again"));
+        emit(AuthInvalidValue(errorMsg: passwordFeedback));
       }
-    } catch (e) {
-      emit(AuthFailed(errorMsg: e.toString()));
+    } else {
+      emit(AuthInvalidValue(errorMsg: emailFeedback));
     }
   }
 
   Future<void> signUpNewUser(
       {required LmsUser lmsUser, required String password}) async {
-    try {
-      bool validEmail = ValueValidator.validateEmail(email: lmsUser.email);
-      bool validPassword = ValueValidator.validatePassword(password: password);
-      if (validEmail) {
-        if (validPassword) {
-          emit(AuthLoading(loadingMsg: "Creating new account..."));
-          await FirebaseRepo.signUpNewUser(
-              firebaseAuth: firebaseAuth, lmsUser: lmsUser, password: password);
-          emit(AuthSucceed());
+    String emailFeedback = ValueValidator.validateEmail(email: lmsUser.email);
+    String passwordFeedback =
+        ValueValidator.validatePassword(password: password);
+    String nameFeedback = ValueValidator.validateName(name: lmsUser.name);
+    if (nameFeedback == ValueValidator.validName) {
+      if (emailFeedback == ValueValidator.validEmail) {
+        if (passwordFeedback == ValueValidator.validPassword) {
+          try {
+            emit(AuthLoading(loadingMsg: "Creating new account..."));
+            await FirebaseRepo.signUpNewUser(
+                firebaseAuth: firebaseAuth,
+                lmsUser: lmsUser,
+                password: password);
+            emit(AuthSucceed());
+          } catch (e) {
+            emit(AuthFailed(errorMsg: e.toString()));
+          }
         } else {
-          emit(AuthInvalidValue(
-              errorMsg: "Password must contains atleast 6 characters"));
+          emit(AuthInvalidValue(errorMsg: passwordFeedback));
         }
       } else {
-        emit(AuthInvalidValue(
-            errorMsg:
-                "email you entered is not in valid format please check again"));
+        emit(AuthInvalidValue(errorMsg: emailFeedback));
       }
-    } catch (e) {
-      emit(AuthFailed(errorMsg: e.toString()));
+    } else {
+      emit(AuthInvalidValue(errorMsg: nameFeedback));
     }
   }
 
-  Future<void> checkUserStatus() async {
+  void checkUserStatus() {
     try {
-      emit(AuthLoading(loadingMsg: "Checking authentication..."));
-      bool userStatus = await FirebaseRepo.checkUserStatus(
+      bool userStatus = FirebaseRepo.checkUserStatus(
         firebaseAuth: firebaseAuth,
       );
       String _statusMsg;
@@ -84,5 +86,15 @@ class AuthCubit extends Cubit<AuthState> {
 
   void loadInitState() {
     emit(AuthInitial());
+  }
+
+  Future<void> logOutUser() async {
+    try {
+      emit(AuthLoading(loadingMsg: "Logging out from your account..."));
+      await FirebaseRepo.logOutUser(firebaseAuth: firebaseAuth);
+      emit(AuthSucceed());
+    } catch (e) {
+      emit(AuthFailed(errorMsg: e.toString()));
+    }
   }
 }

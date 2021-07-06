@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/core/my_enums.dart';
 import 'package:my_lms/data/models/lms_user_model.dart';
 import 'package:my_lms/logic/cubit/auth_cubit.dart';
-import 'package:my_lms/presentation/router/app_router.dart';
+import 'package:my_lms/logic/cubit/authscreen_nav_cubit.dart';
 
 import 'package:my_lms/presentation/screens/widgets/my_button.dart';
 import 'package:my_lms/presentation/screens/widgets/my_text_field.dart';
@@ -99,7 +100,8 @@ class _SignUpPageState extends State<SignUpPage> {
         BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthSucceed) {
-              Navigator.popAndPushNamed(context, AppRouter.home);
+              BlocProvider.of<AuthscreenNavCubit>(context)
+                  .authNavigate(authNav: AuthNav.toAuthPage);
             }
           },
           builder: (context, state) {
@@ -112,7 +114,7 @@ class _SignUpPageState extends State<SignUpPage> {
             } else if (state is AuthInvalidValue) {
               return buildInvalidValueState(state.errorMsg);
             } else {
-              return Text("nothing to show");
+              return Text("unhandled state excecuted!");
             }
           },
         ),
