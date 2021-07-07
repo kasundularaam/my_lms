@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/my_enums.dart';
 import 'package:my_lms/logic/cubit/auth_cubit.dart';
 import 'package:my_lms/logic/cubit/authscreen_nav_cubit.dart';
+import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/presentation/screens/widgets/my_button.dart';
 import 'package:my_lms/presentation/screens/widgets/my_text_field.dart';
@@ -39,20 +41,21 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    print("we are in login page");
     return ListView(
+      padding: EdgeInsets.symmetric(horizontal: 5.w),
       children: [
         SizedBox(
-          height: 30,
+          height: 7.h,
         ),
         Text(
           "Log In",
           style: TextStyle(
-            fontSize: 38.0,
-          ),
+              fontSize: 36.sp,
+              color: MyColors.primaryDark,
+              fontWeight: FontWeight.w600),
         ),
         SizedBox(
-          height: 300,
+          height: 40.h,
         ),
         MyTextField(
           onChanged: (email) => _email = email,
@@ -62,22 +65,20 @@ class _LoginPageState extends State<LoginPage> {
           textInputAction: TextInputAction.next,
           isPassword: false,
           hintText: "Email",
-          fontSize: 20.0,
         ),
         SizedBox(
-          height: 20,
+          height: 3.h,
         ),
         MyTextField(
           onChanged: (password) => _password = password,
           onSubmitted: (_) {},
           textInputAction: TextInputAction.next,
-          isPassword: false,
+          isPassword: true,
           focusNode: _passwordFocusNode,
           hintText: "Password",
-          fontSize: 20.0,
         ),
         SizedBox(
-          height: 20,
+          height: 3.h,
         ),
         BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
@@ -100,59 +101,62 @@ class _LoginPageState extends State<LoginPage> {
             }
           },
         ),
+        SizedBox(
+          height: 5.h,
+        ),
       ],
     );
   }
 
   Widget buildLoadingState() {
     return Center(
-      child: CircularProgressIndicator(),
+      child: CircularProgressIndicator(
+        color: MyColors.primaryDark,
+      ),
     );
   }
 
   Widget buildFailedState(String errorMsg) {
     return Column(children: [
-      Text(
-        errorMsg,
-      ),
-      TextButton(
-        onPressed: () => BlocProvider.of<AuthCubit>(context).loadInitState(),
-        child: Text("Try Again"),
-      ),
+      buildErrorMsgBox(errorMsg),
       SizedBox(
-        height: 20,
+        height: 3.h,
       ),
       GestureDetector(
-        onTap: () => widget.goToSignUp(),
+        onTap: () => BlocProvider.of<AuthCubit>(context).loadInitState(),
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text("SignUp"),
+          padding: EdgeInsets.all(5.w),
+          child: Text(
+            "Try again",
+            style: TextStyle(
+                fontSize: 14.sp,
+                color: MyColors.primaryDark,
+                fontWeight: FontWeight.w700),
+          ),
         ),
       ),
+      SizedBox(
+        height: 5.h,
+      ),
+      goToSignUp(),
     ]);
   }
 
   Widget buildInvalidValueState(String errorMsg) {
     return Column(
       children: [
-        Text(errorMsg),
+        buildErrorMsgBox(errorMsg),
         SizedBox(
-          height: 20,
+          height: 3.h,
         ),
         MyButton(
           btnText: "Log In",
           onPressed: () => widget.logIn(_email, _password),
         ),
         SizedBox(
-          height: 20,
+          height: 5.h,
         ),
-        GestureDetector(
-          onTap: () => widget.goToSignUp(),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text("SignUp"),
-          ),
-        ),
+        goToSignUp(),
       ],
     );
   }
@@ -165,19 +169,43 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () => widget.logIn(_email, _password),
         ),
         SizedBox(
-          height: 20,
+          height: 5.h,
         ),
-        GestureDetector(
-          onTap: () => widget.goToSignUp(),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text("SignUp"),
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
+        goToSignUp(),
       ],
+    );
+  }
+
+  Widget goToSignUp() {
+    return GestureDetector(
+      onTap: () => widget.goToSignUp(),
+      child: Padding(
+        padding: EdgeInsets.all(5.w),
+        child: Text(
+          "Sign Up",
+          style: TextStyle(
+              fontSize: 14.sp,
+              color: MyColors.primaryDark,
+              fontWeight: FontWeight.w700),
+        ),
+      ),
+    );
+  }
+
+  Widget buildErrorMsgBox(String errorMsg) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
+      decoration: BoxDecoration(
+        color: MyColors.errorBackground,
+        borderRadius: BorderRadius.circular(3.w),
+      ),
+      child: Text(
+        errorMsg,
+        style: TextStyle(
+            color: MyColors.primaryError,
+            fontSize: 15.sp,
+            fontWeight: FontWeight.w600),
+      ),
     );
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_lms/core/constants/my_colors.dart';
+import 'package:sizer/sizer.dart';
 
 class MyButton extends StatelessWidget {
   final String btnText;
@@ -16,18 +18,18 @@ class MyButton extends StatelessWidget {
         onPressed();
       },
       child: Container(
-        height: 50.0,
-        width: double.infinity,
+        padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.h),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.0),
-            color: Colors.lightGreen.withOpacity(0.7)),
+          borderRadius: BorderRadius.circular(3.w),
+          color: MyColors.primaryDark,
+        ),
         child: Center(
           child: Text(
             btnText,
             style: TextStyle(
-                fontSize: 20.0,
-                color: Colors.white,
-                fontWeight: FontWeight.w300),
+                fontSize: 18.sp,
+                color: MyColors.extraLight,
+                fontWeight: FontWeight.w600),
           ),
         ),
       ),

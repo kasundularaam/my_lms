@@ -8,6 +8,7 @@ class MyColors {
   static const Color extraDark = Color(0xff03045e);
   static const Color white = Color(0xffffffff);
   static const Color black = Color(0xff000000);
+  static const Color shadedBlack = Color(0xff212529);
   static const Color errorBackground = Color(0xffffccd5);
   static const Color primaryError = Color(0xffc9184a);
 }
