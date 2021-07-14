@@ -49,4 +49,12 @@ class ValueValidator {
       return emptyName;
     }
   }
+
+  static List<String> validateSubjectList({required List<String> subjectList}) {
+    if (subjectList.isNotEmpty) {
+      return subjectList;
+    } else {
+      throw "you have not selected any subject";
+    }
+  }
 }

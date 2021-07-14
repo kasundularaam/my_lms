@@ -1,17 +1,20 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 import 'package:my_lms/data/models/lms_user_model.dart';
 import 'package:my_lms/data/repositories/firebase_repo.dart';
-import 'package:my_lms/data/value%20validator/value_validator.dart';
+import 'package:my_lms/data/value%20validator/auth_value_validator.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final FirebaseAuth firebaseAuth;
+  final FirebaseFirestore firestore;
   AuthCubit({
     required this.firebaseAuth,
+    required this.firestore,
   }) : super(AuthInitial());
 
   Future<void> loginWithEmailAndpswd(
@@ -50,6 +53,7 @@ class AuthCubit extends Cubit<AuthState> {
             emit(AuthLoading(loadingMsg: "Creating new account..."));
             await FirebaseRepo.signUpNewUser(
                 firebaseAuth: firebaseAuth,
+                firestore: firestore,
                 lmsUser: lmsUser,
                 password: password);
             emit(AuthSucceed());
@@ -95,6 +99,29 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthSucceed());
     } catch (e) {
       emit(AuthFailed(errorMsg: e.toString()));
+    }
+  }
+
+  Future<void> updateSubjectList({required List<String> subjectList}) async {
+    try {
+      emit(
+        AuthLoading(loadingMsg: "adding selected subjects to the database..."),
+      );
+      await FirebaseRepo.updateSelectedSubjects(
+        subjectList:
+            ValueValidator.validateSubjectList(subjectList: subjectList),
+        firebaseAuth: firebaseAuth,
+        firestore: firestore,
+      );
+      emit(
+        AuthSucceed(),
+      );
+    } catch (e) {
+      emit(
+        AuthFailed(
+          errorMsg: e.toString(),
+        ),
+      );
     }
   }
 }

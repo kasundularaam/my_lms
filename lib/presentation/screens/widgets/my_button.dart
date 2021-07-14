@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
+import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:sizer/sizer.dart';
 
 class MyButton extends StatelessWidget {
@@ -21,14 +22,15 @@ class MyButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(3.w),
-          color: MyColors.primaryDark,
+          color: MyColors.accentColor,
+          boxShadow: [MyStyles.boxShadow],
         ),
         child: Center(
           child: Text(
             btnText,
             style: TextStyle(
                 fontSize: 18.sp,
-                color: MyColors.extraLight,
+                color: MyColors.white,
                 fontWeight: FontWeight.w600),
           ),
         ),

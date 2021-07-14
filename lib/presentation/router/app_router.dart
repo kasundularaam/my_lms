@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:my_lms/presentation/screens/auth_screen.dart';
 
-import '../../core/constants/strings.dart';
 import '../../core/exceptions/route_exception.dart';
 import '../screens/home_screen.dart';
 
@@ -17,7 +16,6 @@ class AppRouter {
           builder: (_) => HomeScreen(),
         );
       case authScreen:
-        print("GO TO AUTHSCREEN");
         return MaterialPageRoute(
           builder: (_) => AuthScreen(),
         );

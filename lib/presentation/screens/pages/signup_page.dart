@@ -5,6 +5,7 @@ import 'package:my_lms/core/my_enums.dart';
 import 'package:my_lms/data/models/lms_user_model.dart';
 import 'package:my_lms/logic/cubit/auth_cubit.dart';
 import 'package:my_lms/logic/cubit/authscreen_nav_cubit.dart';
+import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/presentation/screens/widgets/my_button.dart';
@@ -26,7 +27,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String _email = "";
   String _password = "";
   String _name = "";
-  String _streamId = "engineeringtec";
+  List<String> _subjectList = ["1", "2", "3"];
 
   FocusNode _passwordFocusNode = FocusNode();
   FocusNode _emailFocusNode = FocusNode();
@@ -48,6 +49,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
+      physics: BouncingScrollPhysics(),
       children: [
         SizedBox(
           height: 7.h,
@@ -102,7 +104,7 @@ class _SignUpPageState extends State<SignUpPage> {
           listener: (context, state) {
             if (state is AuthSucceed) {
               BlocProvider.of<AuthscreenNavCubit>(context)
-                  .authNavigate(authNav: AuthNav.toAuthPage);
+                  .authNavigate(authNav: AuthNav.toSelectSubjectPage);
             }
           },
           builder: (context, state) {
@@ -115,7 +117,7 @@ class _SignUpPageState extends State<SignUpPage> {
             } else if (state is AuthInvalidValue) {
               return buildInvalidValueState(state.errorMsg);
             } else {
-              return Text("unhandled state excecuted!");
+              return Center(child: Text("unhandled state excecuted!"));
             }
           },
         ),
@@ -136,7 +138,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 uid: "200129001050",
                 name: _name,
                 email: _email,
-                streamId: "engineeringtec"),
+                subjectList: _subjectList),
             _password,
           ),
         ),
@@ -167,7 +169,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget buildInvalidValueState(String errorMsg) {
     return Column(
       children: [
-        buildErrorMsgBox(errorMsg),
+        ErrorMsgBox(errorMsg: errorMsg),
         SizedBox(
           height: 3.h,
         ),
@@ -178,7 +180,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 uid: "200129001050",
                 name: _name,
                 email: _email,
-                streamId: "engineeringtec"),
+                subjectList: _subjectList),
             _password,
           ),
         ),
@@ -200,7 +202,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget buildFailedState(String errorMsg) {
     return Column(children: [
-      buildErrorMsgBox(errorMsg),
+      ErrorMsgBox(errorMsg: errorMsg),
       SizedBox(
         height: 3.h,
       ),
@@ -222,22 +224,5 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
       goToLogIn(),
     ]);
-  }
-
-  Widget buildErrorMsgBox(String errorMsg) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
-      decoration: BoxDecoration(
-        color: MyColors.errorBackground,
-        borderRadius: BorderRadius.circular(3.w),
-      ),
-      child: Text(
-        errorMsg,
-        style: TextStyle(
-            color: MyColors.primaryError,
-            fontSize: 15.sp,
-            fontWeight: FontWeight.w600),
-      ),
-    );
   }
 }

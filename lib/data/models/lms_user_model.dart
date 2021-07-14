@@ -1,28 +1,30 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 class LmsUser {
   String uid;
   String name;
   String email;
-  String streamId;
+  List<String> subjectList;
   LmsUser({
     required this.uid,
     required this.name,
     required this.email,
-    required this.streamId,
+    required this.subjectList,
   });
 
   LmsUser copyWith({
     String? uid,
     String? name,
     String? email,
-    String? streamId,
+    List<String>? subjectList,
   }) {
     return LmsUser(
       uid: uid ?? this.uid,
       name: name ?? this.name,
       email: email ?? this.email,
-      streamId: streamId ?? this.streamId,
+      subjectList: subjectList ?? this.subjectList,
     );
   }
 
@@ -31,7 +33,7 @@ class LmsUser {
       'uid': uid,
       'name': name,
       'email': email,
-      'streamId': streamId,
+      'subjectList': subjectList,
     };
   }
 
@@ -40,7 +42,7 @@ class LmsUser {
       uid: map['uid'],
       name: map['name'],
       email: map['email'],
-      streamId: map['streamId'],
+      subjectList: List<String>.from(map['subjectList']),
     );
   }
 
@@ -51,7 +53,7 @@ class LmsUser {
 
   @override
   String toString() {
-    return 'User(uid: $uid, name: $name, email: $email, streamId: $streamId)';
+    return 'LmsUser(uid: $uid, name: $name, email: $email, subjectList: $subjectList)';
   }
 
   @override
@@ -62,11 +64,11 @@ class LmsUser {
         other.uid == uid &&
         other.name == name &&
         other.email == email &&
-        other.streamId == streamId;
+        listEquals(other.subjectList, subjectList);
   }
 
   @override
   int get hashCode {
-    return uid.hashCode ^ name.hashCode ^ email.hashCode ^ streamId.hashCode;
+    return uid.hashCode ^ name.hashCode ^ email.hashCode ^ subjectList.hashCode;
   }
 }

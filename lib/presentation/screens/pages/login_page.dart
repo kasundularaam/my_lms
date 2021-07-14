@@ -4,6 +4,7 @@ import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/my_enums.dart';
 import 'package:my_lms/logic/cubit/auth_cubit.dart';
 import 'package:my_lms/logic/cubit/authscreen_nav_cubit.dart';
+import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/presentation/screens/widgets/my_button.dart';
@@ -43,6 +44,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
+      physics: BouncingScrollPhysics(),
       children: [
         SizedBox(
           height: 7.h,
@@ -118,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget buildFailedState(String errorMsg) {
     return Column(children: [
-      buildErrorMsgBox(errorMsg),
+      ErrorMsgBox(errorMsg: errorMsg),
       SizedBox(
         height: 3.h,
       ),
@@ -145,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget buildInvalidValueState(String errorMsg) {
     return Column(
       children: [
-        buildErrorMsgBox(errorMsg),
+        ErrorMsgBox(errorMsg: errorMsg),
         SizedBox(
           height: 3.h,
         ),
@@ -188,23 +190,6 @@ class _LoginPageState extends State<LoginPage> {
               color: MyColors.primaryDark,
               fontWeight: FontWeight.w700),
         ),
-      ),
-    );
-  }
-
-  Widget buildErrorMsgBox(String errorMsg) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
-      decoration: BoxDecoration(
-        color: MyColors.errorBackground,
-        borderRadius: BorderRadius.circular(3.w),
-      ),
-      child: Text(
-        errorMsg,
-        style: TextStyle(
-            color: MyColors.primaryError,
-            fontSize: 15.sp,
-            fontWeight: FontWeight.w600),
       ),
     );
   }

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/core/constants/my_colors.dart';
+import 'package:my_lms/core/my_enums.dart';
 import 'package:my_lms/logic/cubit/auth_cubit.dart';
-import 'package:my_lms/presentation/router/app_router.dart';
+import 'package:my_lms/logic/cubit/home_nav_cubit.dart';
+import 'package:sizer/sizer.dart';
+import 'package:my_lms/presentation/screens/home_tabs/home_tab.dart';
+import 'package:my_lms/presentation/screens/home_tabs/profile_tab.dart';
+import 'package:my_lms/presentation/screens/widgets/bottom_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,40 +23,40 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
-          if (state is AuthSucceed) {
-            Navigator.popAndPushNamed(context, AppRouter.authScreen);
-          }
-        },
-        builder: (context, state) {
-          if (state is AuthInitial) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      BlocProvider.of<AuthCubit>(context).logOutUser();
-                    },
-                    child: Text("Log Out"),
-                  ),
-                ],
+    return BlocProvider(
+      create: (context) => HomeNavCubit(),
+      child: Scaffold(
+        backgroundColor: MyColors.backgroundWhite,
+        body: Container(
+          child: Column(
+            children: [
+              Container(
+                height: 91.h,
+                width: 100.w,
+                child: BlocBuilder<HomeNavCubit, HomeNavState>(
+                    builder: (context, state) {
+                  if (state is HomeNavInitial) {
+                    return HomeTab();
+                  } else if (state is HomeScreenNavigate) {
+                    if (state.homeNav == HomeNav.toHome) {
+                      return HomeTab();
+                    } else if (state.homeNav == HomeNav.toProfile) {
+                      return ProfileTab();
+                    } else {
+                      return HomeTab();
+                    }
+                  } else {
+                    return HomeTab();
+                  }
+                }),
               ),
-            );
-          } else if (state is AuthLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is AuthSucceed) {
-            return Center(
-              child: Text("Signed out"),
-            );
-          } else {
-            return Text("unhandled state excecuted!");
-          }
-        },
+              SizedBox(
+                height: 1.h,
+              ),
+              BottomTab()
+            ],
+          ),
+        ),
       ),
     );
   }

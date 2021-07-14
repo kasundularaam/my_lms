@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
+import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:sizer/sizer.dart';
 
 class MyTextField extends StatelessWidget {
@@ -24,7 +25,9 @@ class MyTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: MyColors.extraLight, borderRadius: BorderRadius.circular(3.w)),
+          boxShadow: [MyStyles.boxShadow],
+          color: MyColors.white,
+          borderRadius: BorderRadius.circular(3.w)),
       child: TextField(
         obscureText: isPassword,
         onChanged: onChanged,

@@ -6,6 +6,7 @@ import 'package:my_lms/logic/cubit/auth_cubit.dart';
 import 'package:my_lms/logic/cubit/authscreen_nav_cubit.dart';
 import 'package:my_lms/presentation/screens/pages/auth_page.dart';
 import 'package:my_lms/presentation/screens/pages/login_page.dart';
+import 'package:my_lms/presentation/screens/pages/select_subject_page.dart';
 import 'package:my_lms/presentation/screens/pages/signup_page.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -21,7 +22,7 @@ class _AuthScreenState extends State<AuthScreen> {
     return BlocProvider(
       create: (context) => AuthscreenNavCubit(),
       child: Scaffold(
-        backgroundColor: MyColors.primaryLight,
+        backgroundColor: MyColors.offWhite,
         body: BlocBuilder<AuthscreenNavCubit, AuthscreenNavState>(
           builder: (context, state) {
             if (state is AuthscreenNavInitial) {
@@ -48,6 +49,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 );
               } else if (state.authNav == AuthNav.toAuthPage) {
                 return AuthPage();
+              } else if (state.authNav == AuthNav.toSelectSubjectPage) {
+                return SelectSubjectPage();
               } else {
                 return Text("nothing to show");
               }
