@@ -102,7 +102,7 @@ class FirebaseRepo {
         throw e;
       }
     } else {
-      throw "canot set database. user does not exist";
+      throw "canot update database. user does not exist";
     }
   }
 }

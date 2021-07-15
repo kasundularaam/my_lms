@@ -39,7 +39,7 @@ class _SelectSubjectCardState extends State<SelectSubjectCard> {
             }
           },
           child: Container(
-            height: 20.h,
+            height: 15.h,
             width: 90.w,
             padding: EdgeInsets.all(5.w),
             decoration: BoxDecoration(

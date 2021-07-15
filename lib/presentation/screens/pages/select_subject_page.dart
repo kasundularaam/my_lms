@@ -29,9 +29,11 @@ class _SelectSubjectPageState extends State<SelectSubjectPage> {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      physics: BouncingScrollPhysics(),
+      shrinkWrap: true,
       children: [
         Container(
-          height: 91.h,
+          height: 75.h,
           width: 100.w,
           decoration: BoxDecoration(
             color: MyColors.offWhite,
@@ -48,6 +50,7 @@ class _SelectSubjectPageState extends State<SelectSubjectPage> {
             ),
             child: ListView(
               physics: BouncingScrollPhysics(),
+              shrinkWrap: true,
               children: [
                 SizedBox(
                   height: 5.w,
@@ -112,7 +115,7 @@ class _SelectSubjectPageState extends State<SelectSubjectPage> {
           ),
         ),
         SizedBox(
-          height: 1.h,
+          height: 5.w,
         ),
         BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
