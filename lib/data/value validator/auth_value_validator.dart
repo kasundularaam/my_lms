@@ -1,3 +1,5 @@
+import 'package:my_lms/data/models/fire_subject_model.dart';
+
 class ValueValidator {
   static const String validEmail = "validEmail";
   static const String validPassword = "validPassword";
@@ -50,7 +52,8 @@ class ValueValidator {
     }
   }
 
-  static List<String> validateSubjectList({required List<String> subjectList}) {
+  static List<FireSubject> validateSubjectList(
+      {required List<FireSubject> subjectList}) {
     if (subjectList.isNotEmpty) {
       return subjectList;
     } else {

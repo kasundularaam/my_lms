@@ -4,6 +4,8 @@ import 'package:my_lms/core/my_enums.dart';
 import 'package:my_lms/logic/cubit/auth_cubit.dart';
 import 'package:my_lms/logic/cubit/authscreen_nav_cubit.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
+import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
+import 'package:sizer/sizer.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -56,11 +58,9 @@ class _AuthPageState extends State<AuthPage> {
 
   Widget buildFailedState(String errorMsg) {
     return Column(children: [
-      Text(
-        errorMsg,
-        style: TextStyle(
-          fontSize: 20,
-        ),
+      ErrorMsgBox(errorMsg: errorMsg),
+      SizedBox(
+        height: 15.w,
       ),
       TextButton(
         onPressed: () => BlocProvider.of<AuthCubit>(context).checkUserStatus(),

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/my_enums.dart';
-import 'package:my_lms/logic/cubit/auth_cubit.dart';
 import 'package:my_lms/logic/cubit/authscreen_nav_cubit.dart';
+import 'package:my_lms/logic/cubit/login_cubit/login_cubit.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
 
@@ -11,13 +11,6 @@ import 'package:my_lms/presentation/screens/widgets/my_button.dart';
 import 'package:my_lms/presentation/screens/widgets/my_text_field.dart';
 
 class LoginPage extends StatefulWidget {
-  final Function() goToSignUp;
-  final Function(String email, String password) logIn;
-  const LoginPage({
-    Key? key,
-    required this.goToSignUp,
-    required this.logIn,
-  }) : super(key: key);
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -27,12 +20,6 @@ class _LoginPageState extends State<LoginPage> {
   String _password = "";
 
   FocusNode _passwordFocusNode = FocusNode();
-
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<AuthCubit>(context).loadInitState();
-  }
 
   @override
   void dispose() {
@@ -82,21 +69,21 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(
           height: 3.h,
         ),
-        BlocConsumer<AuthCubit, AuthState>(
+        BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
-            if (state is AuthSucceed) {
+            if (state is LoginSucceed) {
               BlocProvider.of<AuthscreenNavCubit>(context)
                   .authNavigate(authNav: AuthNav.toAuthPage);
             }
           },
           builder: (context, state) {
-            if (state is AuthInitial) {
+            if (state is LoginInitial) {
               return buildInitialState();
-            } else if (state is AuthLoading) {
+            } else if (state is LoginLoading) {
               return buildLoadingState();
-            } else if (state is AuthFailed) {
+            } else if (state is LoginFailed) {
               return buildFailedState(state.errorMsg);
-            } else if (state is AuthInvalidValue) {
+            } else if (state is LoginWithInvalidValue) {
               return buildInvalidValueState(state.errorMsg);
             } else {
               return Text("unhandled state excecuted!");
@@ -125,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
         height: 3.h,
       ),
       GestureDetector(
-        onTap: () => BlocProvider.of<AuthCubit>(context).loadInitState(),
+        onTap: () => BlocProvider.of<LoginCubit>(context).emit(LoginInitial()),
         child: Padding(
           padding: EdgeInsets.all(5.w),
           child: Text(
@@ -153,7 +140,11 @@ class _LoginPageState extends State<LoginPage> {
         ),
         MyButton(
           btnText: "Log In",
-          onPressed: () => widget.logIn(_email, _password),
+          onPressed: () =>
+              BlocProvider.of<LoginCubit>(context).loginWithEmailAndpswd(
+            email: _email,
+            password: _password,
+          ),
         ),
         SizedBox(
           height: 5.h,
@@ -168,7 +159,11 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         MyButton(
           btnText: "Log In",
-          onPressed: () => widget.logIn(_email, _password),
+          onPressed: () =>
+              BlocProvider.of<LoginCubit>(context).loginWithEmailAndpswd(
+            email: _email,
+            password: _password,
+          ),
         ),
         SizedBox(
           height: 5.h,
@@ -180,7 +175,9 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget goToSignUp() {
     return GestureDetector(
-      onTap: () => widget.goToSignUp(),
+      onTap: () => BlocProvider.of<AuthscreenNavCubit>(context).authNavigate(
+        authNav: AuthNav.toSignUp,
+      ),
       child: Padding(
         padding: EdgeInsets.all(5.w),
         child: Text(

@@ -24,6 +24,47 @@ class AuthLoading extends AuthState {
 
 class AuthSucceed extends AuthState {}
 
+class AuthSubjectLoading extends AuthState {
+  final String loadingMst;
+  AuthSubjectLoading({
+    required this.loadingMst,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AuthSubjectLoading && other.loadingMst == loadingMst;
+  }
+
+  @override
+  int get hashCode => loadingMst.hashCode;
+
+  @override
+  String toString() => 'AuthSubjectLoading(loadingMst: $loadingMst)';
+}
+
+class AuthSubjectLoaded extends AuthState {
+  final List<Subject> subjectList;
+  AuthSubjectLoaded({
+    required this.subjectList,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AuthSubjectLoaded &&
+        listEquals(other.subjectList, subjectList);
+  }
+
+  @override
+  int get hashCode => subjectList.hashCode;
+
+  @override
+  String toString() => 'AuthSubjectLoaded(subjectList: $subjectList)';
+}
+
 class AuthCheckUserStatus extends AuthState {
   final bool userStatus;
   final String statusMsg;
@@ -45,23 +86,6 @@ class AuthCheckUserStatus extends AuthState {
   int get hashCode => userStatus.hashCode ^ statusMsg.hashCode;
 }
 
-class AuthInvalidValue extends AuthState {
-  final String errorMsg;
-  AuthInvalidValue({
-    required this.errorMsg,
-  });
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is AuthInvalidValue && other.errorMsg == errorMsg;
-  }
-
-  @override
-  int get hashCode => errorMsg.hashCode;
-}
-
 class AuthFailed extends AuthState {
   final String errorMsg;
   AuthFailed({
@@ -77,4 +101,24 @@ class AuthFailed extends AuthState {
 
   @override
   int get hashCode => errorMsg.hashCode;
+}
+
+class AuthSubjectFailed extends AuthState {
+  final String errorMsg;
+  AuthSubjectFailed({
+    required this.errorMsg,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AuthSubjectFailed && other.errorMsg == errorMsg;
+  }
+
+  @override
+  int get hashCode => errorMsg.hashCode;
+
+  @override
+  String toString() => 'AuthSubjectFailed(errorMsg: $errorMsg)';
 }

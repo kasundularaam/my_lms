@@ -7,7 +7,7 @@ import 'package:my_lms/data/models/question_model.dart';
 import 'package:my_lms/data/models/subject_model.dart';
 import 'package:http/http.dart' as http;
 
-class HttpRequest {
+class HttpRequests {
   static List<Subject> parseSubject(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed

@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:my_lms/data/models/fire_subject_model.dart';
 import 'package:my_lms/data/models/lms_user_model.dart';
 
 class FirebaseRepo {
   static Future<void> loginWithEmailAndpswd(
-      {required FirebaseAuth firebaseAuth,
-      required String email,
-      required String password}) async {
+      {required String email, required String password}) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
@@ -22,17 +21,21 @@ class FirebaseRepo {
   }
 
   static Future<void> signUpNewUser(
-      {required FirebaseAuth firebaseAuth,
-      required FirebaseFirestore firestore,
-      required LmsUser lmsUser,
+      {required String name,
+      required String email,
       required String password}) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: lmsUser.email,
+        email: email,
         password: password,
       );
-      await setUser(
-          firebaseAuth: firebaseAuth, firestore: firestore, lmsUser: lmsUser);
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        await addUserToFireStore(
+            lmsUser: LmsUser(uid: currentUser.uid, name: name, email: email));
+      } else {
+        throw "canot add user to database. user does not exist";
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         throw 'The password provided is too weak.';
@@ -44,9 +47,9 @@ class FirebaseRepo {
     }
   }
 
-  static bool checkUserStatus({required FirebaseAuth firebaseAuth}) {
+  static bool checkUserStatus() {
     try {
-      User? currenUser = firebaseAuth.currentUser;
+      User? currenUser = FirebaseAuth.instance.currentUser;
       if (currenUser != null) {
         return true;
       } else {
@@ -57,47 +60,47 @@ class FirebaseRepo {
     }
   }
 
-  static Future<void> logOutUser({required FirebaseAuth firebaseAuth}) async {
+  static Future<void> logOutUser() async {
     try {
-      await firebaseAuth.signOut();
+      await FirebaseAuth.instance.signOut();
     } catch (e) {
       throw e;
     }
   }
 
-  static Future<void> setUser({
-    required FirebaseAuth firebaseAuth,
-    required FirebaseFirestore firestore,
+  static Future<void> addUserToFireStore({
     required LmsUser lmsUser,
   }) async {
-    User? currenUser = firebaseAuth.currentUser;
-    if (currenUser != null) {
-      try {
-        CollectionReference users = firestore.collection("users");
-        await users.doc(currenUser.uid).set({
-          "uid": currenUser.uid,
-          "name": lmsUser.name,
-          "email": currenUser.email,
-          "subjectList": []
-        });
-      } catch (e) {
-        throw e;
-      }
-    } else {
-      throw "canot set database. user does not exist";
+    try {
+      CollectionReference users =
+          FirebaseFirestore.instance.collection("users");
+      await users.doc(lmsUser.uid).set({
+        "uid": lmsUser.uid,
+        "name": lmsUser.name,
+        "email": lmsUser.email,
+      });
+    } catch (e) {
+      throw e;
     }
   }
 
-  static Future<void> updateSelectedSubjects({
-    required List<String> subjectList,
-    required FirebaseAuth firebaseAuth,
-    required FirebaseFirestore firestore,
+  static Future<void> addSubjects({
+    required List<FireSubject> subjectList,
   }) async {
-    User? currenUser = firebaseAuth.currentUser;
+    User? currenUser = FirebaseAuth.instance.currentUser;
     if (currenUser != null) {
       try {
-        CollectionReference users = firestore.collection("users");
-        await users.doc(currenUser.uid).update({"subjectList": subjectList});
+        CollectionReference subjects = FirebaseFirestore.instance
+            .collection("users")
+            .doc(currenUser.uid)
+            .collection("subjects");
+        subjectList.forEach((subject) async {
+          await subjects.doc(subject.id).set({
+            "id": subject.id,
+            "name": subject.name,
+            "isCompleted": subject.isCompleted
+          });
+        });
       } catch (e) {
         throw e;
       }

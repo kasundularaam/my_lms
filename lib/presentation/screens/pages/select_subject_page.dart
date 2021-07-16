@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/data/models/fire_subject_model.dart';
+import 'package:my_lms/logic/cubit/select_sub_list_cubit/select_sub_list_cubit.dart';
+import 'package:my_lms/logic/cubit/select_subject_cubit/select_subject_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/core/my_enums.dart';
 import 'package:my_lms/data/models/subject_model.dart';
-import 'package:my_lms/logic/cubit/auth_cubit.dart';
 import 'package:my_lms/logic/cubit/authscreen_nav_cubit.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:my_lms/presentation/screens/widgets/select_subject_card.dart';
@@ -22,10 +24,11 @@ class _SelectSubjectPageState extends State<SelectSubjectPage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<AuthCubit>(context).loadInitState();
+    BlocProvider.of<SelectSubListCubit>(context).loadSubjectList();
   }
 
-  List<String> subjectList = [];
+  List<FireSubject> selectedList = [];
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -48,88 +51,63 @@ class _SelectSubjectPageState extends State<SelectSubjectPage> {
               bottomLeft: Radius.circular(10.w),
               bottomRight: Radius.circular(10.w),
             ),
-            child: ListView(
-              physics: BouncingScrollPhysics(),
-              shrinkWrap: true,
-              children: [
-                SizedBox(
-                  height: 5.w,
-                ),
-                SelectSubjectCard(
-                  subject: Subject(id: "1", name: "maths"),
-                  isSelected: (subjectId) {
-                    if (subjectList.contains(subjectId)) {
-                      subjectList.remove(subjectId);
-                    } else {
-                      subjectList.add(subjectId);
-                    }
-                    print(subjectList);
-                  },
-                ),
-                SelectSubjectCard(
-                  subject: Subject(id: "2", name: "physics"),
-                  isSelected: (subjectId) {
-                    if (subjectList.contains(subjectId)) {
-                      subjectList.remove(subjectId);
-                    } else {
-                      subjectList.add(subjectId);
-                    }
-                    print(subjectList);
-                  },
-                ),
-                SelectSubjectCard(
-                  subject: Subject(id: "3", name: "ict"),
-                  isSelected: (subjectId) {
-                    if (subjectList.contains(subjectId)) {
-                      subjectList.remove(subjectId);
-                    } else {
-                      subjectList.add(subjectId);
-                    }
-                    print(subjectList);
-                  },
-                ),
-                SelectSubjectCard(
-                  subject: Subject(id: "4", name: "chemestry"),
-                  isSelected: (subjectId) {
-                    if (subjectList.contains(subjectId)) {
-                      subjectList.remove(subjectId);
-                    } else {
-                      subjectList.add(subjectId);
-                    }
-                    print(subjectList);
-                  },
-                ),
-                SelectSubjectCard(
-                  subject: Subject(id: "5", name: "bio"),
-                  isSelected: (subjectId) {
-                    if (subjectList.contains(subjectId)) {
-                      subjectList.remove(subjectId);
-                    } else {
-                      subjectList.add(subjectId);
-                    }
-                    print(subjectList);
-                  },
-                )
-              ],
-            ),
+            child:
+                BlocBuilder<SelectSubListCubit, SelectSubListState>(builder: (
+              context,
+              state,
+            ) {
+              if (state is SelectSubjectLoading) {
+                return buildLoadingState();
+              } else if (state is SelectSubjectLoaded) {
+                return ListView(
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  children: [
+                    SizedBox(
+                      height: 10.w,
+                    ),
+                    ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: state.subjectList.length,
+                        itemBuilder: (context, index) {
+                          Subject subject = state.subjectList[index];
+                          return SelectSubjectCard(
+                              subject: subject,
+                              isSelected: (subjectId) {
+                                if (selectedList.contains(subjectId)) {
+                                  selectedList.remove(subjectId);
+                                } else {
+                                  selectedList.add(subjectId);
+                                }
+                              });
+                        }),
+                  ],
+                );
+              } else if (state is SelectSubjectFailed) {
+                return Center(child: ErrorMsgBox(errorMsg: state.errorMsg));
+              } else {
+                return Center(child: Text("unhandled state excecuted!"));
+              }
+            }),
           ),
         ),
         SizedBox(
           height: 5.w,
         ),
-        BlocConsumer<AuthCubit, AuthState>(
+        BlocConsumer<SelectSubjectCubit, SelectSubjectState>(
           listener: (context, state) {
-            if (state is AuthSucceed) {
+            if (state is SelectedSubjectSucceed) {
               BlocProvider.of<AuthscreenNavCubit>(context)
                   .authNavigate(authNav: AuthNav.toAuthPage);
             }
           },
           builder: (context, state) {
-            if (state is AuthInitial) {
+            if (state is SelectSubjectInitial) {
               return buildInitialState();
-            } else if (state is AuthLoading) {
+            } else if (state is SelectedSubjectLoading) {
               return buildLoadingState();
-            } else if (state is AuthFailed) {
+            } else if (state is SelectedSubjectFailed) {
               return buildFailedState(errorMsg: state.errorMsg);
             } else {
               return Center(child: Text("unhandled state excecuted!"));
@@ -142,8 +120,8 @@ class _SelectSubjectPageState extends State<SelectSubjectPage> {
 
   Widget buildInitialState() {
     return CheckIconBtn(
-      onPressed: () => BlocProvider.of<AuthCubit>(context)
-          .updateSubjectList(subjectList: subjectList),
+      onPressed: () => BlocProvider.of<SelectSubjectCubit>(context)
+          .updateSubjectList(subjectList: selectedList),
     );
   }
 
@@ -161,8 +139,8 @@ class _SelectSubjectPageState extends State<SelectSubjectPage> {
           height: 5.w,
         ),
         CheckIconBtn(
-          onPressed: () => BlocProvider.of<AuthCubit>(context)
-              .updateSubjectList(subjectList: subjectList),
+          onPressed: () => BlocProvider.of<SelectSubjectCubit>(context)
+              .updateSubjectList(subjectList: selectedList),
         )
       ],
     );

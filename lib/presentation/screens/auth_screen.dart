@@ -4,6 +4,10 @@ import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/my_enums.dart';
 import 'package:my_lms/logic/cubit/auth_cubit.dart';
 import 'package:my_lms/logic/cubit/authscreen_nav_cubit.dart';
+import 'package:my_lms/logic/cubit/login_cubit/login_cubit.dart';
+import 'package:my_lms/logic/cubit/select_sub_list_cubit/select_sub_list_cubit.dart';
+import 'package:my_lms/logic/cubit/select_subject_cubit/select_subject_cubit.dart';
+import 'package:my_lms/logic/cubit/signup_cubit/signup_cubit.dart';
 import 'package:my_lms/presentation/screens/pages/auth_page.dart';
 import 'package:my_lms/presentation/screens/pages/login_page.dart';
 import 'package:my_lms/presentation/screens/pages/select_subject_page.dart';
@@ -26,36 +30,43 @@ class _AuthScreenState extends State<AuthScreen> {
         body: BlocBuilder<AuthscreenNavCubit, AuthscreenNavState>(
           builder: (context, state) {
             if (state is AuthscreenNavInitial) {
-              return AuthPage();
+              return BlocProvider(
+                create: (context) => AuthCubit(),
+                child: AuthPage(),
+              );
             } else if (state is AuthscreenNavigate) {
               if (state.authNav == AuthNav.toLogin) {
-                return LoginPage(logIn: (email, password) {
-                  BlocProvider.of<AuthCubit>(context)
-                      .loginWithEmailAndpswd(email: email, password: password);
-                }, goToSignUp: () {
-                  BlocProvider.of<AuthscreenNavCubit>(context)
-                      .authNavigate(authNav: AuthNav.toSignUp);
-                });
+                return BlocProvider(
+                  create: (context) => LoginCubit(),
+                  child: LoginPage(),
+                );
               } else if (state.authNav == AuthNav.toSignUp) {
-                return SignUpPage(
-                  signUp: (user, password) {
-                    BlocProvider.of<AuthCubit>(context)
-                        .signUpNewUser(lmsUser: user, password: password);
-                  },
-                  goToLogin: () {
-                    BlocProvider.of<AuthscreenNavCubit>(context)
-                        .authNavigate(authNav: AuthNav.toLogin);
-                  },
+                return BlocProvider(
+                  create: (context) => SignupCubit(),
+                  child: SignUpPage(),
                 );
               } else if (state.authNav == AuthNav.toAuthPage) {
-                return AuthPage();
+                return BlocProvider(
+                  create: (context) => AuthCubit(),
+                  child: AuthPage(),
+                );
               } else if (state.authNav == AuthNav.toSelectSubjectPage) {
-                return SelectSubjectPage();
+                return MultiBlocProvider(
+                  providers: [
+                    BlocProvider<SelectSubListCubit>(
+                      create: (context) => SelectSubListCubit(),
+                    ),
+                    BlocProvider<SelectSubjectCubit>(
+                      create: (context) => SelectSubjectCubit(),
+                    )
+                  ],
+                  child: SelectSubjectPage(),
+                );
               } else {
-                return Text("nothing to show");
+                return Center(child: Text("sorry no page available!"));
               }
             } else {
-              return Text("nothing to show");
+              return Center(child: Text("unhandled state excecuted!"));
             }
           },
         ),

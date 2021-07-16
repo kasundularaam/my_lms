@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/my_enums.dart';
-import 'package:my_lms/data/models/lms_user_model.dart';
-import 'package:my_lms/logic/cubit/auth_cubit.dart';
 import 'package:my_lms/logic/cubit/authscreen_nav_cubit.dart';
+import 'package:my_lms/logic/cubit/signup_cubit/signup_cubit.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
 
@@ -12,13 +11,6 @@ import 'package:my_lms/presentation/screens/widgets/my_button.dart';
 import 'package:my_lms/presentation/screens/widgets/my_text_field.dart';
 
 class SignUpPage extends StatefulWidget {
-  final Function() goToLogin;
-  final Function(LmsUser user, String password) signUp;
-  const SignUpPage({
-    Key? key,
-    required this.goToLogin,
-    required this.signUp,
-  }) : super(key: key);
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
@@ -27,16 +19,9 @@ class _SignUpPageState extends State<SignUpPage> {
   String _email = "";
   String _password = "";
   String _name = "";
-  List<String> _subjectList = ["1", "2", "3"];
 
   FocusNode _passwordFocusNode = FocusNode();
   FocusNode _emailFocusNode = FocusNode();
-
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<AuthCubit>(context).loadInitState();
-  }
 
   @override
   void dispose() {
@@ -100,21 +85,21 @@ class _SignUpPageState extends State<SignUpPage> {
         SizedBox(
           height: 3.h,
         ),
-        BlocConsumer<AuthCubit, AuthState>(
+        BlocConsumer<SignupCubit, SignupState>(
           listener: (context, state) {
-            if (state is AuthSucceed) {
+            if (state is SignupSucceed) {
               BlocProvider.of<AuthscreenNavCubit>(context)
                   .authNavigate(authNav: AuthNav.toSelectSubjectPage);
             }
           },
           builder: (context, state) {
-            if (state is AuthInitial) {
+            if (state is SignupInitial) {
               return buildInitState();
-            } else if (state is AuthLoading) {
+            } else if (state is SignupLoading) {
               return buildLoadingState();
-            } else if (state is AuthFailed) {
+            } else if (state is SignupFailed) {
               return buildFailedState(state.errorMsg);
-            } else if (state is AuthInvalidValue) {
+            } else if (state is SignupWithInvalidValue) {
               return buildInvalidValueState(state.errorMsg);
             } else {
               return Center(child: Text("unhandled state excecuted!"));
@@ -133,13 +118,10 @@ class _SignUpPageState extends State<SignUpPage> {
       children: [
         MyButton(
           btnText: "Sign Up",
-          onPressed: () => widget.signUp(
-            LmsUser(
-                uid: "200129001050",
-                name: _name,
-                email: _email,
-                subjectList: _subjectList),
-            _password,
+          onPressed: () => BlocProvider.of<SignupCubit>(context).signUpNewUser(
+            email: _email,
+            name: _name,
+            password: _password,
           ),
         ),
         SizedBox(
@@ -152,7 +134,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget goToLogIn() {
     return GestureDetector(
-      onTap: () => widget.goToLogin(),
+      onTap: () => BlocProvider.of<AuthscreenNavCubit>(context)
+          .authNavigate(authNav: AuthNav.toLogin),
       child: Padding(
         padding: EdgeInsets.all(5.w),
         child: Text(
@@ -175,13 +158,10 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         MyButton(
           btnText: "Sign Up",
-          onPressed: () => widget.signUp(
-            LmsUser(
-                uid: "200129001050",
-                name: _name,
-                email: _email,
-                subjectList: _subjectList),
-            _password,
+          onPressed: () => BlocProvider.of<SignupCubit>(context).signUpNewUser(
+            email: _email,
+            name: _name,
+            password: _password,
           ),
         ),
         SizedBox(
@@ -207,7 +187,9 @@ class _SignUpPageState extends State<SignUpPage> {
         height: 3.h,
       ),
       GestureDetector(
-        onTap: () => BlocProvider.of<AuthCubit>(context).loadInitState(),
+        onTap: () => BlocProvider.of<SignupCubit>(context).emit(
+          SignupInitial(),
+        ),
         child: Padding(
           padding: EdgeInsets.all(5.w),
           child: Text(
