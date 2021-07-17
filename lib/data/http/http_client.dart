@@ -99,4 +99,34 @@ class HttpRequests {
       throw '${response.statusCode}';
     }
   }
+
+  static Future<List<Content>> getContentBySub(
+      {required String subjectId}) async {
+    final response = await http.get(
+      Uri.parse(
+        DataProvider.contentBySubUrl(subjectId: subjectId),
+      ),
+    );
+    if (response.statusCode == 200) {
+      List<Content> contentList = parseContent(response.body);
+      return contentList;
+    } else {
+      throw '${response.statusCode}';
+    }
+  }
+
+  static Future<List<Question>> getQuestionBySub(
+      {required String subjectId}) async {
+    final response = await http.get(
+      Uri.parse(
+        DataProvider.questionBySubUrl(subjectId: subjectId),
+      ),
+    );
+    if (response.statusCode == 200) {
+      List<Question> questionList = parseQuestion(response.body);
+      return questionList;
+    } else {
+      throw '${response.statusCode}';
+    }
+  }
 }

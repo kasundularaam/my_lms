@@ -30,6 +30,7 @@ class _HomeTabState extends State<HomeTab> {
           bottomRight: Radius.circular(10.w),
         ),
         child: ListView(
+          padding: const EdgeInsets.all(0),
           physics: BouncingScrollPhysics(),
           children: [
             SizedBox(
@@ -37,6 +38,7 @@ class _HomeTabState extends State<HomeTab> {
             ),
             HomeTopCard(),
             SubjectCard(
+                id: "1",
                 name: "Combind Maths",
                 modules: 103,
                 contents: 3021,

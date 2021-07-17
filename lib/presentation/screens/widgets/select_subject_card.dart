@@ -46,9 +46,7 @@ class _SelectSubjectCardState extends State<SelectSubjectCard> {
             }
           },
           child: Container(
-            height: 15.h,
-            width: 90.w,
-            padding: EdgeInsets.all(5.w),
+            padding: EdgeInsets.symmetric(vertical: 5.h),
             decoration: BoxDecoration(
                 color: selected ? MyColors.accentColor : MyColors.white,
                 borderRadius: BorderRadius.circular(5.w),

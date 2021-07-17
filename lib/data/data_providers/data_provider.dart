@@ -11,7 +11,15 @@ class DataProvider {
     return "http://critssl.com/studyPlanner/content.php?module=$moduleId";
   }
 
+  static String contentBySubUrl({required String subjectId}) {
+    return "http://critssl.com/studyPlanner/content.php?module=$subjectId";
+  }
+
   static String questionUrl({required moduleId}) {
     return "http://critssl.com/studyPlanner/question.php?module=$moduleId";
+  }
+
+  static String questionBySubUrl({required subjectId}) {
+    return "http://critssl.com/studyPlanner/question.php?module=$subjectId";
   }
 }

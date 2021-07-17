@@ -32,6 +32,7 @@ class _SelectSubjectPageState extends State<SelectSubjectPage> {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      padding: EdgeInsets.all(0),
       physics: BouncingScrollPhysics(),
       shrinkWrap: true,
       children: [
@@ -60,14 +61,26 @@ class _SelectSubjectPageState extends State<SelectSubjectPage> {
                 return buildLoadingState();
               } else if (state is SelectSubjectLoaded) {
                 return ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
                   physics: BouncingScrollPhysics(),
                   shrinkWrap: true,
                   children: [
                     SizedBox(
-                      height: 10.w,
+                      height: 5.h,
+                    ),
+                    Text(
+                      "Select your subjects",
+                      style: TextStyle(
+                          color: MyColors.accentColor,
+                          fontSize: 26.sp,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    SizedBox(
+                      height: 5.h,
                     ),
                     ListView.builder(
                         physics: BouncingScrollPhysics(),
+                        padding: EdgeInsets.all(0),
                         shrinkWrap: true,
                         itemCount: state.subjectList.length,
                         itemBuilder: (context, index) {
@@ -156,7 +169,6 @@ class CheckIconBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 8.h,
       width: 100.w,
       child: Center(
         child: GestureDetector(

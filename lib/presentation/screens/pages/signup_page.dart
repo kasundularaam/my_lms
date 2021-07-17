@@ -33,11 +33,11 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 5.w),
+      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 0),
       physics: BouncingScrollPhysics(),
       children: [
         SizedBox(
-          height: 7.h,
+          height: 5.h,
         ),
         Text(
           "Sign Up",
