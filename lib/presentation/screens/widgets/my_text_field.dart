@@ -39,7 +39,7 @@ class MyTextField extends StatelessWidget {
             fontWeight: FontWeight.w600),
         decoration: InputDecoration(
           hintText: hintText,
-          contentPadding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 5.w),
+          contentPadding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
           border: InputBorder.none,
         ),
         textInputAction: textInputAction,

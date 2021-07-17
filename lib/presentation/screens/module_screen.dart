@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/my_styles.dart';
+import 'package:my_lms/core/screen_arguments/content_list_screen_args.dart';
+import 'package:my_lms/core/screen_arguments/quiz_screen_args.dart';
+import 'package:my_lms/presentation/router/app_router.dart';
+import 'package:my_lms/presentation/screens/widgets/content_card_small.dart';
 import 'package:sizer/sizer.dart';
 
 class ModuleScreen extends StatefulWidget {
@@ -37,7 +41,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                 fontWeight: FontWeight.w600),
           ),
           SizedBox(
-            height: 30.w,
+            height: 10.h,
           ),
           Container(
             width: 90.w,
@@ -48,16 +52,20 @@ class _ModuleScreenState extends State<ModuleScreen> {
               boxShadow: [MyStyles.boxShadow],
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Contents",
-                  style: TextStyle(
-                      color: MyColors.accentColor,
-                      fontSize: 26.sp,
-                      fontWeight: FontWeight.w600),
+                Padding(
+                  padding: EdgeInsets.only(left: 5.w),
+                  child: Text(
+                    "Contents",
+                    style: TextStyle(
+                        color: MyColors.accentColor,
+                        fontSize: 26.sp,
+                        fontWeight: FontWeight.w600),
+                  ),
                 ),
                 SizedBox(
-                  height: 3.w,
+                  height: 5.h,
                 ),
                 Container(
                   height: 16.h,
@@ -74,64 +82,39 @@ class _ModuleScreenState extends State<ModuleScreen> {
                           width: 2.w,
                         );
                       } else if (index != 1 && index < 6) {
-                        return Column(
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                        return ContentCardSmall(
+                            contentId: "1", contentName: "content 1");
+                      } else if (index == 6) {
+                        return GestureDetector(
+                          onTap: () => Navigator.pushNamed(
+                              context, AppRouter.contentListScreen,
+                              arguments: ContentListScreenArgs(
+                                  moduleId: widget.moduleId,
+                                  moduleName: widget.moduleName)),
+                          child: Container(
+                            padding: EdgeInsets.all(5.w),
+                            decoration: BoxDecoration(
+                              color: MyColors.offWhite,
+                            ),
+                            child: Row(
                               children: [
-                                Container(
-                                  height: 15.h,
-                                  width: 50.w,
-                                  padding: EdgeInsets.all(5.w),
-                                  decoration: BoxDecoration(
-                                    color: MyColors.accentColor,
-                                    borderRadius: BorderRadius.circular(5.w),
-                                    boxShadow: [MyStyles.boxShadow],
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "Content 0$index",
-                                      style: TextStyle(
-                                          color: MyColors.white,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
+                                Text(
+                                  "See All",
+                                  style: TextStyle(
+                                      color: MyColors.accentColor,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600),
                                 ),
                                 SizedBox(
-                                  width: 5.w,
-                                )
+                                  width: 2.w,
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_rounded,
+                                  size: 20.sp,
+                                  color: MyColors.accentColor,
+                                ),
                               ],
                             ),
-                            SizedBox(
-                              height: 1.h,
-                            )
-                          ],
-                        );
-                      } else if (index == 6) {
-                        return Container(
-                          padding: EdgeInsets.all(5.w),
-                          decoration: BoxDecoration(
-                            color: MyColors.offWhite,
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                "See All",
-                                style: TextStyle(
-                                    color: MyColors.shadedBlack,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              SizedBox(
-                                width: 2.w,
-                              ),
-                              Icon(
-                                Icons.arrow_forward_rounded,
-                                size: 20.sp,
-                                color: MyColors.shadedBlack,
-                              ),
-                            ],
                           ),
                         );
                       } else {
@@ -142,31 +125,83 @@ class _ModuleScreenState extends State<ModuleScreen> {
                     },
                   ),
                 ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(
+                      context, AppRouter.contentListScreen,
+                      arguments: ContentListScreenArgs(
+                          moduleId: widget.moduleId,
+                          moduleName: widget.moduleName)),
+                  child: Container(
+                    padding: EdgeInsets.all(5.w),
+                    margin: EdgeInsets.symmetric(horizontal: 5.w),
+                    decoration: BoxDecoration(
+                      color: MyColors.accentColor,
+                      borderRadius: BorderRadius.circular(5.w),
+                      boxShadow: [MyStyles.boxShadow],
+                    ),
+                    child: Center(
+                      child: Text(
+                        "See All Contents",
+                        style: TextStyle(
+                            color: MyColors.white,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 5.w),
+                  child: Text(
+                    "Questions",
+                    style: TextStyle(
+                        color: MyColors.accentColor,
+                        fontSize: 26.sp,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    AppRouter.quizScreen,
+                    arguments: QuizScreenArgs(
+                        moduleId: widget.moduleId,
+                        moduleName: widget.moduleName),
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.all(5.w),
+                    margin: EdgeInsets.symmetric(horizontal: 5.w),
+                    decoration: BoxDecoration(
+                      color: MyColors.accentColor,
+                      borderRadius: BorderRadius.circular(5.w),
+                      boxShadow: [MyStyles.boxShadow],
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Go To Quiz",
+                        style: TextStyle(
+                            color: MyColors.white,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 1.h,
+                ),
               ],
             ),
           ),
-          SizedBox(
-            height: 10.h,
-          ),
-          Container(
-            height: 10.h,
-            width: 50.w,
-            padding: EdgeInsets.all(5.w),
-            decoration: BoxDecoration(
-              color: MyColors.accentColor,
-              borderRadius: BorderRadius.circular(5.w),
-              boxShadow: [MyStyles.boxShadow],
-            ),
-            child: Center(
-              child: Text(
-                "Go To Quiz",
-                style: TextStyle(
-                    color: MyColors.white,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-          )
         ],
       ),
     );

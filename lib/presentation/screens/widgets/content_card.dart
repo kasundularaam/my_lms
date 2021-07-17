@@ -31,18 +31,20 @@ class ContentCard extends StatelessWidget {
             );
           },
           child: Container(
-            padding: EdgeInsets.all(5.w),
+            padding: EdgeInsets.symmetric(vertical: 5.w),
             decoration: BoxDecoration(
               color: MyColors.white,
               borderRadius: BorderRadius.circular(5.w),
               boxShadow: [MyStyles.boxShadow],
             ),
-            child: Text(
-              contentName,
-              style: TextStyle(
-                  color: MyColors.accentColor,
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w600),
+            child: Center(
+              child: Text(
+                contentName,
+                style: TextStyle(
+                    color: MyColors.accentColor,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w600),
+              ),
             ),
           ),
         ),

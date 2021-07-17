@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/my_enums.dart';
-import 'package:my_lms/logic/cubit/auth_cubit.dart';
-import 'package:my_lms/logic/cubit/authscreen_nav_cubit.dart';
+import 'package:my_lms/logic/cubit/auth_cubit/auth_cubit.dart';
+import 'package:my_lms/logic/cubit/auth_nav_cubit/authscreen_nav_cubit.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
