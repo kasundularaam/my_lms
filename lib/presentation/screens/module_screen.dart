@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
+import 'package:sizer/sizer.dart';
+
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/core/screen_arguments/content_list_screen_args.dart';
+import 'package:my_lms/core/screen_arguments/module_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/quiz_screen_args.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
 import 'package:my_lms/presentation/screens/widgets/content_card_small.dart';
-import 'package:sizer/sizer.dart';
 
 class ModuleScreen extends StatefulWidget {
-  final String moduleId;
-  final String moduleName;
+  final ModuleScreenArgs args;
   const ModuleScreen({
     Key? key,
-    required this.moduleId,
-    required this.moduleName,
+    required this.args,
   }) : super(key: key);
 
   @override
@@ -34,7 +35,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
             height: 5.h,
           ),
           Text(
-            widget.moduleName,
+            widget.args.moduleName,
             style: TextStyle(
                 color: MyColors.accentColor,
                 fontSize: 32.sp,
@@ -83,14 +84,27 @@ class _ModuleScreenState extends State<ModuleScreen> {
                         );
                       } else if (index != 1 && index < 6) {
                         return ContentCardSmall(
-                            contentId: "1", contentName: "content 1");
+                          args: ContentScreenArgs(
+                            contentId: "$index",
+                            contentName: "content $index",
+                            subjectName: widget.args.subjectName,
+                            subjectId: widget.args.subjectId,
+                            moduleName: widget.args.moduleName,
+                            moduleId: widget.args.moduleId,
+                          ),
+                        );
                       } else if (index == 6) {
                         return GestureDetector(
                           onTap: () => Navigator.pushNamed(
-                              context, AppRouter.contentListScreen,
-                              arguments: ContentListScreenArgs(
-                                  moduleId: widget.moduleId,
-                                  moduleName: widget.moduleName)),
+                            context,
+                            AppRouter.contentListScreen,
+                            arguments: ContentListScreenArgs(
+                              subjectId: widget.args.subjectId,
+                              subjectName: widget.args.subjectName,
+                              moduleId: widget.args.moduleId,
+                              moduleName: widget.args.moduleName,
+                            ),
+                          ),
                           child: Container(
                             padding: EdgeInsets.all(5.w),
                             decoration: BoxDecoration(
@@ -130,10 +144,15 @@ class _ModuleScreenState extends State<ModuleScreen> {
                 ),
                 GestureDetector(
                   onTap: () => Navigator.pushNamed(
-                      context, AppRouter.contentListScreen,
-                      arguments: ContentListScreenArgs(
-                          moduleId: widget.moduleId,
-                          moduleName: widget.moduleName)),
+                    context,
+                    AppRouter.contentListScreen,
+                    arguments: ContentListScreenArgs(
+                      subjectId: widget.args.subjectId,
+                      subjectName: widget.args.subjectName,
+                      moduleId: widget.args.moduleId,
+                      moduleName: widget.args.moduleName,
+                    ),
+                  ),
                   child: Container(
                     padding: EdgeInsets.all(5.w),
                     margin: EdgeInsets.symmetric(horizontal: 5.w),
@@ -174,8 +193,9 @@ class _ModuleScreenState extends State<ModuleScreen> {
                     context,
                     AppRouter.quizScreen,
                     arguments: QuizScreenArgs(
-                        moduleId: widget.moduleId,
-                        moduleName: widget.moduleName),
+                      moduleId: widget.args.moduleId,
+                      moduleName: widget.args.moduleName,
+                    ),
                   ),
                   child: Container(
                     padding: EdgeInsets.all(5.w),

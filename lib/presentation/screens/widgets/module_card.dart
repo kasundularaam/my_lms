@@ -7,14 +7,12 @@ import 'package:my_lms/core/screen_arguments/module_screen_args.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
 
 class ModuleCard extends StatelessWidget {
-  final String moduleId;
-  final String moduleName;
+  final ModuleScreenArgs args;
   final int contentCount;
   final int quizCount;
   const ModuleCard({
     Key? key,
-    required this.moduleId,
-    required this.moduleName,
+    required this.args,
     required this.contentCount,
     required this.quizCount,
   }) : super(key: key);
@@ -29,8 +27,10 @@ class ModuleCard extends StatelessWidget {
               context,
               AppRouter.moduleScreen,
               arguments: ModuleScreenArgs(
-                moduleId: moduleId,
-                moduleName: moduleName,
+                subjectId: args.subjectId,
+                subjectName: args.subjectName,
+                moduleId: args.moduleId,
+                moduleName: args.moduleName,
               ),
             );
           },
@@ -45,7 +45,7 @@ class ModuleCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  moduleName,
+                  args.moduleName,
                   style: TextStyle(
                       color: MyColors.accentColor,
                       fontSize: 20.sp,

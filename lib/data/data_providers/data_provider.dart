@@ -22,4 +22,8 @@ class DataProvider {
   static String questionBySubUrl({required subjectId}) {
     return "http://critssl.com/studyPlanner/question.php?module=$subjectId";
   }
+
+  static String pdfDownloadLink() {
+    return "http://critssl.com/studyPlanner/data//F5YX7H3IXLA7R5F.pdf";
+  }
 }

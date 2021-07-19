@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:my_lms/presentation/screens/widgets/module_card.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/my_styles.dart';
+import 'package:my_lms/core/screen_arguments/module_screen_args.dart';
+import 'package:my_lms/core/screen_arguments/subject_screen_args.dart';
+import 'package:my_lms/presentation/screens/widgets/module_card.dart';
 import 'package:my_lms/presentation/screens/widgets/my_text_field.dart';
 
 class SubjectScreen extends StatefulWidget {
-  final String subjectId;
-  final String subjectName;
+  final SubjectScreenArgs args;
   const SubjectScreen({
     Key? key,
-    required this.subjectId,
-    required this.subjectName,
+    required this.args,
   }) : super(key: key);
 
   @override
@@ -41,7 +41,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
             child: Column(
               children: [
                 Text(
-                  widget.subjectName,
+                  widget.args.subjectName,
                   style: TextStyle(
                       color: MyColors.white,
                       fontSize: 26.sp,
@@ -69,8 +69,12 @@ class _SubjectScreenState extends State<SubjectScreen> {
             itemCount: 10,
             itemBuilder: (BuildContext context, int index) {
               return ModuleCard(
-                  moduleId: "1",
-                  moduleName: "Electronics",
+                  args: ModuleScreenArgs(
+                    moduleId: "1",
+                    moduleName: "Electronics",
+                    subjectId: widget.args.subjectId,
+                    subjectName: widget.args.subjectName,
+                  ),
                   contentCount: 245,
                   quizCount: 371);
             },

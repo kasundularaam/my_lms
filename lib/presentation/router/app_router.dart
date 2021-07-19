@@ -11,6 +11,7 @@ import 'package:my_lms/presentation/screens/content_screen.dart';
 import 'package:my_lms/presentation/screens/module_screen.dart';
 import 'package:my_lms/presentation/screens/quiz_screen.dart';
 import 'package:my_lms/presentation/screens/subject_screen.dart';
+import 'package:my_lms/presentation/screens/working_screen.dart';
 
 import '../../core/exceptions/route_exception.dart';
 import '../screens/home_screen.dart';
@@ -23,6 +24,7 @@ class AppRouter {
   static const String contentListScreen = '/contentListScreen';
   static const String contentScreen = '/contentScreen';
   static const String quizScreen = '/quizScreen';
+  static const String workingScreen = '/workingScreen';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -38,16 +40,14 @@ class AppRouter {
         final SubjectScreenArgs args = settings.arguments as SubjectScreenArgs;
         return MaterialPageRoute(
           builder: (_) => SubjectScreen(
-            subjectId: args.subjectId,
-            subjectName: args.subjectName,
+            args: args,
           ),
         );
       case moduleScreen:
         final ModuleScreenArgs args = settings.arguments as ModuleScreenArgs;
         return MaterialPageRoute(
           builder: (_) => ModuleScreen(
-            moduleId: args.moduleId,
-            moduleName: args.moduleName,
+            args: args,
           ),
         );
 
@@ -56,8 +56,7 @@ class AppRouter {
             settings.arguments as ContentListScreenArgs;
         return MaterialPageRoute(
           builder: (_) => ContentListScreen(
-            moduleId: args.moduleId,
-            moduleName: args.moduleName,
+            args: args,
           ),
         );
 
@@ -65,8 +64,7 @@ class AppRouter {
         final ContentScreenArgs args = settings.arguments as ContentScreenArgs;
         return MaterialPageRoute(
           builder: (_) => ContentScreen(
-            contentId: args.contentId,
-            contentName: args.contentName,
+            args: args,
           ),
         );
 
@@ -78,6 +76,8 @@ class AppRouter {
             moduleName: args.moduleName,
           ),
         );
+      case workingScreen:
+        return MaterialPageRoute(builder: (_) => WorkingScreen());
       default:
         throw const RouteException('Route not found!');
     }

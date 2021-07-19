@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
-import 'package:my_lms/presentation/router/app_router.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/my_styles.dart';
+import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
+import 'package:my_lms/presentation/router/app_router.dart';
 
 class ContentCardSmall extends StatelessWidget {
-  final String contentId;
-  final String contentName;
+  final ContentScreenArgs args;
   const ContentCardSmall({
     Key? key,
-    required this.contentId,
-    required this.contentName,
+    required this.args,
   }) : super(key: key);
 
   @override
@@ -26,10 +24,7 @@ class ContentCardSmall extends StatelessWidget {
               onTap: () => Navigator.pushNamed(
                 context,
                 AppRouter.contentScreen,
-                arguments: ContentScreenArgs(
-                  contentId: contentId,
-                  contentName: contentName,
-                ),
+                arguments: args,
               ),
               child: Container(
                 height: 15.h,
@@ -42,7 +37,7 @@ class ContentCardSmall extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    contentName,
+                    args.contentName,
                     style: TextStyle(
                         color: MyColors.shadedBlack,
                         fontSize: 16.sp,

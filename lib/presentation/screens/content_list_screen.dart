@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:my_lms/core/constants/my_colors.dart';
-import 'package:my_lms/core/constants/my_styles.dart';
-import 'package:my_lms/presentation/screens/widgets/content_card.dart';
-import 'package:my_lms/presentation/screens/widgets/module_card.dart';
-import 'package:my_lms/presentation/screens/widgets/my_text_field.dart';
 import 'package:sizer/sizer.dart';
 
+import 'package:my_lms/core/constants/my_colors.dart';
+import 'package:my_lms/core/constants/my_styles.dart';
+import 'package:my_lms/core/screen_arguments/content_list_screen_args.dart';
+import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
+import 'package:my_lms/presentation/screens/widgets/content_card.dart';
+import 'package:my_lms/presentation/screens/widgets/my_text_field.dart';
+
 class ContentListScreen extends StatefulWidget {
-  final String moduleId;
-  final String moduleName;
+  final ContentListScreenArgs args;
   const ContentListScreen({
     Key? key,
-    required this.moduleId,
-    required this.moduleName,
+    required this.args,
   }) : super(key: key);
 
   @override
@@ -41,7 +41,7 @@ class _ContentListScreenState extends State<ContentListScreen> {
             child: Column(
               children: [
                 Text(
-                  widget.moduleName,
+                  widget.args.moduleName,
                   style: TextStyle(
                       color: MyColors.white,
                       fontSize: 26.sp,
@@ -69,7 +69,15 @@ class _ContentListScreenState extends State<ContentListScreen> {
             itemCount: 10,
             itemBuilder: (BuildContext context, int index) {
               return ContentCard(
-                  contentId: "1", contentName: "Semi Conductors");
+                args: ContentScreenArgs(
+                  contentId: "$index",
+                  contentName: "content $index",
+                  subjectName: widget.args.subjectName,
+                  subjectId: widget.args.subjectId,
+                  moduleName: widget.args.moduleName,
+                  moduleId: widget.args.moduleId,
+                ),
+              );
             },
           ),
         ],

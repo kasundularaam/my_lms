@@ -7,12 +7,10 @@ import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
 
 class ContentCard extends StatelessWidget {
-  final String contentId;
-  final String contentName;
+  final ContentScreenArgs args;
   const ContentCard({
     Key? key,
-    required this.contentId,
-    required this.contentName,
+    required this.args,
   }) : super(key: key);
 
   @override
@@ -24,10 +22,7 @@ class ContentCard extends StatelessWidget {
             Navigator.pushNamed(
               context,
               AppRouter.contentScreen,
-              arguments: ContentScreenArgs(
-                contentId: contentId,
-                contentName: contentName,
-              ),
+              arguments: args,
             );
           },
           child: Container(
@@ -39,7 +34,7 @@ class ContentCard extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                contentName,
+                args.contentName,
                 style: TextStyle(
                     color: MyColors.accentColor,
                     fontSize: 20.sp,
