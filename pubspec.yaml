@@ -19,6 +19,7 @@ dependencies:
   sizer: ^2.0.13
   http: ^0.13.3
   url_launcher: ^6.0.9
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

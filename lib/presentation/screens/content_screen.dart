@@ -133,7 +133,11 @@ class _ContentScreenState extends State<ContentScreen> {
             height: 5.h,
           ),
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, AppRouter.workingScreen),
+            onTap: () => Navigator.pushNamed(
+              context,
+              AppRouter.workingScreen,
+              arguments: widget.args,
+            ),
             child: Container(
               padding: EdgeInsets.all(5.w),
               margin: EdgeInsets.symmetric(horizontal: 5.w),

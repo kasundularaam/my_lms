@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/screen_arguments/content_list_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/module_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/quiz_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/subject_screen_args.dart';
+import 'package:my_lms/logic/cubit/timer_cubit/timer_cubit.dart';
+import 'package:my_lms/logic/cubit/working_cubit/working_cubit.dart';
 
 import 'package:my_lms/presentation/screens/auth_screen.dart';
 import 'package:my_lms/presentation/screens/content_list_screen.dart';
@@ -27,6 +30,7 @@ class AppRouter {
   static const String workingScreen = '/workingScreen';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
+    WorkingCubit _workingCubit = WorkingCubit();
     switch (settings.name) {
       case home:
         return MaterialPageRoute(
@@ -77,7 +81,14 @@ class AppRouter {
           ),
         );
       case workingScreen:
-        return MaterialPageRoute(builder: (_) => WorkingScreen());
+        final ContentScreenArgs args = settings.arguments as ContentScreenArgs;
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                  value: _workingCubit,
+                  child: WorkingScreen(
+                    args: args,
+                  ),
+                ));
       default:
         throw const RouteException('Route not found!');
     }
