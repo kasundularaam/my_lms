@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
+
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
-import 'package:sizer/sizer.dart';
 
-class CongratulationsTab extends StatefulWidget {
-  const CongratulationsTab({Key? key}) : super(key: key);
+class WorkingOnAnotherTab extends StatefulWidget {
+  final String contentName;
+  const WorkingOnAnotherTab({
+    Key? key,
+    required this.contentName,
+  }) : super(key: key);
 
   @override
-  _CongratulationsTabState createState() => _CongratulationsTabState();
+  _WorkingOnAnotherTabState createState() => _WorkingOnAnotherTabState();
 }
 
-class _CongratulationsTabState extends State<CongratulationsTab> {
+class _WorkingOnAnotherTabState extends State<WorkingOnAnotherTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,34 +53,13 @@ class _CongratulationsTabState extends State<CongratulationsTab> {
                       borderRadius: BorderRadius.circular(5.w),
                       boxShadow: [MyStyles.boxShadow],
                     ),
-                    child: Column(
-                      children: [
-                        Text(
-                          "GREETINGS",
-                          style: TextStyle(
-                              color: MyColors.green,
-                              fontSize: 36.sp,
-                              fontWeight: FontWeight.w300),
-                        ),
-                        Text(
-                          "🎉",
-                          style: TextStyle(
-                            fontSize: 50.sp,
-                          ),
-                        ),
-                      ],
+                    child: Text(
+                      "You are currently working on ${widget.contentName}. please pay your attention to the work",
+                      style: TextStyle(
+                          color: MyColors.green,
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w300),
                     ),
-                  ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-                  Text(
-                    "congratulations you have successfully completed content 2",
-                    style: TextStyle(
-                        color: MyColors.gray,
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.center,
                   ),
                   SizedBox(
                     height: 5.h,
@@ -101,7 +85,7 @@ class _CongratulationsTabState extends State<CongratulationsTab> {
               ),
               child: Center(
                 child: Text(
-                  "Back To Home",
+                  "Back To Work",
                   style: TextStyle(
                       color: MyColors.shadedBlack,
                       fontSize: 16.sp,

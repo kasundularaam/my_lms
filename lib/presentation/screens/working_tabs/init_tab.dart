@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:my_lms/core/constants/shared_prefs_keys.dart';
 import 'package:my_lms/logic/cubit/working_cubit/working_cubit.dart';
+import 'package:my_lms/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
@@ -21,6 +25,37 @@ class InitTab extends StatefulWidget {
 }
 
 class _InitTabState extends State<InitTab> {
+  Future<void> checkSP() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? isOnWorking = prefs.getBool(SharedPrefsKeys.isOnWorkingKey);
+    if (isOnWorking != null) {
+      if (isOnWorking) {
+        int startTimeStampSp =
+            prefs.getInt(SharedPrefsKeys.startTimeStampKey) ?? 0;
+        BlocProvider.of<TimerCubit>(context)
+            .backToWork(startTimeStampSp: startTimeStampSp);
+      } else {
+        BlocProvider.of<TimerCubit>(context)
+            .emit(TimerInitial(initCounter: "00.00.00"));
+      }
+    } else {
+      BlocProvider.of<TimerCubit>(context)
+          .emit(TimerInitial(initCounter: "00.00.00"));
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkSP();
+  }
+
+  @override
+  void dispose() {
+    BlocProvider.of<TimerCubit>(context).cancelTimer();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,8 +204,8 @@ class _InitTabState extends State<InitTab> {
             builder: (context, state) {
               if (state is TimerInitial) {
                 return GestureDetector(
-                  onTap: () =>
-                      BlocProvider.of<TimerCubit>(context).startTimer(),
+                  onTap: () => BlocProvider.of<TimerCubit>(context).startTimer(
+                      notifMsg: widget.args.contentName, args: widget.args),
                   child: Container(
                     padding: EdgeInsets.all(5.w),
                     margin: EdgeInsets.symmetric(horizontal: 5.w),
