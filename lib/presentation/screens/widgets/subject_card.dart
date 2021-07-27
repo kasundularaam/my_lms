@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:my_lms/core/screen_arguments/subject_screen_args.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/logic/cubit/subject_card_cubit/subject_card_cubit.dart';
+import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
+import 'package:my_lms/presentation/screens/widgets/loading_container.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/my_styles.dart';
+import 'package:my_lms/core/screen_arguments/subject_screen_args.dart';
+import 'package:my_lms/data/models/subject_model.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
 import 'package:my_lms/presentation/screens/widgets/prograss_bar.dart';
 
 class SubjectCard extends StatelessWidget {
-  final String id;
-  final String name;
-  final int modules;
-  final int contents;
-  final int quiz;
-  final int completdModules;
-  final int completedContents;
-  final int completedQuiz;
+  final Subject subject;
   const SubjectCard({
     Key? key,
-    required this.id,
-    required this.name,
-    required this.modules,
-    required this.contents,
-    required this.quiz,
-    required this.completdModules,
-    required this.completedContents,
-    required this.completedQuiz,
+    required this.subject,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<SubjectCardCubit>(context)
+        .loadSubjectCardDetails(subjectId: subject.id);
     return Column(
       children: [
         GestureDetector(
@@ -37,8 +30,8 @@ class SubjectCard extends StatelessWidget {
             context,
             AppRouter.subjectScreen,
             arguments: SubjectScreenArgs(
-              subjectId: id,
-              subjectName: name,
+              subjectId: subject.id,
+              subjectName: subject.name,
             ),
           ),
           child: Container(
@@ -53,7 +46,7 @@ class SubjectCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  name,
+                  subject.name,
                   style: TextStyle(
                       color: MyColors.accentColor,
                       fontSize: 22.sp,
@@ -62,91 +55,131 @@ class SubjectCard extends StatelessWidget {
                 SizedBox(
                   height: 5.w,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Modules",
-                      style: TextStyle(
-                          color: MyColors.accentColor,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    Column(
-                      children: [
-                        Text("$completdModules/$modules",
-                            style: TextStyle(
-                                color: MyColors.accentColor,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400)),
-                        MyPrograssBar(
-                          width: 12.w,
-                          max: modules,
-                          progress: completdModules,
-                          backgroundColor: MyColors.offWhite,
-                          progressColor: MyColors.accentColor,
+                BlocBuilder<SubjectCardCubit, SubjectCardState>(
+                  builder: (context, state) {
+                    if (state is SubjectCardInitial) {
+                      return Text("Initial State");
+                    } else if (state is SubjectCardLoading) {
+                      return Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              LoadingContainer(
+                                width: 20.w,
+                                height: 2.5.h,
+                              ),
+                              LoadingContainer(
+                                width: 30.w,
+                                height: 2.5.h,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 3.h,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              LoadingContainer(
+                                width: 20.w,
+                                height: 2.5.h,
+                              ),
+                              LoadingContainer(
+                                width: 30.w,
+                                height: 2.5.h,
+                              )
+                            ],
+                          )
+                        ],
+                      );
+                    } else if (state is SubjectCardLoaded) {
+                      return Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Modules",
+                                style: TextStyle(
+                                    color: MyColors.accentColor,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                      "${state.completedModules}/${state.moduleCount}",
+                                      style: TextStyle(
+                                          color: MyColors.accentColor,
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w400)),
+                                  MyPrograssBar(
+                                    width: 12.w,
+                                    max: state.moduleCount,
+                                    progress: state.completedModules,
+                                    backgroundColor: MyColors.offWhite,
+                                    progressColor: MyColors.accentColor,
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 2.w,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Contents",
+                                  style: TextStyle(
+                                      color: MyColors.accentColor,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600)),
+                              Column(
+                                children: [
+                                  Text(
+                                      "${state.completedContents}/${state.contentCount}",
+                                      style: TextStyle(
+                                          color: MyColors.accentColor,
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w400)),
+                                  MyPrograssBar(
+                                    width: 12.w,
+                                    max: state.contentCount,
+                                    progress: state.completedContents,
+                                    backgroundColor: MyColors.offWhite,
+                                    progressColor: MyColors.accentColor,
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Text("${state.quizCount} Quiz",
+                                style: TextStyle(
+                                    color: MyColors.accentColor,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600)),
+                          )
+                        ],
+                      );
+                    } else if (state is SubjectCardFailed) {
+                      return Center(
+                        child: ErrorMsgBox(
+                          errorMsg: state.errorMsg,
                         ),
-                      ],
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 2.w,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Contents",
-                        style: TextStyle(
-                            color: MyColors.accentColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600)),
-                    Column(
-                      children: [
-                        Text("$completedContents/$contents",
-                            style: TextStyle(
-                                color: MyColors.accentColor,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400)),
-                        MyPrograssBar(
-                          width: 12.w,
-                          max: contents,
-                          progress: completedContents,
-                          backgroundColor: MyColors.offWhite,
-                          progressColor: MyColors.accentColor,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 2.w,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Quiz",
-                        style: TextStyle(
-                            color: MyColors.accentColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600)),
-                    Column(
-                      children: [
-                        Text("$completedQuiz/$quiz",
-                            style: TextStyle(
-                                color: MyColors.accentColor,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400)),
-                        MyPrograssBar(
-                          width: 12.w,
-                          max: quiz,
-                          progress: completedQuiz,
-                          backgroundColor: MyColors.offWhite,
-                          progressColor: MyColors.accentColor,
-                        ),
-                      ],
-                    )
-                  ],
+                      );
+                    } else {
+                      return Center(
+                        child: Text("unhandled state excecuted!"),
+                      );
+                    }
+                  },
                 ),
               ],
             ),

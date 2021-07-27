@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_lms/data/models/fire_subject_model.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
@@ -8,7 +7,7 @@ import 'package:my_lms/data/models/subject_model.dart';
 
 class SelectSubjectCard extends StatefulWidget {
   final Subject subject;
-  final Function(FireSubject) isSelected;
+  final Function(Subject) isSelected;
   const SelectSubjectCard({
     Key? key,
     required this.subject,
@@ -21,12 +20,6 @@ class SelectSubjectCard extends StatefulWidget {
 class _SelectSubjectCardState extends State<SelectSubjectCard> {
   bool selected = false;
 
-  FireSubject fireSubject() {
-    FireSubject fireSubject = FireSubject(
-        id: widget.subject.id, name: widget.subject.name, isCompleted: false);
-    return fireSubject;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,12 +27,12 @@ class _SelectSubjectCardState extends State<SelectSubjectCard> {
         InkWell(
           onTap: () {
             if (selected) {
-              widget.isSelected(fireSubject());
+              widget.isSelected(widget.subject);
               setState(() {
                 selected = false;
               });
             } else {
-              widget.isSelected(fireSubject());
+              widget.isSelected(widget.subject);
               setState(() {
                 selected = true;
               });

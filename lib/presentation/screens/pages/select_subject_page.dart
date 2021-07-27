@@ -27,7 +27,7 @@ class _SelectSubjectPageState extends State<SelectSubjectPage> {
     BlocProvider.of<SelectSubListCubit>(context).loadSubjectList();
   }
 
-  List<FireSubject> selectedList = [];
+  List<Subject> selectedList = [];
 
   @override
   Widget build(BuildContext context) {

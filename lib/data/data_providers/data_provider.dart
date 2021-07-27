@@ -11,19 +11,19 @@ class DataProvider {
     return "http://critssl.com/studyPlanner/content.php?module=$moduleId";
   }
 
-  static String contentBySubUrl({required String subjectId}) {
-    return "http://critssl.com/studyPlanner/content.php?module=$subjectId";
-  }
-
   static String questionUrl({required moduleId}) {
     return "http://critssl.com/studyPlanner/question.php?module=$moduleId";
   }
 
-  static String questionBySubUrl({required subjectId}) {
-    return "http://critssl.com/studyPlanner/question.php?module=$subjectId";
+  static String contentCountBySubUrl({required subjectId}) {
+    return "http://critssl.com/studyPlanner/content.php?subject=$subjectId";
   }
 
-  static String pdfDownloadLink() {
-    return "http://critssl.com/studyPlanner/data//F5YX7H3IXLA7R5F.pdf";
+  static String questionCountBySubUrl({required subjectId}) {
+    return "http://critssl.com/studyPlanner/question.php?subject=$subjectId";
+  }
+
+  static String pdfDownloadLink({required String path}) {
+    return "http://critssl.com/studyPlanner/$path";
   }
 }

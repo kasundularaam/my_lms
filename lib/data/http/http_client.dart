@@ -45,88 +45,110 @@ class HttpRequests {
   }
 
   static Future<List<Subject>> getSubjects() async {
-    final response = await http.get(
-      Uri.parse(
-        DataProvider.subjectUrl(),
-      ),
-    );
-    if (response.statusCode == 200) {
-      List<Subject> subjectList = parseSubject(response.body);
-      return subjectList;
-    } else {
-      throw '${response.statusCode}';
+    try {
+      final response = await http.get(
+        Uri.parse(
+          DataProvider.subjectUrl(),
+        ),
+      );
+      if (response.statusCode == 200) {
+        List<Subject> subjectList = parseSubject(response.body);
+        return subjectList;
+      } else {
+        throw '${response.statusCode}';
+      }
+    } catch (e) {
+      throw e;
     }
   }
 
   static Future<List<Module>> getModules({required String subjectId}) async {
-    final response = await http.get(
-      Uri.parse(
-        DataProvider.moduleUrl(subjectId: subjectId),
-      ),
-    );
-    if (response.statusCode == 200) {
-      List<Module> moduleList = parseModule(response.body);
-      return moduleList;
-    } else {
-      throw '${response.statusCode}';
+    try {
+      final response = await http.get(
+        Uri.parse(
+          DataProvider.moduleUrl(subjectId: subjectId),
+        ),
+      );
+      if (response.statusCode == 200) {
+        List<Module> moduleList = parseModule(response.body);
+        return moduleList;
+      } else {
+        throw '${response.statusCode}';
+      }
+    } catch (e) {
+      throw e;
     }
   }
 
   static Future<List<Content>> getContent({required String moduleId}) async {
-    final response = await http.get(
-      Uri.parse(
-        DataProvider.contentUrl(moduleId: moduleId),
-      ),
-    );
-    if (response.statusCode == 200) {
-      List<Content> contentList = parseContent(response.body);
-      return contentList;
-    } else {
-      throw '${response.statusCode}';
+    try {
+      final response = await http.get(
+        Uri.parse(
+          DataProvider.contentUrl(moduleId: moduleId),
+        ),
+      );
+      if (response.statusCode == 200) {
+        List<Content> contentList = parseContent(response.body);
+        return contentList;
+      } else {
+        throw '${response.statusCode}';
+      }
+    } catch (e) {
+      throw e;
     }
   }
 
   static Future<List<Question>> getQuestion({required String moduleId}) async {
-    final response = await http.get(
-      Uri.parse(
-        DataProvider.questionUrl(moduleId: moduleId),
-      ),
-    );
-    if (response.statusCode == 200) {
-      List<Question> questionList = parseQuestion(response.body);
-      return questionList;
-    } else {
-      throw '${response.statusCode}';
+    try {
+      final response = await http.get(
+        Uri.parse(
+          DataProvider.questionUrl(moduleId: moduleId),
+        ),
+      );
+      if (response.statusCode == 200) {
+        List<Question> questionList = parseQuestion(response.body);
+        return questionList;
+      } else {
+        throw '${response.statusCode}';
+      }
+    } catch (e) {
+      throw e;
     }
   }
 
-  static Future<List<Content>> getContentBySub(
-      {required String subjectId}) async {
-    final response = await http.get(
-      Uri.parse(
-        DataProvider.contentBySubUrl(subjectId: subjectId),
-      ),
-    );
-    if (response.statusCode == 200) {
-      List<Content> contentList = parseContent(response.body);
-      return contentList;
-    } else {
-      throw '${response.statusCode}';
+  static Future<int> getContentCountBySub({required String subjectId}) async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+          DataProvider.contentCountBySubUrl(subjectId: subjectId),
+        ),
+      );
+      if (response.statusCode == 200) {
+        int count = int.parse(response.body);
+        return count;
+      } else {
+        throw '${response.statusCode}';
+      }
+    } catch (e) {
+      throw e;
     }
   }
 
-  static Future<List<Question>> getQuestionBySub(
-      {required String subjectId}) async {
-    final response = await http.get(
-      Uri.parse(
-        DataProvider.questionBySubUrl(subjectId: subjectId),
-      ),
-    );
-    if (response.statusCode == 200) {
-      List<Question> questionList = parseQuestion(response.body);
-      return questionList;
-    } else {
-      throw '${response.statusCode}';
+  static Future<int> getQuestionCountBySub({required String subjectId}) async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+          DataProvider.questionCountBySubUrl(subjectId: subjectId),
+        ),
+      );
+      if (response.statusCode == 200) {
+        int count = int.parse(response.body);
+        return count;
+      } else {
+        throw '${response.statusCode}';
+      }
+    } catch (e) {
+      throw e;
     }
   }
 }

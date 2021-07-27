@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/my_styles.dart';
+import 'package:my_lms/data/models/subject_model.dart';
+import 'package:my_lms/logic/cubit/home_tab_cubit/home_tab_cubit.dart';
+import 'package:my_lms/logic/cubit/subject_card_cubit/subject_card_cubit.dart';
+import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:my_lms/presentation/screens/widgets/home_top_card.dart';
 import 'package:my_lms/presentation/screens/widgets/subject_card.dart';
 import 'package:sizer/sizer.dart';
@@ -13,6 +18,12 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<HomeTabCubit>(context).loadSubjects();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,33 +48,34 @@ class _HomeTabState extends State<HomeTab> {
               height: 5.h,
             ),
             HomeTopCard(),
-            SubjectCard(
-                id: "1",
-                name: "Physics",
-                modules: 103,
-                contents: 3021,
-                quiz: 4590,
-                completdModules: 30,
-                completedContents: 112,
-                completedQuiz: 430),
-            SubjectCard(
-                id: "1",
-                name: "Combind Maths",
-                modules: 103,
-                contents: 3021,
-                quiz: 4590,
-                completdModules: 30,
-                completedContents: 112,
-                completedQuiz: 430),
-            SubjectCard(
-                id: "1",
-                name: "Information Communication and Technology",
-                modules: 103,
-                contents: 3021,
-                quiz: 4590,
-                completdModules: 30,
-                completedContents: 112,
-                completedQuiz: 430),
+            BlocBuilder<HomeTabCubit, HomeTabState>(
+              builder: (context, state) {
+                if (state is HomeTabInitial) {
+                  return Center(child: Text("Initial State"));
+                } else if (state is HomeTabLoading) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is HomeTabLoaded) {
+                  return ListView.builder(
+                      padding: EdgeInsets.all(0),
+                      physics: BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: state.subjectList.length,
+                      itemBuilder: (context, index) {
+                        Subject subject = state.subjectList[index];
+                        return BlocProvider(
+                          create: (context) => SubjectCardCubit(),
+                          child: SubjectCard(subject: subject),
+                        );
+                      });
+                } else if (state is HomeTabFailed) {
+                  return Center(child: ErrorMsgBox(errorMsg: state.errorMsg));
+                } else {
+                  return Center(child: Text("unhandled state excecuted!"));
+                }
+              },
+            )
           ],
         ),
       ),

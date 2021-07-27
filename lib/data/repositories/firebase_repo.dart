@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:my_lms/data/models/fire_subject_model.dart';
 import 'package:my_lms/data/models/lms_user_model.dart';
+import 'package:my_lms/data/models/subject_model.dart';
 
 class FirebaseRepo {
   static Future<void> loginWithEmailAndpswd(
@@ -85,7 +85,7 @@ class FirebaseRepo {
   }
 
   static Future<void> addSubjects({
-    required List<FireSubject> subjectList,
+    required List<Subject> subjectList,
   }) async {
     User? currenUser = FirebaseAuth.instance.currentUser;
     if (currenUser != null) {
@@ -98,7 +98,6 @@ class FirebaseRepo {
           await subjects.doc(subject.id).set({
             "id": subject.id,
             "name": subject.name,
-            "isCompleted": subject.isCompleted
           });
         });
       } catch (e) {
@@ -106,6 +105,37 @@ class FirebaseRepo {
       }
     } else {
       throw "canot update database. user does not exist";
+    }
+  }
+
+  static String currentUid() {
+    try {
+      User? currenUser = FirebaseAuth.instance.currentUser;
+      if (currenUser != null) {
+        return currenUser.uid;
+      } else {
+        throw "user not available";
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<List<Subject>> getSubjectList() async {
+    try {
+      List<Subject> subjectList = [];
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUid())
+          .collection("subjects")
+          .get();
+      snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        subjectList.add(Subject(id: data["id"], name: data["name"]));
+      }).toList();
+      return subjectList;
+    } catch (e) {
+      throw e;
     }
   }
 }
