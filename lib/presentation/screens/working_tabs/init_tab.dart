@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:my_lms/core/constants/shared_prefs_keys.dart';
 import 'package:my_lms/logic/cubit/working_cubit/working_cubit.dart';
-import 'package:my_lms/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 

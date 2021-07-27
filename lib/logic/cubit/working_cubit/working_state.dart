@@ -47,5 +47,3 @@ class WorkingOnNow extends WorkingState {
 }
 
 class WorkingContentCompleted extends WorkingState {}
-
-class WorkingContentNotCompleted extends WorkingState {}

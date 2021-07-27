@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/logic/cubit/timer_cubit/timer_cubit.dart';
 import 'package:my_lms/logic/cubit/working_cubit/working_cubit.dart';
-import 'package:my_lms/presentation/router/app_router.dart';
 import 'package:my_lms/presentation/screens/working_tabs/congratulations_tab.dart';
 import 'package:my_lms/presentation/screens/working_tabs/end_tab.dart';
 import 'package:my_lms/presentation/screens/working_tabs/init_tab.dart';
@@ -43,10 +42,6 @@ class _WorkingScreenState extends State<WorkingScreen> {
           );
         } else if (state is WorkingContentCompleted) {
           return CongratulationsTab();
-        } else if (state is WorkingContentNotCompleted) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, AppRouter.authScreen, (route) => false);
-          return Scaffold();
         } else if (state is WorkingOnNow) {
           return WorkingOnAnotherTab(contentName: state.workingContentName);
         } else {

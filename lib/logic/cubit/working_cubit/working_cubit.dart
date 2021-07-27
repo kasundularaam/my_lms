@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:my_lms/core/constants/shared_prefs_keys.dart';
@@ -16,8 +14,6 @@ class WorkingCubit extends Cubit<WorkingState> {
     bool? isOnWorking = prefs.getBool(SharedPrefsKeys.isOnWorkingKey);
     if (isOnWorking != null) {
       if (isOnWorking) {
-        int startTimeStampSp =
-            prefs.getInt(SharedPrefsKeys.startTimeStampKey) ?? 0;
         String prefContentId =
             prefs.getString(SharedPrefsKeys.contentIdKey) ?? "";
         String prefContentName =

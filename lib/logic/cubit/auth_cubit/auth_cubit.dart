@@ -1,15 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
-import 'package:my_lms/data/http/http_client.dart';
-import 'package:my_lms/data/models/fire_subject_model.dart';
 
-import 'package:my_lms/data/models/lms_user_model.dart';
 import 'package:my_lms/data/models/subject_model.dart';
 import 'package:my_lms/data/repositories/firebase_repo.dart';
-import 'package:my_lms/data/value%20validator/auth_value_validator.dart';
 
 part 'auth_state.dart';
 

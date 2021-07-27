@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/logic/cubit/working_cubit/working_cubit.dart';
+import 'package:my_lms/presentation/router/app_router.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/screen_arguments/end_tab_args.dart';
@@ -164,8 +165,8 @@ class _EndTabState extends State<EndTab> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
-                      onTap: () => BlocProvider.of<WorkingCubit>(context)
-                          .emit(WorkingContentNotCompleted()),
+                      onTap: () => Navigator.pushNamedAndRemoveUntil(
+                          context, AppRouter.authScreen, (route) => false),
                       child: Container(
                         padding: EdgeInsets.symmetric(
                             horizontal: 5.w, vertical: 3.w),

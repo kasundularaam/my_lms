@@ -22,54 +22,57 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<AuthscreenNavCubit>(context).emit(AuthscreenNavInitial());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthscreenNavCubit(),
-      child: Scaffold(
-        backgroundColor: MyColors.offWhite,
-        body: BlocBuilder<AuthscreenNavCubit, AuthscreenNavState>(
-          builder: (context, state) {
-            if (state is AuthscreenNavInitial) {
+    return Scaffold(
+      backgroundColor: MyColors.offWhite,
+      body: BlocBuilder<AuthscreenNavCubit, AuthscreenNavState>(
+        builder: (context, state) {
+          if (state is AuthscreenNavInitial) {
+            return BlocProvider(
+              create: (context) => AuthCubit(),
+              child: AuthPage(),
+            );
+          } else if (state is AuthscreenNavigate) {
+            if (state.authNav == AuthNav.toLogin) {
+              return BlocProvider(
+                create: (context) => LoginCubit(),
+                child: LoginPage(),
+              );
+            } else if (state.authNav == AuthNav.toSignUp) {
+              return BlocProvider(
+                create: (context) => SignupCubit(),
+                child: SignUpPage(),
+              );
+            } else if (state.authNav == AuthNav.toAuthPage) {
               return BlocProvider(
                 create: (context) => AuthCubit(),
                 child: AuthPage(),
               );
-            } else if (state is AuthscreenNavigate) {
-              if (state.authNav == AuthNav.toLogin) {
-                return BlocProvider(
-                  create: (context) => LoginCubit(),
-                  child: LoginPage(),
-                );
-              } else if (state.authNav == AuthNav.toSignUp) {
-                return BlocProvider(
-                  create: (context) => SignupCubit(),
-                  child: SignUpPage(),
-                );
-              } else if (state.authNav == AuthNav.toAuthPage) {
-                return BlocProvider(
-                  create: (context) => AuthCubit(),
-                  child: AuthPage(),
-                );
-              } else if (state.authNav == AuthNav.toSelectSubjectPage) {
-                return MultiBlocProvider(
-                  providers: [
-                    BlocProvider<SelectSubListCubit>(
-                      create: (context) => SelectSubListCubit(),
-                    ),
-                    BlocProvider<SelectSubjectCubit>(
-                      create: (context) => SelectSubjectCubit(),
-                    )
-                  ],
-                  child: SelectSubjectPage(),
-                );
-              } else {
-                return Center(child: Text("sorry no page available!"));
-              }
+            } else if (state.authNav == AuthNav.toSelectSubjectPage) {
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider<SelectSubListCubit>(
+                    create: (context) => SelectSubListCubit(),
+                  ),
+                  BlocProvider<SelectSubjectCubit>(
+                    create: (context) => SelectSubjectCubit(),
+                  )
+                ],
+                child: SelectSubjectPage(),
+              );
             } else {
-              return Center(child: Text("unhandled state excecuted!"));
+              return Center(child: Text("sorry no page available!"));
             }
-          },
-        ),
+          } else {
+            return Center(child: Text("unhandled state excecuted!"));
+          }
+        },
       ),
     );
   }

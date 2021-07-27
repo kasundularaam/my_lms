@@ -11,6 +11,8 @@ class MyColors {
   static const Color shadedBlack = Color(0xff212529);
   static const Color errorBackground = Color(0xffffccd5);
   static const Color primaryError = Color(0xffc9184a);
+  static const Color successBackground = Color(0xffb7e4c7);
+  static const Color primarySuccess = Color(0xff119822);
   static const Color offWhite = Color(0xfff0f0f0);
   static const Color backgroundWhite = Color(0xffe7e7e7);
   static const Color accentColor = Color(0xff272773);
