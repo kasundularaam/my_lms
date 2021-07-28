@@ -3,12 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/logic/cubit/download_pdf_cubit/download_pdf_cubit.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
-import 'package:my_lms/data/data_providers/data_provider.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
 
 class ContentScreen extends StatefulWidget {
@@ -109,45 +107,64 @@ class _ContentScreenState extends State<ContentScreen> {
                       SizedBox(
                         height: 3.h,
                       ),
-                      GestureDetector(
-                        onTap: () => BlocProvider.of<DownloadPdfCubit>(context)
-                            .downloadPdf(path: "widget.args."),
-                        child: Container(
-                          padding: EdgeInsets.all(5.w),
-                          decoration: BoxDecoration(
-                            color: MyColors.accentColor,
-                            borderRadius: BorderRadius.circular(5.w),
-                            boxShadow: [MyStyles.boxShadow],
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Download Content As a PDF",
-                              style: TextStyle(
-                                  color: MyColors.white,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ),
-                      ),
                       BlocBuilder<DownloadPdfCubit, DownloadPdfState>(
                         builder: (context, state) {
                           if (state is DownloadPdfInitial) {
-                            return Container();
+                            return GestureDetector(
+                              onTap: () =>
+                                  BlocProvider.of<DownloadPdfCubit>(context)
+                                      .downloadPdf(
+                                          moduleId: widget.args.moduleId,
+                                          contentId: widget.args.contentId),
+                              child: Container(
+                                padding: EdgeInsets.all(5.w),
+                                decoration: BoxDecoration(
+                                  color: MyColors.accentColor,
+                                  borderRadius: BorderRadius.circular(5.w),
+                                  boxShadow: [MyStyles.boxShadow],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Download Content As a PDF",
+                                    style: TextStyle(
+                                        color: MyColors.white,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
+                            );
+                          } else if (state is DownloadPdfLoading) {
+                            return Center(child: CircularProgressIndicator());
                           } else if (state is DownloadPdfFailed) {
                             return Column(
                               children: [
-                                SizedBox(
-                                  height: 3.h,
-                                ),
                                 ErrorMsgBox(errorMsg: state.errorMsg),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                TextButton(
+                                    onPressed: () =>
+                                        BlocProvider.of<DownloadPdfCubit>(
+                                                context)
+                                            .emit(DownloadPdfInitial()),
+                                    child: Text(
+                                      "Retry",
+                                      style: TextStyle(
+                                        color: MyColors.accentColor,
+                                        fontSize: 16.sp,
+                                      ),
+                                    )),
                               ],
                             );
                           } else {
-                            return Container();
+                            return Center(
+                              child: ErrorMsgBox(
+                                  errorMsg: "unhandled state excecuted!"),
+                            );
                           }
                         },
-                      )
+                      ),
                     ],
                   ),
                 ),

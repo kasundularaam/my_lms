@@ -112,8 +112,14 @@ class _ModuleScreenState extends State<ModuleScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 5.w),
                           child: ErrorMsgBox(errorMsg: state.errorMsg),
                         );
+                      } else if (state is ModuleScreenNoResult) {
+                        return Center(
+                            child: ErrorMsgBox(errorMsg: state.message));
                       } else {
-                        return Text("unhandled state excecuted!");
+                        return Center(
+                          child: ErrorMsgBox(
+                              errorMsg: "unhandled state excecuted!"),
+                        );
                       }
                     },
                   ),

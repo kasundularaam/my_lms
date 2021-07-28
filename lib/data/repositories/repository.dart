@@ -41,4 +41,25 @@ class Repository {
       throw e;
     }
   }
+
+  static Future<Content?> getContent(
+      {required String moduleId, required String contentId}) async {
+    try {
+      Content? content;
+      List<Content> contentList =
+          await HttpRequests.getContents(moduleId: moduleId);
+      contentList.forEach((contentFromList) {
+        if (contentFromList.id == contentId) {
+          content = contentFromList;
+        }
+      });
+      if (content != null) {
+        return content;
+      } else {
+        throw "No Result Found";
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
 }

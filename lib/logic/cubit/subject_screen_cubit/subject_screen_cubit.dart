@@ -25,7 +25,7 @@ class SubjectScreenCubit extends Cubit<SubjectScreenState> {
     }
   }
 
-  Future<void> loadSearchList({required String searchTxt}) async {
+  void loadSearchList({required String searchTxt}) {
     try {
       emit(SubjectScreenLoading());
       List<Module> searchList = [];

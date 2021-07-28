@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:my_lms/data/models/content_model.dart';
 import 'package:my_lms/data/repositories/repository.dart';
 
 part 'download_pdf_state.dart';
@@ -7,11 +8,16 @@ part 'download_pdf_state.dart';
 class DownloadPdfCubit extends Cubit<DownloadPdfState> {
   DownloadPdfCubit() : super(DownloadPdfInitial());
 
-  void downloadPdf({required String path}) {
+  Future<void> downloadPdf(
+      {required String moduleId, required String contentId}) async {
     try {
-      Repository.downloadPdf(path: path);
+      emit(DownloadPdfLoading());
+      Content? content =
+          await Repository.getContent(moduleId: moduleId, contentId: contentId);
+      Repository.downloadPdf(path: content!.contentLink);
+      emit(DownloadPdfInitial());
     } catch (e) {
-      throw e.toString();
+      emit(DownloadPdfFailed(errorMsg: e.toString()));
     }
   }
 }

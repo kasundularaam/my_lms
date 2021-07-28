@@ -14,7 +14,11 @@ class ModuleScreenCubit extends Cubit<ModuleScreenState> {
       emit(ModuleScreenLoading());
       List<Content> contentList =
           await HttpRequests.getContents(moduleId: moduleId);
-      emit(ModuleScreenLoaded(contentList: contentList));
+      if (contentList.isNotEmpty) {
+        emit(ModuleScreenLoaded(contentList: contentList));
+      } else {
+        emit(ModuleScreenNoResult(message: "No Results Found"));
+      }
     } catch (e) {
       emit(ModuleScreenFailed(errorMsg: e.toString()));
     }

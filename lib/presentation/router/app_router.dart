@@ -6,6 +6,7 @@ import 'package:my_lms/core/screen_arguments/module_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/quiz_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/subject_screen_args.dart';
 import 'package:my_lms/logic/cubit/auth_nav_cubit/authscreen_nav_cubit.dart';
+import 'package:my_lms/logic/cubit/content_list_screen_cubit/content_list_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/module_screen_cubit/module_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/subject_screen_cubit/subject_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/working_cubit/working_cubit.dart';
@@ -70,8 +71,11 @@ class AppRouter {
         final ContentListScreenArgs args =
             settings.arguments as ContentListScreenArgs;
         return MaterialPageRoute(
-          builder: (_) => ContentListScreen(
-            args: args,
+          builder: (_) => BlocProvider(
+            create: (context) => ContentListScreenCubit(),
+            child: ContentListScreen(
+              args: args,
+            ),
           ),
         );
 

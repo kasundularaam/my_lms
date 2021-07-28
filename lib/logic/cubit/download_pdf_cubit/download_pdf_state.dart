@@ -5,6 +5,8 @@ abstract class DownloadPdfState {}
 
 class DownloadPdfInitial extends DownloadPdfState {}
 
+class DownloadPdfLoading extends DownloadPdfState {}
+
 class DownloadPdfFailed extends DownloadPdfState {
   final String errorMsg;
   DownloadPdfFailed({
