@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
+import 'package:my_lms/data/models/content_model.dart';
+import 'package:my_lms/logic/cubit/module_screen_cubit/module_screen_cubit.dart';
+import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
@@ -23,6 +27,13 @@ class ModuleScreen extends StatefulWidget {
 }
 
 class _ModuleScreenState extends State<ModuleScreen> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<ModuleScreenCubit>(context)
+        .loadContentList(moduleId: widget.args.moduleId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,71 +81,39 @@ class _ModuleScreenState extends State<ModuleScreen> {
                 ),
                 Container(
                   height: 16.h,
-                  width: 90.w,
-                  child: ListView.builder(
-                    padding: EdgeInsets.all(0),
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 7,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (index == 0) {
-                        return SizedBox(
-                          width: 2.w,
+                  child: BlocBuilder<ModuleScreenCubit, ModuleScreenState>(
+                    builder: (context, state) {
+                      if (state is ModuleScreenInitial) {
+                        return Center(child: Text("Initial State"));
+                      } else if (state is ModuleScreenLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (state is ModuleScreenLoaded) {
+                        return ListView.builder(
+                          padding: EdgeInsets.all(0),
+                          physics: BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.contentList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            Content content = state.contentList[index];
+                            return ContentCardSmall(
+                              args: ContentScreenArgs(
+                                contentId: content.id,
+                                contentName: content.contentTitle,
+                                subjectName: widget.args.subjectName,
+                                subjectId: widget.args.subjectId,
+                                moduleName: widget.args.moduleName,
+                                moduleId: widget.args.moduleId,
+                              ),
+                            );
+                          },
                         );
-                      } else if (index != 1 && index < 6) {
-                        return ContentCardSmall(
-                          args: ContentScreenArgs(
-                            contentId: "$index",
-                            contentName: "content $index",
-                            subjectName: widget.args.subjectName,
-                            subjectId: widget.args.subjectId,
-                            moduleName: widget.args.moduleName,
-                            moduleId: widget.args.moduleId,
-                          ),
-                        );
-                      } else if (index == 6) {
-                        return GestureDetector(
-                          onTap: () => Navigator.pushNamed(
-                            context,
-                            AppRouter.contentListScreen,
-                            arguments: ContentListScreenArgs(
-                              subjectId: widget.args.subjectId,
-                              subjectName: widget.args.subjectName,
-                              moduleId: widget.args.moduleId,
-                              moduleName: widget.args.moduleName,
-                            ),
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.all(5.w),
-                            decoration: BoxDecoration(
-                              color: MyColors.offWhite,
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "See All",
-                                  style: TextStyle(
-                                      color: MyColors.accentColor,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_rounded,
-                                  size: 20.sp,
-                                  color: MyColors.accentColor,
-                                ),
-                              ],
-                            ),
-                          ),
+                      } else if (state is ModuleScreenFailed) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5.w),
+                          child: ErrorMsgBox(errorMsg: state.errorMsg),
                         );
                       } else {
-                        return SizedBox(
-                          width: 2.w,
-                        );
+                        return Text("unhandled state excecuted!");
                       }
                     },
                   ),
