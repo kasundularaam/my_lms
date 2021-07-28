@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/logic/cubit/add_work_details_cubit/add_work_details_cubit.dart';
 import 'package:my_lms/logic/cubit/timer_cubit/timer_cubit.dart';
 import 'package:my_lms/logic/cubit/working_cubit/working_cubit.dart';
 import 'package:my_lms/presentation/screens/working_tabs/congratulations_tab.dart';
@@ -37,8 +38,11 @@ class _WorkingScreenState extends State<WorkingScreen> {
             child: InitTab(args: widget.args),
           );
         } else if (state is WorkingEnded) {
-          return EndTab(
-            args: state.args,
+          return BlocProvider(
+            create: (context) => AddWorkDetailsCubit(),
+            child: EndTab(
+              args: state.args,
+            ),
           );
         } else if (state is WorkingContentCompleted) {
           return CongratulationsTab();

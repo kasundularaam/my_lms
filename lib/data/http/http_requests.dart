@@ -8,6 +8,7 @@ import 'package:my_lms/data/models/subject_model.dart';
 import 'package:http/http.dart' as http;
 
 class HttpRequests {
+  //Support funtions
   static List<Subject> parseSubject(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed
@@ -43,6 +44,8 @@ class HttpRequests {
         )
         .toList();
   }
+
+  // backend functions
 
   static Future<List<Subject>> getSubjects() async {
     try {
