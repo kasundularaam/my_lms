@@ -10,7 +10,8 @@ class SubjectCardCubit extends Cubit<SubjectCardState> {
   Future<void> loadSubjectCardDetails({required String subjectId}) async {
     try {
       emit(SubjectCardLoading());
-      int moduleCount = await Repository.getModuleCount(subjectId: subjectId);
+      int moduleCount =
+          await Repository.getModuleCountBySubId(subjectId: subjectId);
       int completedModules = 1;
       int contentCount = 3;
       int completedContents = 1;

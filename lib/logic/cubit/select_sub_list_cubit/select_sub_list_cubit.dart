@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
-import 'package:my_lms/data/http/http_client.dart';
+import 'package:my_lms/data/http/http_requests.dart';
 import 'package:my_lms/data/models/subject_model.dart';
 
 part 'select_sub_list_state.dart';

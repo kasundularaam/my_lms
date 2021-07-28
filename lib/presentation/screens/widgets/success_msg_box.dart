@@ -18,12 +18,14 @@ class SuccessMsgBox extends StatelessWidget {
         color: MyColors.successBackground,
         borderRadius: BorderRadius.circular(3.w),
       ),
-      child: Text(
-        successMsg,
-        style: TextStyle(
-            color: MyColors.primarySuccess,
-            fontSize: 15.sp,
-            fontWeight: FontWeight.w600),
+      child: Center(
+        child: Text(
+          successMsg,
+          style: TextStyle(
+              color: MyColors.primarySuccess,
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w600),
+        ),
       ),
     );
   }

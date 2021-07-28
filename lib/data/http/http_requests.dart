@@ -80,7 +80,7 @@ class HttpRequests {
     }
   }
 
-  static Future<List<Content>> getContent({required String moduleId}) async {
+  static Future<List<Content>> getContents({required String moduleId}) async {
     try {
       final response = await http.get(
         Uri.parse(

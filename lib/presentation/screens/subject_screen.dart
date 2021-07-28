@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/data/models/module_model.dart';
+import 'package:my_lms/logic/cubit/module_card_cubit/module_card_cubit.dart';
+import 'package:my_lms/logic/cubit/subject_screen_cubit/subject_screen_cubit.dart';
+import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
@@ -20,6 +25,13 @@ class SubjectScreen extends StatefulWidget {
 }
 
 class _SubjectScreenState extends State<SubjectScreen> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<SubjectScreenCubit>(context)
+        .loadModules(subjectId: widget.args.subjectId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,11 +59,20 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       fontSize: 26.sp,
                       fontWeight: FontWeight.w600),
                 ),
+                Text(
+                  "Modules",
+                  style: TextStyle(
+                      color: MyColors.white,
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w600),
+                ),
                 SizedBox(
                   height: 5.w,
                 ),
                 MyTextField(
-                    onChanged: (text) {},
+                    onChanged: (text) =>
+                        BlocProvider.of<SubjectScreenCubit>(context)
+                            .loadSearchList(searchTxt: text),
                     onSubmitted: (text) {},
                     textInputAction: TextInputAction.search,
                     isPassword: false,
@@ -62,21 +83,40 @@ class _SubjectScreenState extends State<SubjectScreen> {
           SizedBox(
             height: 5.w,
           ),
-          ListView.builder(
-            padding: EdgeInsets.all(0),
-            shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
-            itemCount: 10,
-            itemBuilder: (BuildContext context, int index) {
-              return ModuleCard(
-                  args: ModuleScreenArgs(
-                    moduleId: "1",
-                    moduleName: "Electronics",
-                    subjectId: widget.args.subjectId,
-                    subjectName: widget.args.subjectName,
-                  ),
-                  contentCount: 245,
-                  quizCount: 371);
+          BlocBuilder<SubjectScreenCubit, SubjectScreenState>(
+            builder: (context, state) {
+              if (state is SubjectScreenInitial) {
+                return Text("Initial State");
+              } else if (state is SubjectScreenLoading) {
+                return Center(child: CircularProgressIndicator());
+              } else if (state is SubjectScreenLoaded) {
+                return ListView.builder(
+                  padding: EdgeInsets.all(0),
+                  shrinkWrap: true,
+                  physics: BouncingScrollPhysics(),
+                  itemCount: state.moduleList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Module module = state.moduleList[index];
+                    return BlocProvider(
+                      create: (context) => ModuleCardCubit(),
+                      child: ModuleCard(
+                        args: ModuleScreenArgs(
+                          moduleId: module.id,
+                          moduleName: module.moduleName,
+                          subjectId: widget.args.subjectId,
+                          subjectName: widget.args.subjectName,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              } else if (state is SubjectScreenNoResult) {
+                return Center(child: ErrorMsgBox(errorMsg: state.message));
+              } else if (state is SubjectScreenFailed) {
+                return Center(child: ErrorMsgBox(errorMsg: state.errorMsg));
+              } else {
+                return Text("unhandled state excecuted!");
+              }
             },
           ),
         ],

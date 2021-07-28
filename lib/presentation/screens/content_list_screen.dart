@@ -47,6 +47,13 @@ class _ContentListScreenState extends State<ContentListScreen> {
                       fontSize: 26.sp,
                       fontWeight: FontWeight.w600),
                 ),
+                Text(
+                  "Contents",
+                  style: TextStyle(
+                      color: MyColors.white,
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w600),
+                ),
                 SizedBox(
                   height: 5.w,
                 ),
