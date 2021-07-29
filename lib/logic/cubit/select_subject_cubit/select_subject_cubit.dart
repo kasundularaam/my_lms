@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
-import 'package:my_lms/data/models/fire_subject_model.dart';
 import 'package:my_lms/data/models/subject_model.dart';
 import 'package:my_lms/data/repositories/firebase_repo.dart';
 import 'package:my_lms/data/value%20validator/auth_value_validator.dart';

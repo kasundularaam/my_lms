@@ -27,7 +27,7 @@ class Repository {
 
   static Future<int> getQuizCountByModId({required String moduleId}) async {
     try {
-      List<Question> list = await HttpRequests.getQuestion(moduleId: moduleId);
+      List<Question> list = await HttpRequests.getQuestions(moduleId: moduleId);
       return list.length;
     } catch (e) {
       throw e;

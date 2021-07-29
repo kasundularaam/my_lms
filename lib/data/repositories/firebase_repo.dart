@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_lms/core/screen_arguments/end_tab_args.dart';
 import 'package:my_lms/data/models/fire_content.dart';
+import 'package:my_lms/data/models/fire_module_model.dart';
 import 'package:my_lms/data/models/lms_user_model.dart';
 import 'package:my_lms/data/models/subject_model.dart';
+import 'package:my_lms/data/repositories/repository.dart';
 
 class FirebaseRepo {
   static Future<void> loginWithEmailAndpswd(
@@ -126,6 +128,71 @@ class FirebaseRepo {
         'counter': endTabArgs.counter,
         'isCompleted': isCompleted,
       });
+      int contentCountOfMod = await Repository.getContentCountByModId(
+          moduleId: endTabArgs.contentScreenArgs.moduleId);
+      int fireContentCountOfMod = await getCompltedContentCountForMod(
+          subjectId: endTabArgs.contentScreenArgs.subjectId,
+          moduleId: endTabArgs.contentScreenArgs.moduleId);
+      if (fireContentCountOfMod == contentCountOfMod) {
+        addFireModule(
+            subjectId: endTabArgs.contentScreenArgs.subjectId,
+            moduleId: endTabArgs.contentScreenArgs.moduleId,
+            moduleName: endTabArgs.contentScreenArgs.moduleName);
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<void> addFireModule(
+      {required String subjectId,
+      required String moduleId,
+      required String moduleName}) async {
+    try {
+      CollectionReference reference = FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUid())
+          .collection("subjects")
+          .doc(subjectId)
+          .collection("modules");
+      reference.doc(moduleId).set({
+        'id': moduleId,
+        'name': moduleName,
+        'isCompleted': true,
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<List<FireModule>> getFiremodules(
+      {required String subjectId}) async {
+    try {
+      List<FireModule> moduleList = [];
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUid())
+          .collection("subjects")
+          .doc(subjectId)
+          .collection("modules")
+          .get();
+      snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        moduleList.add(FireModule(
+            id: data['id'],
+            name: data['name'],
+            isCompleted: data['isCompleted']));
+      }).toList();
+      return moduleList;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<int> getFireModuleCount({required String subjectId}) async {
+    try {
+      List<FireModule> moduleList = await getFiremodules(subjectId: subjectId);
+      return moduleList.length;
     } catch (e) {
       throw e;
     }
@@ -183,10 +250,13 @@ class FirebaseRepo {
       {required String subjectId}) async {
     try {
       List<FireContent> cleanedList = [];
+      List<String> idList = [];
       List<FireContent> filteredList =
           await getCompletedContents(subjectId: subjectId);
       filteredList.forEach((fireContent) {
-        if (!cleanedList.contains(fireContent)) {
+        if (!idList.contains(fireContent.contentId)) {
+          print(fireContent.contentName);
+          idList.add(fireContent.contentId);
           cleanedList.add(fireContent);
         }
       });

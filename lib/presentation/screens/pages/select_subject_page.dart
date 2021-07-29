@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_lms/data/models/fire_subject_model.dart';
 import 'package:my_lms/logic/cubit/auth_nav_cubit/authscreen_nav_cubit.dart';
 import 'package:my_lms/logic/cubit/select_sub_list_cubit/select_sub_list_cubit.dart';
 import 'package:my_lms/logic/cubit/select_subject_cubit/select_subject_cubit.dart';

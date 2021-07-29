@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/logic/cubit/add_work_details_cubit/add_work_details_cubit.dart';
@@ -23,6 +24,19 @@ class EndTab extends StatefulWidget {
 }
 
 class _EndTabState extends State<EndTab> {
+  String startTime = "";
+  String endTime = "";
+  DateFormat formattedDate = DateFormat('HH:mm:ss');
+
+  @override
+  void initState() {
+    super.initState();
+    startTime = formattedDate.format(
+        DateTime.fromMillisecondsSinceEpoch(widget.args.startTimestamp));
+    endTime = formattedDate
+        .format(DateTime.fromMillisecondsSinceEpoch(widget.args.endTimestamp));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +118,7 @@ class _EndTabState extends State<EndTab> {
                             height: 2.h,
                           ),
                           Text(
-                            "Start time: ${widget.args.startTimestamp}",
+                            "Start time: $startTime",
                             style: TextStyle(
                                 color: MyColors.shadedBlack,
                                 fontSize: 16.sp,
@@ -114,7 +128,7 @@ class _EndTabState extends State<EndTab> {
                             height: 2.h,
                           ),
                           Text(
-                            "End time: ${widget.args.endTimestamp}",
+                            "End time: $endTime",
                             style: TextStyle(
                                 color: MyColors.shadedBlack,
                                 fontSize: 16.sp,

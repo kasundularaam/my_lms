@@ -6,6 +6,7 @@ import 'package:my_lms/data/models/subject_model.dart';
 import 'package:my_lms/logic/cubit/home_tab_cubit/home_tab_cubit.dart';
 import 'package:my_lms/logic/cubit/subject_card_cubit/subject_card_cubit.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
+import 'package:my_lms/presentation/screens/widgets/h_t_c_loading.dart';
 import 'package:my_lms/presentation/screens/widgets/home_top_card.dart';
 import 'package:my_lms/presentation/screens/widgets/subject_card.dart';
 import 'package:sizer/sizer.dart';
@@ -24,6 +25,8 @@ class _HomeTabState extends State<HomeTab> {
     BlocProvider.of<HomeTabCubit>(context).loadSubjects();
   }
 
+  List<Subject> subjectList = [];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,24 +43,32 @@ class _HomeTabState extends State<HomeTab> {
           bottomLeft: Radius.circular(10.w),
           bottomRight: Radius.circular(10.w),
         ),
-        child: ListView(
-          padding: const EdgeInsets.all(0),
-          physics: BouncingScrollPhysics(),
-          children: [
-            SizedBox(
-              height: 5.h,
-            ),
-            HomeTopCard(),
-            BlocBuilder<HomeTabCubit, HomeTabState>(
-              builder: (context, state) {
-                if (state is HomeTabInitial) {
-                  return Center(child: Text("Initial State"));
-                } else if (state is HomeTabLoading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state is HomeTabLoaded) {
-                  return ListView.builder(
+        child: BlocBuilder<HomeTabCubit, HomeTabState>(
+          builder: (context, state) {
+            if (state is HomeTabInitial) {
+              return Center(child: Text("Initial State"));
+            } else if (state is HomeTabLoading) {
+              return ListView(
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                children: [
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  HTCLoading(),
+                ],
+              );
+            } else if (state is HomeTabLoaded) {
+              return ListView(
+                padding: const EdgeInsets.all(0),
+                physics: BouncingScrollPhysics(),
+                children: [
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  HomeTopCard(
+                    subjectList: state.subjectList,
+                  ),
+                  ListView.builder(
                       padding: EdgeInsets.all(0),
                       physics: BouncingScrollPhysics(),
                       shrinkWrap: true,
@@ -68,15 +79,24 @@ class _HomeTabState extends State<HomeTab> {
                           create: (context) => SubjectCardCubit(),
                           child: SubjectCard(subject: subject),
                         );
-                      });
-                } else if (state is HomeTabFailed) {
-                  return Center(child: ErrorMsgBox(errorMsg: state.errorMsg));
-                } else {
-                  return Center(child: Text("unhandled state excecuted!"));
-                }
-              },
-            )
-          ],
+                      })
+                ],
+              );
+            } else if (state is HomeTabFailed) {
+              return ListView(
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                children: [
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  HTCLoading(),
+                  Center(child: ErrorMsgBox(errorMsg: state.errorMsg))
+                ],
+              );
+            } else {
+              return Center(child: Text("unhandled state excecuted!"));
+            }
+          },
         ),
       ),
     );

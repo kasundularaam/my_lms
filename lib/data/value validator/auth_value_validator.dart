@@ -1,4 +1,3 @@
-import 'package:my_lms/data/models/fire_subject_model.dart';
 import 'package:my_lms/data/models/subject_model.dart';
 
 class ValueValidator {

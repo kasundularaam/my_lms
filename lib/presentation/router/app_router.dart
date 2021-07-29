@@ -8,6 +8,7 @@ import 'package:my_lms/core/screen_arguments/subject_screen_args.dart';
 import 'package:my_lms/logic/cubit/auth_nav_cubit/authscreen_nav_cubit.dart';
 import 'package:my_lms/logic/cubit/content_list_screen_cubit/content_list_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/module_screen_cubit/module_screen_cubit.dart';
+import 'package:my_lms/logic/cubit/quiz_screen_cubit/quiz_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/subject_screen_cubit/subject_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/working_cubit/working_cubit.dart';
 
@@ -90,9 +91,12 @@ class AppRouter {
       case quizScreen:
         final QuizScreenArgs args = settings.arguments as QuizScreenArgs;
         return MaterialPageRoute(
-          builder: (_) => QuizScreen(
-            moduleId: args.moduleId,
-            moduleName: args.moduleName,
+          builder: (_) => BlocProvider(
+            create: (context) => QuizScreenCubit(),
+            child: QuizScreen(
+              moduleId: args.moduleId,
+              moduleName: args.moduleName,
+            ),
           ),
         );
       case workingScreen:

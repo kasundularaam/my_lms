@@ -101,7 +101,7 @@ class HttpRequests {
     }
   }
 
-  static Future<List<Question>> getQuestion({required String moduleId}) async {
+  static Future<List<Question>> getQuestions({required String moduleId}) async {
     try {
       final response = await http.get(
         Uri.parse(
