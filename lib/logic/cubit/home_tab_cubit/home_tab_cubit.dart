@@ -13,7 +13,6 @@ class HomeTabCubit extends Cubit<HomeTabState> {
     try {
       emit(HomeTabLoading());
       List<Subject> subjectList = await FirebaseRepo.getSubjects();
-      print(subjectList[0].name);
       emit(HomeTabLoaded(subjectList: subjectList));
     } catch (e) {
       emit(HomeTabFailed(errorMsg: e.toString()));

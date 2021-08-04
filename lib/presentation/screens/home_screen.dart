@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/my_enums.dart';
-import 'package:my_lms/logic/cubit/bar_chart_cubit/bar_chart_cubit.dart';
 import 'package:my_lms/logic/cubit/home_nav_cubit/home_nav_cubit.dart';
 import 'package:my_lms/logic/cubit/home_tab_cubit/home_tab_cubit.dart';
 import 'package:my_lms/presentation/screens/home_tabs/home_tab.dart';
@@ -44,10 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: HomeTab(),
                           );
                         } else if (state.homeNav == HomeNav.toProfile) {
-                          return BlocProvider(
-                            create: (context) => BarChartCubit(),
-                            child: ProfileTab(),
-                          );
+                          return ProfileTab();
                         } else {
                           return BlocProvider.value(
                             value: _homeTabCubit,

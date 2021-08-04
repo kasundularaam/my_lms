@@ -20,4 +20,12 @@ class MyColors {
   static const Color lightGray = Color(0xff999999);
   static const Color green = Color(0xff207a12);
   static const Color red = Color(0xff8c1212);
+
+  static const Color mon = Color(0xffff0000);
+  static const Color tue = Color(0xffffa500);
+  static const Color wed = Color(0xffffff00);
+  static const Color thu = Color(0xff008000);
+  static const Color fri = Color(0xff0000ff);
+  static const Color sat = Color(0xff4b0082);
+  static const Color sun = Color(0xffee82ee);
 }

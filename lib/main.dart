@@ -22,7 +22,6 @@ Future<void> main() async {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    FirebaseRepo.getBarChartDataList();
     return Sizer(builder: (context, orientation, deviceType) {
       return MaterialApp(
         title: Strings.appTitle,

@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/my_styles.dart';
-import 'package:my_lms/logic/cubit/bar_chart_cubit/bar_chart_cubit.dart';
 import 'package:my_lms/logic/cubit/logout_cubit/logout_cubit.dart';
 import 'package:my_lms/logic/cubit/profile_top_card_cubit/profile_top_card_cubit.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
-import 'package:my_lms/presentation/screens/widgets/bar_chart_widget.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:my_lms/presentation/screens/widgets/profile_top_card.dart';
 import 'package:sizer/sizer.dart';
@@ -22,11 +20,6 @@ class ProfileTab extends StatefulWidget {
 
 class _ProfileTabState extends State<ProfileTab> {
   @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<BarChartCubit>(context).loadBarChart();
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -87,42 +80,6 @@ class _ProfileTabState extends State<ProfileTab> {
                           ),
                         ),
                       ),
-                      Container(
-                          height: 50.h,
-                          child: BlocBuilder<BarChartCubit, BarChartState>(
-                            builder: (context, state) {
-                              if (state is BarChartInitial) {
-                                return Text("Initial State");
-                              } else if (state is BarChartLoading) {
-                                return BarChartWidget(
-                                  barchartModelList: state.loadingList,
-                                  max: 2,
-                                  unit: state.unit,
-                                  interval: state.interval,
-                                );
-                              } else if (state is BarChartLoaded) {
-                                print("MAX = ${state.max}");
-                                return BarChartWidget(
-                                  barchartModelList: state.loadedList,
-                                  max: state.max,
-                                  unit: state.unit,
-                                  interval: state.interval,
-                                );
-                              } else if (state is BarChartFailed) {
-                                return BarChartWidget(
-                                  barchartModelList: state.failedList,
-                                  max: 2,
-                                  unit: state.unit,
-                                  interval: state.interval,
-                                );
-                              } else {
-                                return Center(
-                                    child: ErrorMsgBox(
-                                        errorMsg:
-                                            "unhandled state excecuted!"));
-                              }
-                            },
-                          )),
                     ]);
               } else if (state is LogoutLoading) {
                 return Center(

@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:intl/intl.dart';
-import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/screen_arguments/end_tab_args.dart';
-import 'package:my_lms/data/models/bar_chart_model.dart';
 import 'package:my_lms/data/models/fire_content.dart';
 import 'package:my_lms/data/models/fire_module_model.dart';
 import 'package:my_lms/data/models/fire_user_model.dart';
@@ -255,7 +252,6 @@ class FirebaseRepo {
           await getCompletedContentsBySub(subjectId: subjectId);
       filteredList.forEach((fireContent) {
         if (!idList.contains(fireContent.contentId)) {
-          print(fireContent.contentName);
           idList.add(fireContent.contentId);
           cleanedList.add(fireContent);
         }
@@ -380,32 +376,6 @@ class FirebaseRepo {
             isCompleted: data['isCompleted']));
       }).toList();
       return allContents;
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  static Future<List<BarChartModel>> getBarChartDataList() async {
-    try {
-      List<BarChartModel> barChartDataList = [];
-      List<FireContent> weekAgoFireContents = await getFireContentsForWeek();
-      List<String> week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-      DateFormat format = DateFormat("EEE");
-      int i = 0;
-      week.forEach((day) {
-        double y = 0;
-        weekAgoFireContents.forEach((content) {
-          String contentDay = format.format(
-              DateTime.fromMillisecondsSinceEpoch(content.startTimestamp));
-          if (contentDay.toLowerCase() == day.toLowerCase()) {
-            y = y + content.counter;
-          }
-        });
-        barChartDataList.add(
-            BarChartModel(id: i, name: day, y: y, color: MyColors.accentColor));
-        i++;
-      });
-      return barChartDataList;
     } catch (e) {
       throw e;
     }
