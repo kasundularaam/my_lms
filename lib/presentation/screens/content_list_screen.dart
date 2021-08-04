@@ -35,92 +35,94 @@ class _ContentListScreenState extends State<ContentListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColors.backgroundWhite,
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 0),
-        physics: BouncingScrollPhysics(),
-        children: [
-          SizedBox(
-            height: 5.h,
-          ),
-          Container(
-            padding: EdgeInsets.all(5.w),
-            decoration: BoxDecoration(
-              color: MyColors.accentColor,
-              borderRadius: BorderRadius.circular(5.w),
-              boxShadow: [MyStyles.boxShadow],
+      body: SafeArea(
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 0),
+          physics: BouncingScrollPhysics(),
+          children: [
+            SizedBox(
+              height: 2.h,
             ),
-            child: Column(
-              children: [
-                Text(
-                  widget.args.moduleName,
-                  style: TextStyle(
-                      color: MyColors.white,
-                      fontSize: 26.sp,
-                      fontWeight: FontWeight.w600),
-                ),
-                Text(
-                  "Contents",
-                  style: TextStyle(
-                      color: MyColors.white,
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w600),
-                ),
-                SizedBox(
-                  height: 5.w,
-                ),
-                MyTextField(
-                    onChanged: (text) =>
-                        BlocProvider.of<ContentListScreenCubit>(context)
-                            .loadSearchList(searchText: text),
-                    onSubmitted: (text) {},
-                    textInputAction: TextInputAction.search,
-                    isPassword: false,
-                    hintText: "Search..."),
-              ],
+            Container(
+              padding: EdgeInsets.all(5.w),
+              decoration: BoxDecoration(
+                color: MyColors.accentColor,
+                borderRadius: BorderRadius.circular(5.w),
+                boxShadow: [MyStyles.boxShadow],
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    widget.args.moduleName,
+                    style: TextStyle(
+                        color: MyColors.white,
+                        fontSize: 26.sp,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    "Contents",
+                    style: TextStyle(
+                        color: MyColors.white,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    height: 5.w,
+                  ),
+                  MyTextField(
+                      onChanged: (text) =>
+                          BlocProvider.of<ContentListScreenCubit>(context)
+                              .loadSearchList(searchText: text),
+                      onSubmitted: (text) {},
+                      textInputAction: TextInputAction.search,
+                      isPassword: false,
+                      hintText: "Search..."),
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 5.w,
-          ),
-          BlocBuilder<ContentListScreenCubit, ContentListScreenState>(
-            builder: (context, state) {
-              if (state is ContentListScreenInitial) {
-                return Center(child: Text("Initial State"));
-              } else if (state is ContentListScreenLoading) {
-                return Center(child: CircularProgressIndicator());
-              } else if (state is ContentListScreenLoaded) {
-                return ListView.builder(
-                  padding: EdgeInsets.all(0),
-                  shrinkWrap: true,
-                  physics: BouncingScrollPhysics(),
-                  itemCount: state.contentList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    Content content = state.contentList[index];
-                    return ContentCard(
-                      args: ContentScreenArgs(
-                        contentId: content.id,
-                        contentName: content.contentTitle,
-                        subjectName: widget.args.subjectName,
-                        subjectId: widget.args.subjectId,
-                        moduleName: widget.args.moduleName,
-                        moduleId: widget.args.moduleId,
-                      ),
-                    );
-                  },
-                );
-              }
-              if (state is ContentListScreenNoResult) {
-                return Center(child: ErrorMsgBox(errorMsg: state.message));
-              } else if (state is ContentListScreenFailed) {
-                return Center(child: ErrorMsgBox(errorMsg: state.errorMsg));
-              } else {
-                return Center(
-                  child: ErrorMsgBox(errorMsg: "unhandled state excecuted!"),
-                );
-              }
-            },
-          ),
-        ],
+            SizedBox(
+              height: 5.w,
+            ),
+            BlocBuilder<ContentListScreenCubit, ContentListScreenState>(
+              builder: (context, state) {
+                if (state is ContentListScreenInitial) {
+                  return Center(child: Text("Initial State"));
+                } else if (state is ContentListScreenLoading) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (state is ContentListScreenLoaded) {
+                  return ListView.builder(
+                    padding: EdgeInsets.all(0),
+                    shrinkWrap: true,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: state.contentList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Content content = state.contentList[index];
+                      return ContentCard(
+                        args: ContentScreenArgs(
+                          contentId: content.id,
+                          contentName: content.contentTitle,
+                          subjectName: widget.args.subjectName,
+                          subjectId: widget.args.subjectId,
+                          moduleName: widget.args.moduleName,
+                          moduleId: widget.args.moduleId,
+                        ),
+                      );
+                    },
+                  );
+                }
+                if (state is ContentListScreenNoResult) {
+                  return Center(child: ErrorMsgBox(errorMsg: state.message));
+                } else if (state is ContentListScreenFailed) {
+                  return Center(child: ErrorMsgBox(errorMsg: state.errorMsg));
+                } else {
+                  return Center(
+                    child: ErrorMsgBox(errorMsg: "unhandled state excecuted!"),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

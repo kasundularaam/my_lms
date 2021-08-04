@@ -21,12 +21,8 @@ class HTCLoading extends StatelessWidget {
         children: [
           Text(
             "Subjects",
-            style: TextStyle(color: MyColors.white, fontSize: 32.sp),
+            style: TextStyle(color: MyColors.white, fontSize: 20.sp),
           ),
-          SizedBox(
-            height: 3.h,
-          ),
-          HTCItemLoadingW(),
           SizedBox(
             height: 3.h,
           ),

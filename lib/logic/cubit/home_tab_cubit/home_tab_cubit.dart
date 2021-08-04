@@ -12,7 +12,7 @@ class HomeTabCubit extends Cubit<HomeTabState> {
   Future<void> loadSubjects() async {
     try {
       emit(HomeTabLoading());
-      List<Subject> subjectList = await FirebaseRepo.getSubjectList();
+      List<Subject> subjectList = await FirebaseRepo.getSubjects();
       print(subjectList[0].name);
       emit(HomeTabLoaded(subjectList: subjectList));
     } catch (e) {

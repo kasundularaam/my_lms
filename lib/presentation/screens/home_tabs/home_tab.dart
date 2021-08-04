@@ -52,18 +52,42 @@ class _HomeTabState extends State<HomeTab> {
                 padding: EdgeInsets.symmetric(horizontal: 5.w),
                 children: [
                   SizedBox(
-                    height: 5.h,
+                    height: 2.h,
+                  ),
+                  Text(
+                    "Home",
+                    style: TextStyle(
+                        color: MyColors.accentColor,
+                        fontSize: 26.sp,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    height: 2.h,
                   ),
                   HTCLoading(),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  Center(child: CircularProgressIndicator()),
                 ],
               );
             } else if (state is HomeTabLoaded) {
               return ListView(
-                padding: const EdgeInsets.all(0),
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
                 physics: BouncingScrollPhysics(),
                 children: [
                   SizedBox(
-                    height: 5.h,
+                    height: 2.h,
+                  ),
+                  Text(
+                    "Home",
+                    style: TextStyle(
+                        color: MyColors.accentColor,
+                        fontSize: 26.sp,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    height: 2.h,
                   ),
                   HomeTopCard(
                     subjectList: state.subjectList,
@@ -87,9 +111,22 @@ class _HomeTabState extends State<HomeTab> {
                 padding: EdgeInsets.symmetric(horizontal: 5.w),
                 children: [
                   SizedBox(
-                    height: 5.h,
+                    height: 2.h,
+                  ),
+                  Text(
+                    "Home",
+                    style: TextStyle(
+                        color: MyColors.accentColor,
+                        fontSize: 26.sp,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    height: 2.h,
                   ),
                   HTCLoading(),
+                  SizedBox(
+                    height: 3.h,
+                  ),
                   Center(child: ErrorMsgBox(errorMsg: state.errorMsg))
                 ],
               );

@@ -12,7 +12,7 @@ class HTCItemCubit extends Cubit<HTCItemState> {
       emit(HTCItemLoading());
       int contentCount = 3;
       int fireContentCount =
-          await FirebaseRepo.getCompltedContentCount(subjectId: subjectId);
+          await FirebaseRepo.getCleanedContentsCountBySub(subjectId: subjectId);
       emit(HTCItemLoaded(
           contentCount: contentCount, fireContentCount: fireContentCount));
     } catch (e) {

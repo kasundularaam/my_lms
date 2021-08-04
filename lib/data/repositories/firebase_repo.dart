@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
+import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/screen_arguments/end_tab_args.dart';
+import 'package:my_lms/data/models/bar_chart_model.dart';
 import 'package:my_lms/data/models/fire_content.dart';
 import 'package:my_lms/data/models/fire_module_model.dart';
-import 'package:my_lms/data/models/lms_user_model.dart';
+import 'package:my_lms/data/models/fire_user_model.dart';
 import 'package:my_lms/data/models/subject_model.dart';
 import 'package:my_lms/data/repositories/repository.dart';
 
@@ -36,7 +39,7 @@ class FirebaseRepo {
       User? currentUser = FirebaseAuth.instance.currentUser;
       if (currentUser != null) {
         await addUserToFireStore(
-            lmsUser: LmsUser(uid: currentUser.uid, name: name, email: email));
+            lmsUser: FireUser(uid: currentUser.uid, name: name, email: email));
       } else {
         throw "canot add user to database. user does not exist";
       }
@@ -73,7 +76,7 @@ class FirebaseRepo {
   }
 
   static Future<void> addUserToFireStore({
-    required LmsUser lmsUser,
+    required FireUser lmsUser,
   }) async {
     try {
       CollectionReference users =
@@ -113,8 +116,6 @@ class FirebaseRepo {
       CollectionReference reference = FirebaseFirestore.instance
           .collection("users")
           .doc(currentUid())
-          .collection("subjects")
-          .doc(endTabArgs.contentScreenArgs.subjectId)
           .collection("contents");
       reference.add({
         'contentId': endTabArgs.contentScreenArgs.contentId,
@@ -130,7 +131,7 @@ class FirebaseRepo {
       });
       int contentCountOfMod = await Repository.getContentCountByModId(
           moduleId: endTabArgs.contentScreenArgs.moduleId);
-      int fireContentCountOfMod = await getCompltedContentCountForMod(
+      int fireContentCountOfMod = await getCleanedContentsCountForSubMod(
           subjectId: endTabArgs.contentScreenArgs.subjectId,
           moduleId: endTabArgs.contentScreenArgs.moduleId);
       if (fireContentCountOfMod == contentCountOfMod) {
@@ -198,16 +199,15 @@ class FirebaseRepo {
     }
   }
 
-  static Future<List<FireContent>> getFireContents(
+  static Future<List<FireContent>> getFireContentsBySub(
       {required String subjectId}) async {
     try {
       List<FireContent> fireContentList = [];
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection("users")
           .doc(currentUid())
-          .collection("subjects")
-          .doc(subjectId)
           .collection("contents")
+          .where('subjectId', isEqualTo: subjectId)
           .get();
       snapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -229,12 +229,12 @@ class FirebaseRepo {
     }
   }
 
-  static Future<List<FireContent>> getCompletedContents(
+  static Future<List<FireContent>> getCompletedContentsBySub(
       {required String subjectId}) async {
     try {
       List<FireContent> filteredList = [];
       List<FireContent> fireContentList =
-          await getFireContents(subjectId: subjectId);
+          await getFireContentsBySub(subjectId: subjectId);
       fireContentList.forEach((fireContent) {
         if (fireContent.isCompleted) {
           filteredList.add(fireContent);
@@ -246,13 +246,13 @@ class FirebaseRepo {
     }
   }
 
-  static Future<List<FireContent>> getCleanCompletedContentList(
+  static Future<List<FireContent>> getCleanCompletedContentsBySub(
       {required String subjectId}) async {
     try {
       List<FireContent> cleanedList = [];
       List<String> idList = [];
       List<FireContent> filteredList =
-          await getCompletedContents(subjectId: subjectId);
+          await getCompletedContentsBySub(subjectId: subjectId);
       filteredList.forEach((fireContent) {
         if (!idList.contains(fireContent.contentId)) {
           print(fireContent.contentName);
@@ -266,23 +266,23 @@ class FirebaseRepo {
     }
   }
 
-  static Future<int> getCompltedContentCount(
+  static Future<int> getCleanedContentsCountBySub(
       {required String subjectId}) async {
     try {
       List<FireContent> cleanedList =
-          await getCleanCompletedContentList(subjectId: subjectId);
+          await getCleanCompletedContentsBySub(subjectId: subjectId);
       return cleanedList.length;
     } catch (e) {
       throw e;
     }
   }
 
-  static Future<List<FireContent>> fireContentListForMod(
+  static Future<List<FireContent>> getCleanedContentsForSubMod(
       {required String subjectId, required String moduleId}) async {
     try {
       List<FireContent> filteredList = [];
       List<FireContent> cleanedList =
-          await getCleanCompletedContentList(subjectId: subjectId);
+          await getCleanCompletedContentsBySub(subjectId: subjectId);
       cleanedList.forEach((fireContent) {
         if (fireContent.moduleId == moduleId) {
           filteredList.add(fireContent);
@@ -294,11 +294,11 @@ class FirebaseRepo {
     }
   }
 
-  static Future<int> getCompltedContentCountForMod(
+  static Future<int> getCleanedContentsCountForSubMod(
       {required String subjectId, required String moduleId}) async {
     try {
-      List<FireContent> filteredList =
-          await fireContentListForMod(subjectId: subjectId, moduleId: moduleId);
+      List<FireContent> filteredList = await getCleanedContentsForSubMod(
+          subjectId: subjectId, moduleId: moduleId);
       return filteredList.length;
     } catch (e) {
       throw e;
@@ -318,7 +318,7 @@ class FirebaseRepo {
     }
   }
 
-  static Future<List<Subject>> getSubjectList() async {
+  static Future<List<Subject>> getSubjects() async {
     try {
       List<Subject> subjectList = [];
       QuerySnapshot snapshot = await FirebaseFirestore.instance
@@ -331,6 +331,81 @@ class FirebaseRepo {
         subjectList.add(Subject(id: data["id"], name: data["name"]));
       }).toList();
       return subjectList;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<FireUser> getUserDetails() async {
+    try {
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUid())
+          .get();
+      Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>;
+      return FireUser(
+        email: data['email'],
+        name: data['name'],
+        uid: data['uid'],
+      );
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<List<FireContent>> getFireContentsForWeek() async {
+    try {
+      List<FireContent> allContents = [];
+      DateTime now = DateTime.now();
+      DateTime weekAgo = now.subtract(Duration(days: 7));
+      int weekAgoTimestmp = weekAgo.millisecondsSinceEpoch;
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUid())
+          .collection("contents")
+          .where('startTimestamp', isGreaterThan: weekAgoTimestmp)
+          .get();
+      snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        allContents.add(FireContent(
+            startTimestamp: data['startTimestamp'],
+            endTimestamp: data['endTimestamp'],
+            counter: data['counter'],
+            contentId: data['contentId'],
+            contentName: data['contentName'],
+            subjectName: data['subjectName'],
+            subjectId: data['subjectId'],
+            moduleName: data['moduleName'],
+            moduleId: data['moduleId'],
+            isCompleted: data['isCompleted']));
+      }).toList();
+      return allContents;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<List<BarChartModel>> getBarChartDataList() async {
+    try {
+      List<BarChartModel> barChartDataList = [];
+      List<FireContent> weekAgoFireContents = await getFireContentsForWeek();
+      List<String> week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      DateFormat format = DateFormat("EEE");
+      int i = 0;
+      week.forEach((day) {
+        double y = 0;
+        weekAgoFireContents.forEach((content) {
+          String contentDay = format.format(
+              DateTime.fromMillisecondsSinceEpoch(content.startTimestamp));
+          if (contentDay.toLowerCase() == day.toLowerCase()) {
+            y = y + content.counter;
+          }
+        });
+        barChartDataList.add(
+            BarChartModel(id: i, name: day, y: y, color: MyColors.accentColor));
+        i++;
+      });
+      return barChartDataList;
     } catch (e) {
       throw e;
     }

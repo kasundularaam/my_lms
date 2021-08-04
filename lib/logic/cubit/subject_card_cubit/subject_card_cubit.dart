@@ -17,7 +17,7 @@ class SubjectCardCubit extends Cubit<SubjectCardState> {
           await FirebaseRepo.getFireModuleCount(subjectId: subjectId);
       int contentCount = 3;
       int completedContents =
-          await FirebaseRepo.getCompltedContentCount(subjectId: subjectId);
+          await FirebaseRepo.getCleanedContentsCountBySub(subjectId: subjectId);
       int quizCount = 20;
       emit(SubjectCardLoaded(
           moduleCount: moduleCount,

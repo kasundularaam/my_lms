@@ -30,7 +30,7 @@ class HomeTopCard extends StatelessWidget {
             children: [
               Text(
                 "Subjects",
-                style: TextStyle(color: MyColors.white, fontSize: 32.sp),
+                style: TextStyle(color: MyColors.white, fontSize: 20.sp),
               ),
               SizedBox(
                 height: 5.w,

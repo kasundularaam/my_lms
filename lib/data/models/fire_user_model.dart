@@ -1,21 +1,21 @@
 import 'dart:convert';
 
-class LmsUser {
+class FireUser {
   String uid;
   String name;
   String email;
-  LmsUser({
+  FireUser({
     required this.uid,
     required this.name,
     required this.email,
   });
 
-  LmsUser copyWith({
+  FireUser copyWith({
     String? uid,
     String? name,
     String? email,
   }) {
-    return LmsUser(
+    return FireUser(
       uid: uid ?? this.uid,
       name: name ?? this.name,
       email: email ?? this.email,
@@ -30,8 +30,8 @@ class LmsUser {
     };
   }
 
-  factory LmsUser.fromMap(Map<String, dynamic> map) {
-    return LmsUser(
+  factory FireUser.fromMap(Map<String, dynamic> map) {
+    return FireUser(
       uid: map['uid'],
       name: map['name'],
       email: map['email'],
@@ -40,8 +40,8 @@ class LmsUser {
 
   String toJson() => json.encode(toMap());
 
-  factory LmsUser.fromJson(String source) =>
-      LmsUser.fromMap(json.decode(source));
+  factory FireUser.fromJson(String source) =>
+      FireUser.fromMap(json.decode(source));
 
   @override
   String toString() => 'LmsUser(uid: $uid, name: $name, email: $email)';
@@ -50,7 +50,7 @@ class LmsUser {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is LmsUser &&
+    return other is FireUser &&
         other.uid == uid &&
         other.name == name &&
         other.email == email;

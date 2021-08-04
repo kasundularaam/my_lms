@@ -58,195 +58,177 @@ class _InitTabState extends State<InitTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColors.backgroundWhite,
-      body: ListView(
-        padding: EdgeInsets.all(0),
-        physics: BouncingScrollPhysics(),
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: MyColors.offWhite,
-              boxShadow: [MyStyles.boxShadow],
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10.w),
-                bottomRight: Radius.circular(10.w),
+      body: SafeArea(
+        child: ListView(
+          padding: EdgeInsets.all(0),
+          physics: BouncingScrollPhysics(),
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: MyColors.offWhite,
+                boxShadow: [MyStyles.boxShadow],
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10.w),
+                  bottomRight: Radius.circular(10.w),
+                ),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10.w),
+                  bottomRight: Radius.circular(10.w),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      Text(
+                        "Working Time Tracker",
+                        style: TextStyle(
+                            color: MyColors.accentColor,
+                            fontSize: 30.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(5.w),
+                        decoration: BoxDecoration(
+                          color: MyColors.white,
+                          borderRadius: BorderRadius.circular(5.w),
+                          boxShadow: [MyStyles.boxShadow],
+                        ),
+                        child: Center(
+                          child: BlocBuilder<TimerCubit, TimerState>(
+                            builder: (context, state) {
+                              if (state is TimerInitial) {
+                                return Text(
+                                  state.initCounter,
+                                  style: TextStyle(
+                                      color: MyColors.shadedBlack,
+                                      fontSize: 50.sp,
+                                      fontWeight: FontWeight.w600),
+                                );
+                              } else if (state is TimerStarted) {
+                                return Text(
+                                  state.startedCounter,
+                                  style: TextStyle(
+                                      color: MyColors.shadedBlack,
+                                      fontSize: 50.sp,
+                                      fontWeight: FontWeight.w600),
+                                );
+                              } else if (state is TimerRunning) {
+                                return Text(
+                                  state.timeCounter,
+                                  style: TextStyle(
+                                      color: MyColors.shadedBlack,
+                                      fontSize: 50.sp,
+                                      fontWeight: FontWeight.w600),
+                                );
+                              } else if (state is TimerEnded) {
+                                return Text(
+                                  state.args.clockValue,
+                                  style: TextStyle(
+                                      color: MyColors.shadedBlack,
+                                      fontSize: 50.sp,
+                                      fontWeight: FontWeight.w600),
+                                );
+                              } else {
+                                return ErrorMsgBox(
+                                    errorMsg: "an error occered!");
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3.h,
+                      ),
+                      Container(
+                        width: 100.w,
+                        padding: EdgeInsets.all(5.w),
+                        decoration: BoxDecoration(
+                          color: MyColors.white,
+                          borderRadius: BorderRadius.circular(5.w),
+                          boxShadow: [MyStyles.boxShadow],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Subject: ${widget.args.subjectName}",
+                              style: TextStyle(
+                                  color: MyColors.shadedBlack,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            Text(
+                              "Module: ${widget.args.moduleName}",
+                              style: TextStyle(
+                                  color: MyColors.shadedBlack,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            Text(
+                              "Content: ${widget.args.contentName}",
+                              style: TextStyle(
+                                  color: MyColors.shadedBlack,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3.h,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10.w),
-                bottomRight: Radius.circular(10.w),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(5.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Text(
-                      "Working Time Tracker",
-                      style: TextStyle(
-                          color: MyColors.accentColor,
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Container(
+            SizedBox(
+              height: 5.h,
+            ),
+            BlocBuilder<TimerCubit, TimerState>(
+              builder: (context, state) {
+                if (state is TimerInitial) {
+                  return GestureDetector(
+                    onTap: () => BlocProvider.of<TimerCubit>(context)
+                        .startTimer(
+                            notifMsg: widget.args.contentName,
+                            args: widget.args),
+                    child: Container(
                       padding: EdgeInsets.all(5.w),
+                      margin: EdgeInsets.symmetric(horizontal: 5.w),
                       decoration: BoxDecoration(
-                        color: MyColors.white,
+                        color: MyColors.green,
                         borderRadius: BorderRadius.circular(5.w),
                         boxShadow: [MyStyles.boxShadow],
                       ),
                       child: Center(
-                        child: BlocBuilder<TimerCubit, TimerState>(
-                          builder: (context, state) {
-                            if (state is TimerInitial) {
-                              return Text(
-                                state.initCounter,
-                                style: TextStyle(
-                                    color: MyColors.shadedBlack,
-                                    fontSize: 50.sp,
-                                    fontWeight: FontWeight.w600),
-                              );
-                            } else if (state is TimerStarted) {
-                              return Text(
-                                state.startedCounter,
-                                style: TextStyle(
-                                    color: MyColors.shadedBlack,
-                                    fontSize: 50.sp,
-                                    fontWeight: FontWeight.w600),
-                              );
-                            } else if (state is TimerRunning) {
-                              return Text(
-                                state.timeCounter,
-                                style: TextStyle(
-                                    color: MyColors.shadedBlack,
-                                    fontSize: 50.sp,
-                                    fontWeight: FontWeight.w600),
-                              );
-                            } else if (state is TimerEnded) {
-                              return Text(
-                                state.args.clockValue,
-                                style: TextStyle(
-                                    color: MyColors.shadedBlack,
-                                    fontSize: 50.sp,
-                                    fontWeight: FontWeight.w600),
-                              );
-                            } else {
-                              return ErrorMsgBox(errorMsg: "an error occered!");
-                            }
-                          },
+                        child: Text(
+                          "Start",
+                          style: TextStyle(
+                              color: MyColors.white,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    Container(
-                      width: 100.w,
-                      padding: EdgeInsets.all(5.w),
-                      decoration: BoxDecoration(
-                        color: MyColors.white,
-                        borderRadius: BorderRadius.circular(5.w),
-                        boxShadow: [MyStyles.boxShadow],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Subject: ${widget.args.subjectName}",
-                            style: TextStyle(
-                                color: MyColors.shadedBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Text(
-                            "Module: ${widget.args.moduleName}",
-                            style: TextStyle(
-                                color: MyColors.shadedBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Text(
-                            "Content: ${widget.args.contentName}",
-                            style: TextStyle(
-                                color: MyColors.shadedBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 1.h,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 5.h,
-          ),
-          BlocBuilder<TimerCubit, TimerState>(
-            builder: (context, state) {
-              if (state is TimerInitial) {
-                return GestureDetector(
-                  onTap: () => BlocProvider.of<TimerCubit>(context).startTimer(
-                      notifMsg: widget.args.contentName, args: widget.args),
-                  child: Container(
-                    padding: EdgeInsets.all(5.w),
-                    margin: EdgeInsets.symmetric(horizontal: 5.w),
-                    decoration: BoxDecoration(
-                      color: MyColors.green,
-                      borderRadius: BorderRadius.circular(5.w),
-                      boxShadow: [MyStyles.boxShadow],
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Start",
-                        style: TextStyle(
-                            color: MyColors.white,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
-                );
-              } else if (state is TimerStarted) {
-                return Container(
-                  padding: EdgeInsets.all(5.w),
-                  margin: EdgeInsets.symmetric(horizontal: 5.w),
-                  decoration: BoxDecoration(
-                    color: MyColors.red,
-                    borderRadius: BorderRadius.circular(5.w),
-                    boxShadow: [MyStyles.boxShadow],
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Stop",
-                      style: TextStyle(
-                          color: MyColors.white,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                );
-              } else if (state is TimerRunning) {
-                return GestureDetector(
-                  onTap: () => BlocProvider.of<TimerCubit>(context)
-                      .endTimer(contentScreenArgs: widget.args),
-                  child: Container(
+                  );
+                } else if (state is TimerStarted) {
+                  return Container(
                     padding: EdgeInsets.all(5.w),
                     margin: EdgeInsets.symmetric(horizontal: 5.w),
                     decoration: BoxDecoration(
@@ -263,21 +245,44 @@ class _InitTabState extends State<InitTab> {
                             fontWeight: FontWeight.w600),
                       ),
                     ),
-                  ),
-                );
-              } else if (state is TimerEnded) {
-                BlocProvider.of<WorkingCubit>(context).emit(
-                  WorkingEnded(
-                    args: state.args,
-                  ),
-                );
-                return Container();
-              } else {
-                return Container();
-              }
-            },
-          ),
-        ],
+                  );
+                } else if (state is TimerRunning) {
+                  return GestureDetector(
+                    onTap: () => BlocProvider.of<TimerCubit>(context)
+                        .endTimer(contentScreenArgs: widget.args),
+                    child: Container(
+                      padding: EdgeInsets.all(5.w),
+                      margin: EdgeInsets.symmetric(horizontal: 5.w),
+                      decoration: BoxDecoration(
+                        color: MyColors.red,
+                        borderRadius: BorderRadius.circular(5.w),
+                        boxShadow: [MyStyles.boxShadow],
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Stop",
+                          style: TextStyle(
+                              color: MyColors.white,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  );
+                } else if (state is TimerEnded) {
+                  BlocProvider.of<WorkingCubit>(context).emit(
+                    WorkingEnded(
+                      args: state.args,
+                    ),
+                  );
+                  return Container();
+                } else {
+                  return Container();
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
