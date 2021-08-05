@@ -49,22 +49,35 @@ class _HomeTabState extends State<HomeTab> {
               return Center(child: Text("Initial State"));
             } else if (state is HomeTabLoading) {
               return ListView(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
                 children: [
                   SizedBox(
                     height: 2.h,
                   ),
-                  Text(
-                    "Home",
-                    style: TextStyle(
-                        color: MyColors.accentColor,
-                        fontSize: 26.sp,
-                        fontWeight: FontWeight.w600),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      Text(
+                        "Home",
+                        style: TextStyle(
+                            color: MyColors.accentColor,
+                            fontSize: 26.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 2.h,
                   ),
-                  HTCLoading(),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      HTCLoading(),
+                    ],
+                  ),
                   SizedBox(
                     height: 3.h,
                   ),
@@ -73,24 +86,37 @@ class _HomeTabState extends State<HomeTab> {
               );
             } else if (state is HomeTabLoaded) {
               return ListView(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
                 physics: BouncingScrollPhysics(),
                 children: [
                   SizedBox(
                     height: 2.h,
                   ),
-                  Text(
-                    "Home",
-                    style: TextStyle(
-                        color: MyColors.accentColor,
-                        fontSize: 26.sp,
-                        fontWeight: FontWeight.w600),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      Text(
+                        "Home",
+                        style: TextStyle(
+                            color: MyColors.accentColor,
+                            fontSize: 26.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 2.h,
                   ),
-                  HomeTopCard(
-                    subjectList: state.subjectList,
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      HomeTopCard(
+                        subjectList: state.subjectList,
+                      ),
+                    ],
                   ),
                   ListView.builder(
                       padding: EdgeInsets.all(0),
@@ -113,12 +139,19 @@ class _HomeTabState extends State<HomeTab> {
                   SizedBox(
                     height: 2.h,
                   ),
-                  Text(
-                    "Home",
-                    style: TextStyle(
-                        color: MyColors.accentColor,
-                        fontSize: 26.sp,
-                        fontWeight: FontWeight.w600),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      Text(
+                        "Home",
+                        style: TextStyle(
+                            color: MyColors.accentColor,
+                            fontSize: 26.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 2.h,

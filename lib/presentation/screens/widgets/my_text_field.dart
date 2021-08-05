@@ -25,9 +25,9 @@ class MyTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          boxShadow: [MyStyles.boxShadow],
-          color: MyColors.white,
-          borderRadius: BorderRadius.circular(3.w)),
+        color: MyColors.white,
+        borderRadius: BorderRadius.circular(3.w),
+      ),
       child: TextField(
         obscureText: isPassword,
         onChanged: onChanged,

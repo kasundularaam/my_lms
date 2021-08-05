@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocProvider(
       create: (context) => HomeNavCubit(),
       child: Scaffold(
-        backgroundColor: MyColors.backgroundWhite,
+        backgroundColor: MyColors.accentColor,
         body: SafeArea(
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {

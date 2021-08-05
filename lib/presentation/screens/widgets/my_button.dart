@@ -23,7 +23,6 @@ class MyButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(3.w),
           color: MyColors.accentColor,
-          boxShadow: [MyStyles.boxShadow],
         ),
         child: Center(
           child: Text(

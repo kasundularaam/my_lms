@@ -11,11 +11,14 @@ class HTCLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(5.w),
-      width: 90.w,
+      width: 95.w,
       decoration: BoxDecoration(
-          color: MyColors.accentColor,
-          borderRadius: BorderRadius.circular(5.w),
-          boxShadow: [MyStyles.boxShadow]),
+        color: MyColors.accentColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(5.w),
+          bottomLeft: Radius.circular(5.w),
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

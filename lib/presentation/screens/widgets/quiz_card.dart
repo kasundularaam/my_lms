@@ -46,9 +46,9 @@ class _QuizCardState extends State<QuizCard> {
           width: 100.w,
           padding: EdgeInsets.all(5.w),
           decoration: BoxDecoration(
-              color: MyColors.offWhite,
-              borderRadius: BorderRadius.circular(5.w),
-              boxShadow: [MyStyles.boxShadow]),
+            color: MyColors.offWhite,
+            borderRadius: BorderRadius.circular(5.w),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

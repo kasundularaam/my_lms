@@ -70,32 +70,6 @@ class _WorkingOnAnotherTabState extends State<WorkingOnAnotherTab> {
               ),
             ),
             SizedBox(
-              height: 5.h,
-            ),
-            GestureDetector(
-              onTap: () => Navigator.of(context).pushNamedAndRemoveUntil(
-                  AppRouter.authScreen, (Route<dynamic> route) => false),
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 5.w),
-                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.w),
-                decoration: BoxDecoration(
-                  border: Border.all(color: MyColors.lightGray, width: 0.5.w),
-                  color: MyColors.offWhite,
-                  borderRadius: BorderRadius.circular(5.w),
-                  boxShadow: [MyStyles.boxShadow],
-                ),
-                child: Center(
-                  child: Text(
-                    "Back To Work",
-                    style: TextStyle(
-                        color: MyColors.shadedBlack,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
               height: 3.h,
             ),
           ],

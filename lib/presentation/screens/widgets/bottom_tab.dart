@@ -21,7 +21,6 @@ class _BottomTabState extends State<BottomTab> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: MyColors.backgroundWhite,
       height: widget.height,
       width: 100.w,
       child: BlocBuilder<HomeNavCubit, HomeNavState>(
@@ -30,9 +29,9 @@ class _BottomTabState extends State<BottomTab> {
             return buildInitState();
           } else if (state is HomeScreenNavigate) {
             if (state.homeNav == HomeNav.toHome) {
-              return buildNavState(MyColors.accentColor, MyColors.gray);
+              return buildNavState(MyColors.extraLight, MyColors.primaryDark);
             } else if (state.homeNav == HomeNav.toProfile) {
-              return buildNavState(MyColors.gray, MyColors.accentColor);
+              return buildNavState(MyColors.primaryDark, MyColors.extraLight);
             } else {
               return buildInitState();
             }
@@ -100,7 +99,7 @@ class BottomTabButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () => onPressed(),
       child: Container(
         width: 30.w,

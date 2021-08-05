@@ -1,33 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/logic/cubit/logout_cubit/logout_cubit.dart';
 import 'package:my_lms/logic/cubit/profile_top_card_cubit/profile_top_card_cubit.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
-import 'package:my_lms/core/constants/my_styles.dart';
 
 class ProfileTopCard extends StatelessWidget {
-  final Widget child;
-  const ProfileTopCard({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<ProfileTopCardCubit>(context).getUserDetails();
     return Column(
       children: [
         Container(
+          width: 95.w,
           padding: EdgeInsets.all(5.w),
           decoration: BoxDecoration(
-              color: MyColors.accentColor,
-              borderRadius: BorderRadius.circular(5.w),
-              boxShadow: [MyStyles.boxShadow]),
+            color: MyColors.accentColor,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(5.w),
+              bottomLeft: Radius.circular(5.w),
+            ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,13 +127,24 @@ class ProfileTopCard extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomRight,
-                child: child,
+                child: InkWell(
+                  onTap: () => BlocProvider.of<LogoutCubit>(context).logOut(),
+                  child: Container(
+                    child: Text(
+                      "Log Out",
+                      style: TextStyle(
+                        color: MyColors.white,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                  ),
+                ),
               )
             ],
           ),
         ),
         SizedBox(
-          height: 5.w,
+          height: 3.h,
         )
       ],
     );

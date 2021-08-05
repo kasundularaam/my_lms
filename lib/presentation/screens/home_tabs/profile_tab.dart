@@ -1,14 +1,18 @@
 import 'dart:ui';
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/logic/cubit/logout_cubit/logout_cubit.dart';
 import 'package:my_lms/logic/cubit/profile_top_card_cubit/profile_top_card_cubit.dart';
+import 'package:my_lms/logic/cubit/today_worls_cubit/today_works_cubit.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
+import 'package:my_lms/presentation/screens/widgets/pie_chart_sections.dart';
 import 'package:my_lms/presentation/screens/widgets/profile_top_card.dart';
+import 'package:my_lms/presentation/screens/widgets/today_worked_details.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileTab extends StatefulWidget {
@@ -19,7 +23,6 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
-  @override
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -47,36 +50,42 @@ class _ProfileTabState extends State<ProfileTab> {
             builder: (context, state) {
               if (state is LogoutInitial) {
                 return ListView(
-                    padding: EdgeInsets.symmetric(horizontal: 5.w),
                     physics: BouncingScrollPhysics(),
                     shrinkWrap: true,
                     children: [
                       SizedBox(height: 2.h),
-                      Text(
-                        "Profile",
-                        style: TextStyle(
-                            color: MyColors.accentColor,
-                            fontSize: 26.sp,
-                            fontWeight: FontWeight.w600),
+                      Row(
+                        children: [
+                          SizedBox(width: 5.w),
+                          Text(
+                            "Profile",
+                            style: TextStyle(
+                                color: MyColors.accentColor,
+                                fontSize: 26.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 2.h,
                       ),
-                      BlocProvider(
-                        create: (context) => ProfileTopCardCubit(),
-                        child: ProfileTopCard(
-                          child: InkWell(
-                            onTap: () =>
-                                BlocProvider.of<LogoutCubit>(context).logOut(),
-                            child: Container(
-                              child: Text(
-                                "Log Out",
-                                style: TextStyle(
-                                  color: MyColors.white,
-                                  fontSize: 12.sp,
-                                ),
-                              ),
-                            ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          BlocProvider(
+                            create: (context) => ProfileTopCardCubit(),
+                            child: ProfileTopCard(),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        child: BlocProvider(
+                          create: (context) => TodayWorksCubit(),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w),
+                            child: TodayWorkedDetails(),
                           ),
                         ),
                       ),

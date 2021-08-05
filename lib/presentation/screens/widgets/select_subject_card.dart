@@ -41,9 +41,9 @@ class _SelectSubjectCardState extends State<SelectSubjectCard> {
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 5.h),
             decoration: BoxDecoration(
-                color: selected ? MyColors.accentColor : MyColors.white,
-                borderRadius: BorderRadius.circular(5.w),
-                boxShadow: [MyStyles.boxShadow]),
+              color: selected ? MyColors.accentColor : MyColors.white,
+              borderRadius: BorderRadius.circular(5.w),
+            ),
             child: Center(
               child: Text(
                 widget.subject.name,

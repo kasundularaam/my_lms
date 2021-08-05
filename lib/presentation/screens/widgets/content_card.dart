@@ -30,15 +30,14 @@ class ContentCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: MyColors.white,
               borderRadius: BorderRadius.circular(5.w),
-              boxShadow: [MyStyles.boxShadow],
             ),
             child: Center(
               child: Text(
                 args.contentName,
                 style: TextStyle(
-                    color: MyColors.accentColor,
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w600),
+                  color: MyColors.accentColor,
+                  fontSize: 20.sp,
+                ),
               ),
             ),
           ),

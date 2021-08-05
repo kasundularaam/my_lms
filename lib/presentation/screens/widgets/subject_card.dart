@@ -6,7 +6,6 @@ import 'package:my_lms/presentation/screens/widgets/loading_container.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
-import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/core/screen_arguments/subject_screen_args.dart';
 import 'package:my_lms/data/models/subject_model.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
@@ -38,9 +37,9 @@ class SubjectCard extends StatelessWidget {
             width: 90.w,
             padding: EdgeInsets.all(5.w),
             decoration: BoxDecoration(
-                color: MyColors.white,
-                borderRadius: BorderRadius.circular(5.w),
-                boxShadow: [MyStyles.boxShadow]),
+              color: MyColors.white,
+              borderRadius: BorderRadius.circular(5.w),
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +48,7 @@ class SubjectCard extends StatelessWidget {
                   subject.name,
                   style: TextStyle(
                       color: MyColors.accentColor,
-                      fontSize: 22.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
@@ -102,9 +101,9 @@ class SubjectCard extends StatelessWidget {
                               Text(
                                 "Modules",
                                 style: TextStyle(
-                                    color: MyColors.accentColor,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
+                                  color: MyColors.accentColor,
+                                  fontSize: 16.sp,
+                                ),
                               ),
                               Column(
                                 children: [
@@ -133,9 +132,9 @@ class SubjectCard extends StatelessWidget {
                             children: [
                               Text("Contents",
                                   style: TextStyle(
-                                      color: MyColors.accentColor,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600)),
+                                    color: MyColors.accentColor,
+                                    fontSize: 16.sp,
+                                  )),
                               Column(
                                 children: [
                                   Text(
@@ -162,9 +161,9 @@ class SubjectCard extends StatelessWidget {
                             alignment: Alignment.centerRight,
                             child: Text("${state.quizCount} Quiz",
                                 style: TextStyle(
-                                    color: MyColors.accentColor,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600)),
+                                  color: MyColors.accentColor,
+                                  fontSize: 14.sp,
+                                )),
                           )
                         ],
                       );

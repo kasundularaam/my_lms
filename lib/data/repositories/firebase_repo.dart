@@ -1,9 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
+import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/screen_arguments/end_tab_args.dart';
 import 'package:my_lms/data/models/fire_content.dart';
 import 'package:my_lms/data/models/fire_module_model.dart';
 import 'package:my_lms/data/models/fire_user_model.dart';
+import 'package:my_lms/data/models/pie_data_model.dart';
+import 'package:my_lms/data/models/pie_sub_pres.dart';
 import 'package:my_lms/data/models/subject_model.dart';
 import 'package:my_lms/data/repositories/repository.dart';
 
@@ -349,17 +354,13 @@ class FirebaseRepo {
     }
   }
 
-  static Future<List<FireContent>> getFireContentsForWeek() async {
+  static Future<List<FireContent>> getFireContents() async {
     try {
       List<FireContent> allContents = [];
-      DateTime now = DateTime.now();
-      DateTime weekAgo = now.subtract(Duration(days: 7));
-      int weekAgoTimestmp = weekAgo.millisecondsSinceEpoch;
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection("users")
           .doc(currentUid())
           .collection("contents")
-          .where('startTimestamp', isGreaterThan: weekAgoTimestmp)
           .get();
       snapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -376,6 +377,93 @@ class FirebaseRepo {
             isCompleted: data['isCompleted']));
       }).toList();
       return allContents;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<List<FireContent>> getFireContentsForToday() async {
+    try {
+      List<FireContent> todayFireContents = [];
+      List<FireContent> allFireContents = await getFireContents();
+      DateFormat format = DateFormat("dd.MM.yyyy");
+      int now = DateTime.now().millisecondsSinceEpoch;
+      String formattedNow =
+          format.format(DateTime.fromMillisecondsSinceEpoch(now));
+      allFireContents.forEach((fireContent) {
+        String formattedFc = format.format(
+            DateTime.fromMillisecondsSinceEpoch(fireContent.startTimestamp));
+        if (formattedFc == formattedNow) {
+          todayFireContents.add(fireContent);
+        }
+      });
+      return todayFireContents;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<String> getTodayWorkedTime() async {
+    try {
+      int workedSeconds = 0;
+      List<FireContent> todayFireContents = await getFireContentsForToday();
+      todayFireContents.forEach((fireContent) {
+        workedSeconds = workedSeconds + fireContent.counter;
+      });
+      String hoursStr =
+          ((workedSeconds / (60 * 60)) % 60).floor().toString().padLeft(2, '0');
+      String minutesStr =
+          ((workedSeconds / 60) % 60).floor().toString().padLeft(2, '0');
+      String secondsStr =
+          (workedSeconds % 60).floor().toString().padLeft(2, '0');
+      String timeString = "$hoursStr" ":" "$minutesStr" ":" "$secondsStr";
+      return timeString;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<List<PieDataModel>> getPieDataList() async {
+    try {
+      List<PieDataModel> pieDataList = [];
+      List<String> subjectNames = [];
+      List<PieSubPres> pieSubPresList = [];
+      List<Subject> subjects = await getSubjects();
+      subjects.forEach((subject) {
+        subjectNames.add(subject.name);
+      });
+      List<FireContent> todayFireContents = await getFireContentsForToday();
+      subjectNames.forEach((subName) {
+        int counter = 0;
+        todayFireContents.forEach((fireContent) {
+          if (fireContent.subjectName == subName) {
+            counter = counter + fireContent.counter;
+          }
+        });
+        pieSubPresList.add(PieSubPres(name: subName, workedTime: counter));
+      });
+      int total = 0;
+      pieSubPresList.forEach((pieSubPres) {
+        total = total + pieSubPres.workedTime;
+      });
+      List<Color> myColorList = [
+        MyColors.thu,
+        MyColors.fri,
+        MyColors.sat,
+        MyColors.sun,
+        MyColors.mon,
+        MyColors.tue,
+        MyColors.wed,
+      ];
+      int i = 0;
+      pieSubPresList.forEach((pieSubPres) {
+        pieDataList.add(PieDataModel(
+            name: pieSubPres.name,
+            percent: (pieSubPres.workedTime / total) * 100,
+            color: myColorList[i]));
+        i++;
+      });
+      return pieDataList;
     } catch (e) {
       throw e;
     }

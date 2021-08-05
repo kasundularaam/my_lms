@@ -42,7 +42,6 @@ class ModuleCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: MyColors.white,
               borderRadius: BorderRadius.circular(5.w),
-              boxShadow: [MyStyles.boxShadow],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
