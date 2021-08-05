@@ -31,7 +31,7 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: MyColors.offWhite,
+        color: MyColors.screenBgColor,
         boxShadow: [MyStyles.boxShadow],
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(10.w),
@@ -61,7 +61,7 @@ class _HomeTabState extends State<HomeTab> {
                       Text(
                         "Home",
                         style: TextStyle(
-                            color: MyColors.accentColor,
+                            color: MyColors.textColorLight,
                             fontSize: 26.sp,
                             fontWeight: FontWeight.w600),
                       ),
@@ -81,7 +81,10 @@ class _HomeTabState extends State<HomeTab> {
                   SizedBox(
                     height: 3.h,
                   ),
-                  Center(child: CircularProgressIndicator()),
+                  Center(
+                      child: CircularProgressIndicator(
+                    color: MyColors.progressColor,
+                  )),
                 ],
               );
             } else if (state is HomeTabLoaded) {
@@ -99,7 +102,7 @@ class _HomeTabState extends State<HomeTab> {
                       Text(
                         "Home",
                         style: TextStyle(
-                            color: MyColors.accentColor,
+                            color: MyColors.textColorLight,
                             fontSize: 26.sp,
                             fontWeight: FontWeight.w600),
                       ),
@@ -134,7 +137,6 @@ class _HomeTabState extends State<HomeTab> {
               );
             } else if (state is HomeTabFailed) {
               return ListView(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
                 children: [
                   SizedBox(
                     height: 2.h,
@@ -147,7 +149,7 @@ class _HomeTabState extends State<HomeTab> {
                       Text(
                         "Home",
                         style: TextStyle(
-                            color: MyColors.accentColor,
+                            color: MyColors.textColorLight,
                             fontSize: 26.sp,
                             fontWeight: FontWeight.w600),
                       ),

@@ -6,7 +6,6 @@ import 'package:my_lms/presentation/screens/widgets/loading_container.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
-import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/core/screen_arguments/module_screen_args.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
 
@@ -40,7 +39,7 @@ class ModuleCard extends StatelessWidget {
             width: 100.w,
             padding: EdgeInsets.all(5.w),
             decoration: BoxDecoration(
-              color: MyColors.white,
+              color: MyColors.textColorLight,
               borderRadius: BorderRadius.circular(5.w),
             ),
             child: Column(
@@ -49,8 +48,8 @@ class ModuleCard extends StatelessWidget {
                 Text(
                   args.moduleName,
                   style: TextStyle(
-                      color: MyColors.accentColor,
-                      fontSize: 20.sp,
+                      color: MyColors.textColorDark,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
@@ -75,14 +74,14 @@ class ModuleCard extends StatelessWidget {
                           Text(
                             "Contents: ${state.contentCount}",
                             style: TextStyle(
-                                color: MyColors.shadedBlack,
+                                color: MyColors.textColorDark,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w600),
                           ),
                           Text(
                             "Quiz: ${state.quizCount}",
                             style: TextStyle(
-                                color: MyColors.shadedBlack,
+                                color: MyColors.textColorDark,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w600),
                           ),

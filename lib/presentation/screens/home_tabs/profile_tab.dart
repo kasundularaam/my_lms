@@ -1,16 +1,13 @@
 import 'dart:ui';
 
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
-import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/logic/cubit/logout_cubit/logout_cubit.dart';
 import 'package:my_lms/logic/cubit/profile_top_card_cubit/profile_top_card_cubit.dart';
 import 'package:my_lms/logic/cubit/today_worls_cubit/today_works_cubit.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
-import 'package:my_lms/presentation/screens/widgets/pie_chart_sections.dart';
 import 'package:my_lms/presentation/screens/widgets/profile_top_card.dart';
 import 'package:my_lms/presentation/screens/widgets/today_worked_details.dart';
 import 'package:sizer/sizer.dart';
@@ -29,12 +26,11 @@ class _ProfileTabState extends State<ProfileTab> {
       create: (context) => LogoutCubit(),
       child: Container(
         decoration: BoxDecoration(
-          color: MyColors.backgroundWhite,
+          color: MyColors.screenBgColor,
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(10.w),
             bottomRight: Radius.circular(10.w),
           ),
-          boxShadow: [MyStyles.boxShadow],
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.only(
@@ -49,47 +45,44 @@ class _ProfileTabState extends State<ProfileTab> {
             },
             builder: (context, state) {
               if (state is LogoutInitial) {
-                return ListView(
-                    physics: BouncingScrollPhysics(),
-                    shrinkWrap: true,
+                return ListView(physics: BouncingScrollPhysics(), children: [
+                  SizedBox(height: 2.h),
+                  Row(
                     children: [
-                      SizedBox(height: 2.h),
-                      Row(
-                        children: [
-                          SizedBox(width: 5.w),
-                          Text(
-                            "Profile",
-                            style: TextStyle(
-                                color: MyColors.accentColor,
-                                fontSize: 26.sp,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ],
+                      SizedBox(width: 5.w),
+                      Text(
+                        "Profile",
+                        style: TextStyle(
+                            color: MyColors.textColorLight,
+                            fontSize: 26.sp,
+                            fontWeight: FontWeight.w600),
                       ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Row(
+                    children: [
                       SizedBox(
-                        height: 2.h,
+                        width: 5.w,
                       ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 5.w,
-                          ),
-                          BlocProvider(
-                            create: (context) => ProfileTopCardCubit(),
-                            child: ProfileTopCard(),
-                          ),
-                        ],
+                      BlocProvider(
+                        create: (context) => ProfileTopCardCubit(),
+                        child: ProfileTopCard(),
                       ),
-                      Container(
-                        child: BlocProvider(
-                          create: (context) => TodayWorksCubit(),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5.w),
-                            child: TodayWorkedDetails(),
-                          ),
-                        ),
+                    ],
+                  ),
+                  Container(
+                    child: BlocProvider(
+                      create: (context) => TodayWorksCubit(),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5.w),
+                        child: TodayWorkedDetails(),
                       ),
-                    ]);
+                    ),
+                  ),
+                ]);
               } else if (state is LogoutLoading) {
                 return Center(
                   child: CircularProgressIndicator(),

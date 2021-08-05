@@ -31,7 +31,7 @@ class TodayWorkedDetails extends StatelessWidget {
                     Text(
                       "Today Progress",
                       style: TextStyle(
-                          color: MyColors.shadedBlack, fontSize: 18.sp),
+                          color: MyColors.textColorDark, fontSize: 18.sp),
                     ),
                     SizedBox(
                       height: 3.h,
@@ -40,7 +40,7 @@ class TodayWorkedDetails extends StatelessWidget {
                       child: Text(
                         state.loadingMsg,
                         style: TextStyle(
-                            color: MyColors.shadedBlack, fontSize: 14.sp),
+                            color: MyColors.textColorDark, fontSize: 14.sp),
                       ),
                     ),
                   ],
@@ -58,7 +58,7 @@ class TodayWorkedDetails extends StatelessWidget {
                     Text(
                       "Today Progress",
                       style: TextStyle(
-                          color: MyColors.shadedBlack, fontSize: 18.sp),
+                          color: MyColors.textColorDark, fontSize: 18.sp),
                     ),
                     SizedBox(
                       height: 3.h,
@@ -105,14 +105,14 @@ class TodayWorkedDetails extends StatelessWidget {
                           Text(
                             "${state.workedTime}",
                             style: TextStyle(
-                                color: MyColors.shadedBlack,
+                                color: MyColors.textColorDark,
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "time has worked today",
                             style: TextStyle(
-                                color: MyColors.shadedBlack, fontSize: 14.sp),
+                                color: MyColors.textColorDark, fontSize: 14.sp),
                           ),
                         ],
                       ),

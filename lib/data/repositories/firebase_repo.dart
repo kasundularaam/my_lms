@@ -447,13 +447,13 @@ class FirebaseRepo {
         total = total + pieSubPres.workedTime;
       });
       List<Color> myColorList = [
-        MyColors.thu,
-        MyColors.fri,
-        MyColors.sat,
-        MyColors.sun,
-        MyColors.mon,
-        MyColors.tue,
-        MyColors.wed,
+        MyColors.rGreen,
+        MyColors.rBlue,
+        MyColors.rPerple,
+        MyColors.rPink,
+        MyColors.rRed,
+        MyColors.rOrange,
+        MyColors.rYellow,
       ];
       int i = 0;
       pieSubPresList.forEach((pieSubPres) {

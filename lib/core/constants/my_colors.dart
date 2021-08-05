@@ -4,7 +4,7 @@ class MyColors {
   static const Color extraLight = Color(0xffcaf0f8);
   static const Color primaryLight = Color(0xff90e0ef);
   static const Color primaryColor = Color(0xff00b4d8);
-  static const Color primaryDark = Color(0xff0077b6);
+  static const Color primaryDark = Color(0xff022C43);
   static const Color extraDark = Color(0xff03045e);
   static const Color white = Color(0xffffffff);
   static const Color black = Color(0xff000000);
@@ -21,11 +21,20 @@ class MyColors {
   static const Color green = Color(0xff207a12);
   static const Color red = Color(0xff8c1212);
 
-  static const Color mon = Color(0xffff0000);
-  static const Color tue = Color(0xffffa500);
-  static const Color wed = Color(0xffffff00);
-  static const Color thu = Color(0xff008000);
-  static const Color fri = Color(0xff0000ff);
-  static const Color sat = Color(0xff4b0082);
-  static const Color sun = Color(0xffee82ee);
+  static const Color rRed = Color(0xffff0000);
+  static const Color rOrange = Color(0xffffa500);
+  static const Color rYellow = Color(0xffffff00);
+  static const Color rGreen = Color(0xff008000);
+  static const Color rBlue = Color(0xff0000ff);
+  static const Color rPerple = Color(0xff4b0082);
+  static const Color rPink = Color(0xffee82ee);
+
+  static const Color hpTopCardBgColor = Color(0xff0C7B93);
+  static const Color screenBgDarkColor = Color(0xff001F3F);
+  static const Color screenBgColor = Color(0xff083358);
+  static const Color itemBgColor = Color(0xff0D63A5);
+  static const Color textColorLight = Color(0xffffffff);
+  static const Color textColorDark = Color(0xff334756);
+  static const Color progressBgColor = Color(0xffA0C1B8);
+  static const Color progressColor = Color(0xffFFD717);
 }

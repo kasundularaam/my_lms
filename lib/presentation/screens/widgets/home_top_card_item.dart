@@ -38,7 +38,8 @@ class HomeTopCardItem extends StatelessWidget {
             children: [
               Text(
                 subject.name,
-                style: TextStyle(color: MyColors.white, fontSize: 14.sp),
+                style:
+                    TextStyle(color: MyColors.textColorLight, fontSize: 14.sp),
               ),
               SizedBox(
                 height: 2.w,
@@ -47,8 +48,8 @@ class HomeTopCardItem extends StatelessWidget {
                   width: 20.w,
                   max: state.contentCount,
                   progress: state.fireContentCount,
-                  backgroundColor: MyColors.backgroundWhite,
-                  progressColor: MyColors.primaryColor),
+                  backgroundColor: MyColors.progressBgColor,
+                  progressColor: MyColors.progressColor),
               SizedBox(
                 height: 3.w,
               ),

@@ -35,7 +35,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.accentColor,
+      backgroundColor: MyColors.screenBgDarkColor,
       body: SafeArea(
         child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
@@ -53,7 +53,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           padding: EdgeInsets.all(5.w),
                           child: Icon(
                             Icons.arrow_back_ios,
-                            color: MyColors.white,
+                            color: MyColors.textColorLight,
                             size: 20.sp,
                           ),
                         ),
@@ -63,7 +63,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       child: Text(
                         widget.args.subjectName,
                         style: TextStyle(
-                            color: MyColors.white,
+                            color: MyColors.textColorLight,
                             fontSize: 26.sp,
                             fontWeight: FontWeight.w600),
                       ),
@@ -74,7 +74,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
               Container(
                 height: (constraints.maxHeight * 90) / 100,
                 decoration: BoxDecoration(
-                  color: MyColors.offWhite,
+                  color: MyColors.screenBgColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(8.w),
                     topRight: Radius.circular(8.w),
@@ -106,7 +106,10 @@ class _SubjectScreenState extends State<SubjectScreen> {
                         if (state is SubjectScreenInitial) {
                           return Text("Initial State");
                         } else if (state is SubjectScreenLoading) {
-                          return Center(child: CircularProgressIndicator());
+                          return Center(
+                              child: CircularProgressIndicator(
+                            color: MyColors.progressColor,
+                          ));
                         } else if (state is SubjectScreenLoaded) {
                           return ListView.builder(
                             padding: EdgeInsets.all(0),

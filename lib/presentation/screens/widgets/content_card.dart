@@ -36,7 +36,7 @@ class ContentCard extends StatelessWidget {
                 args.contentName,
                 style: TextStyle(
                   color: MyColors.accentColor,
-                  fontSize: 20.sp,
+                  fontSize: 18.sp,
                 ),
               ),
             ),

@@ -29,9 +29,9 @@ class _BottomTabState extends State<BottomTab> {
             return buildInitState();
           } else if (state is HomeScreenNavigate) {
             if (state.homeNav == HomeNav.toHome) {
-              return buildNavState(MyColors.extraLight, MyColors.primaryDark);
+              return buildNavState(MyColors.white, MyColors.lightGray);
             } else if (state.homeNav == HomeNav.toProfile) {
-              return buildNavState(MyColors.primaryDark, MyColors.extraLight);
+              return buildNavState(MyColors.lightGray, MyColors.white);
             } else {
               return buildInitState();
             }
@@ -49,13 +49,13 @@ class _BottomTabState extends State<BottomTab> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         BottomTabButton(
-          color: MyColors.accentColor,
+          color: MyColors.white,
           btnIcon: Icons.home_rounded,
           onPressed: () => BlocProvider.of<HomeNavCubit>(context)
               .homeNavigate(homeNav: HomeNav.toHome),
         ),
         BottomTabButton(
-          color: MyColors.gray,
+          color: MyColors.lightGray,
           btnIcon: Icons.person_rounded,
           onPressed: () => BlocProvider.of<HomeNavCubit>(context)
               .homeNavigate(homeNav: HomeNav.toProfile),

@@ -37,7 +37,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.accentColor,
+      backgroundColor: MyColors.screenBgDarkColor,
       body: SafeArea(
         child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
@@ -55,7 +55,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                           padding: EdgeInsets.all(5.w),
                           child: Icon(
                             Icons.arrow_back_ios,
-                            color: MyColors.white,
+                            color: MyColors.textColorLight,
                             size: 20.sp,
                           ),
                         ),
@@ -65,7 +65,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                       child: Text(
                         widget.args.moduleName,
                         style: TextStyle(
-                            color: MyColors.white,
+                            color: MyColors.textColorLight,
                             fontSize: 26.sp,
                             fontWeight: FontWeight.w600),
                       ),
@@ -76,7 +76,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
               Container(
                 height: (constraints.maxHeight * 90) / 100,
                 decoration: BoxDecoration(
-                  color: MyColors.offWhite,
+                  color: MyColors.screenBgColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(8.w),
                     topRight: Radius.circular(8.w),
@@ -96,7 +96,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                           child: Text(
                             "Contents",
                             style: TextStyle(
-                                color: MyColors.accentColor,
+                                color: MyColors.textColorLight,
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.w600),
                           ),
@@ -113,27 +113,42 @@ class _ModuleScreenState extends State<ModuleScreen> {
                                 return Center(child: Text("Initial State"));
                               } else if (state is ModuleScreenLoading) {
                                 return Center(
-                                    child: CircularProgressIndicator());
+                                    child: CircularProgressIndicator(
+                                  color: MyColors.progressColor,
+                                ));
                               } else if (state is ModuleScreenLoaded) {
-                                return ListView.builder(
+                                return ListView(
                                   padding: EdgeInsets.all(0),
                                   physics: BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: state.contentList.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    Content content = state.contentList[index];
-                                    return ContentCardSmall(
-                                      args: ContentScreenArgs(
-                                        contentId: content.id,
-                                        contentName: content.contentTitle,
-                                        subjectName: widget.args.subjectName,
-                                        subjectId: widget.args.subjectId,
-                                        moduleName: widget.args.moduleName,
-                                        moduleId: widget.args.moduleId,
-                                      ),
-                                    );
-                                  },
+                                  children: [
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    ListView.builder(
+                                      padding: EdgeInsets.all(0),
+                                      physics: BouncingScrollPhysics(),
+                                      scrollDirection: Axis.horizontal,
+                                      shrinkWrap: true,
+                                      itemCount: state.contentList.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        Content content =
+                                            state.contentList[index];
+                                        return ContentCardSmall(
+                                          args: ContentScreenArgs(
+                                            contentId: content.id,
+                                            contentName: content.contentTitle,
+                                            subjectName:
+                                                widget.args.subjectName,
+                                            subjectId: widget.args.subjectId,
+                                            moduleName: widget.args.moduleName,
+                                            moduleId: widget.args.moduleId,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 );
                               } else if (state is ModuleScreenFailed) {
                                 return Padding(
@@ -172,14 +187,14 @@ class _ModuleScreenState extends State<ModuleScreen> {
                             padding: EdgeInsets.all(5.w),
                             margin: EdgeInsets.symmetric(horizontal: 20.w),
                             decoration: BoxDecoration(
-                              color: MyColors.accentColor,
+                              color: MyColors.hpTopCardBgColor,
                               borderRadius: BorderRadius.circular(5.w),
                             ),
                             child: Center(
                               child: Text(
                                 "See All Contents",
                                 style: TextStyle(
-                                    color: MyColors.white,
+                                    color: MyColors.textColorLight,
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w600),
                               ),
@@ -192,7 +207,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.w),
                           child: Divider(
-                            color: MyColors.accentColor,
+                            color: MyColors.progressColor,
                             thickness: 0.2.w,
                           ),
                         ),
@@ -204,7 +219,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                           child: Text(
                             "Questions",
                             style: TextStyle(
-                                color: MyColors.accentColor,
+                                color: MyColors.textColorLight,
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.w600),
                           ),
@@ -225,7 +240,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                             padding: EdgeInsets.all(5.w),
                             margin: EdgeInsets.symmetric(horizontal: 20.w),
                             decoration: BoxDecoration(
-                              color: MyColors.accentColor,
+                              color: MyColors.hpTopCardBgColor,
                               borderRadius: BorderRadius.circular(5.w),
                               boxShadow: [MyStyles.boxShadow],
                             ),
@@ -233,7 +248,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
                               child: Text(
                                 "Go To Quiz",
                                 style: TextStyle(
-                                    color: MyColors.white,
+                                    color: MyColors.textColorLight,
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w600),
                               ),

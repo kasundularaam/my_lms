@@ -18,7 +18,7 @@ class LoadingContainer extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: MyColors.gray,
+          color: MyColors.lightGray,
           borderRadius: BorderRadius.circular(1.w),
         ));
   }

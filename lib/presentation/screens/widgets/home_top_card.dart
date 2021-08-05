@@ -21,7 +21,7 @@ class HomeTopCard extends StatelessWidget {
           padding: EdgeInsets.all(5.w),
           width: 95.w,
           decoration: BoxDecoration(
-            color: MyColors.accentColor,
+            color: MyColors.hpTopCardBgColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(5.w),
               bottomLeft: Radius.circular(5.w),
@@ -32,7 +32,8 @@ class HomeTopCard extends StatelessWidget {
             children: [
               Text(
                 "Subjects",
-                style: TextStyle(color: MyColors.white, fontSize: 20.sp),
+                style:
+                    TextStyle(color: MyColors.textColorLight, fontSize: 20.sp),
               ),
               SizedBox(
                 height: 5.w,

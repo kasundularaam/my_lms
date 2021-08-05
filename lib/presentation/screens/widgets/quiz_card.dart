@@ -46,7 +46,7 @@ class _QuizCardState extends State<QuizCard> {
           width: 100.w,
           padding: EdgeInsets.all(5.w),
           decoration: BoxDecoration(
-            color: MyColors.offWhite,
+            color: MyColors.textColorLight,
             borderRadius: BorderRadius.circular(5.w),
           ),
           child: Column(
@@ -56,7 +56,8 @@ class _QuizCardState extends State<QuizCard> {
               Text(
                 "${widget.index}. "
                 "${widget.question.question}",
-                style: TextStyle(color: MyColors.shadedBlack, fontSize: 20.sp),
+                style:
+                    TextStyle(color: MyColors.textColorDark, fontSize: 20.sp),
               ),
               SizedBox(
                 height: 3.h,
@@ -99,7 +100,7 @@ class _QuizCardState extends State<QuizCard> {
                           child: Text(
                             "Check",
                             style: TextStyle(
-                              color: MyColors.accentColor,
+                              color: MyColors.textColorDark,
                               fontSize: 16.sp,
                             ),
                           ));
@@ -120,7 +121,7 @@ class _QuizCardState extends State<QuizCard> {
                           child: Text(
                             "Check",
                             style: TextStyle(
-                              color: MyColors.accentColor,
+                              color: MyColors.hpTopCardBgColor,
                               fontSize: 16.sp,
                             ),
                           ));
@@ -148,8 +149,8 @@ class _QuizCardState extends State<QuizCard> {
                 .selectAnswer(selectedAnswer: answer);
             selectedAnswer = answer;
           },
-          txtColor: MyColors.shadedBlack,
-          bgColor: MyColors.white));
+          txtColor: MyColors.textColorLight,
+          bgColor: MyColors.hpTopCardBgColor));
     });
     return answBtnList;
   }
@@ -161,8 +162,8 @@ class _QuizCardState extends State<QuizCard> {
         answBtnList.add(AnswerBtn(
             answer: answer,
             onPressed: () {},
-            txtColor: MyColors.white,
-            bgColor: MyColors.accentColor));
+            txtColor: MyColors.hpTopCardBgColor,
+            bgColor: MyColors.progressColor));
       } else {
         answBtnList.add(AnswerBtn(
             answer: answer,
@@ -171,8 +172,8 @@ class _QuizCardState extends State<QuizCard> {
                   .selectAnswer(selectedAnswer: answer);
               selectedAnswer = answer;
             },
-            txtColor: MyColors.shadedBlack,
-            bgColor: MyColors.white));
+            txtColor: MyColors.textColorLight,
+            bgColor: MyColors.hpTopCardBgColor));
       }
     });
     return answBtnList;
@@ -203,9 +204,9 @@ class AnswerBtn extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(3.w),
             decoration: BoxDecoration(
-              color: MyColors.white,
+              color: bgColor,
               borderRadius: BorderRadius.circular(3.w),
-              border: Border.all(color: bgColor, width: 0.5.w),
+              border: Border.all(color: txtColor, width: 0.5.w),
             ),
             child: Align(
               alignment: Alignment.centerLeft,
@@ -213,7 +214,7 @@ class AnswerBtn extends StatelessWidget {
                 answer,
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                  color: MyColors.shadedBlack,
+                  color: txtColor,
                   fontSize: 16.sp,
                 ),
               ),

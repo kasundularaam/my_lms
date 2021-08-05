@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
-import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/data/models/question_model.dart';
 import 'package:my_lms/logic/cubit/quiz_card_cubit/quiz_card_cubit.dart';
 import 'package:my_lms/logic/cubit/quiz_screen_cubit/quiz_screen_cubit.dart';
@@ -34,7 +33,7 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: MyColors.accentColor,
+        backgroundColor: MyColors.screenBgDarkColor,
         body: SafeArea(
           child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
@@ -52,7 +51,7 @@ class _QuizScreenState extends State<QuizScreen> {
                             padding: EdgeInsets.all(5.w),
                             child: Icon(
                               Icons.arrow_back_ios,
-                              color: MyColors.white,
+                              color: MyColors.textColorLight,
                               size: 20.sp,
                             ),
                           ),
@@ -65,14 +64,14 @@ class _QuizScreenState extends State<QuizScreen> {
                             Text(
                               widget.moduleName,
                               style: TextStyle(
-                                  color: MyColors.white,
+                                  color: MyColors.textColorLight,
                                   fontSize: 26.sp,
                                   fontWeight: FontWeight.w600),
                             ),
                             Text(
                               "questions",
                               style: TextStyle(
-                                color: MyColors.white,
+                                color: MyColors.textColorLight,
                                 fontSize: 20.sp,
                               ),
                             ),
@@ -85,7 +84,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 Container(
                   height: (constraints.maxHeight * 85) / 100,
                   decoration: BoxDecoration(
-                    color: MyColors.backgroundWhite,
+                    color: MyColors.screenBgColor,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8.w),
                       topRight: Radius.circular(8.w),

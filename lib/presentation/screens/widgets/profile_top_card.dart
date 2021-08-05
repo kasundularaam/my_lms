@@ -17,7 +17,7 @@ class ProfileTopCard extends StatelessWidget {
           width: 95.w,
           padding: EdgeInsets.all(5.w),
           decoration: BoxDecoration(
-            color: MyColors.accentColor,
+            color: MyColors.hpTopCardBgColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(5.w),
               bottomLeft: Radius.circular(5.w),
@@ -50,9 +50,9 @@ class ProfileTopCard extends StatelessWidget {
                           children: [
                             Container(
                               width: 20.w,
-                              height: 3.h,
+                              height: 1.6.h,
                               decoration: BoxDecoration(
-                                color: MyColors.backgroundWhite,
+                                color: MyColors.textColorLight,
                                 borderRadius: BorderRadius.circular(1.w),
                               ),
                             ),
@@ -61,9 +61,9 @@ class ProfileTopCard extends StatelessWidget {
                             ),
                             Container(
                               width: 40.w,
-                              height: 3.w,
+                              height: 1.2.h,
                               decoration: BoxDecoration(
-                                color: MyColors.backgroundWhite,
+                                color: MyColors.textColorLight,
                                 borderRadius: BorderRadius.circular(1.w),
                               ),
                             ),
@@ -77,14 +77,14 @@ class ProfileTopCard extends StatelessWidget {
                             Text(
                               state.fireUser.name,
                               style: TextStyle(
-                                color: MyColors.white,
+                                color: MyColors.textColorLight,
                                 fontSize: 18.sp,
                               ),
                             ),
                             Text(
                               state.fireUser.email,
                               style: TextStyle(
-                                color: MyColors.white,
+                                color: MyColors.textColorLight,
                                 fontSize: 12.sp,
                               ),
                             ),
@@ -98,7 +98,7 @@ class ProfileTopCard extends StatelessWidget {
                               width: 20.w,
                               height: 3.h,
                               decoration: BoxDecoration(
-                                color: MyColors.backgroundWhite,
+                                color: MyColors.textColorLight,
                                 borderRadius: BorderRadius.circular(1.w),
                               ),
                             ),
@@ -109,7 +109,7 @@ class ProfileTopCard extends StatelessWidget {
                               width: 40.w,
                               height: 3.w,
                               decoration: BoxDecoration(
-                                color: MyColors.backgroundWhite,
+                                color: MyColors.textColorLight,
                                 borderRadius: BorderRadius.circular(1.w),
                               ),
                             ),
@@ -130,11 +130,14 @@ class ProfileTopCard extends StatelessWidget {
                 child: InkWell(
                   onTap: () => BlocProvider.of<LogoutCubit>(context).logOut(),
                   child: Container(
-                    child: Text(
-                      "Log Out",
-                      style: TextStyle(
-                        color: MyColors.white,
-                        fontSize: 12.sp,
+                    child: Padding(
+                      padding: EdgeInsets.all(2.w),
+                      child: Text(
+                        "Log Out",
+                        style: TextStyle(
+                          color: MyColors.white,
+                          fontSize: 12.sp,
+                        ),
                       ),
                     ),
                   ),

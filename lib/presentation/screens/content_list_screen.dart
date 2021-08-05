@@ -6,7 +6,6 @@ import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
-import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/core/screen_arguments/content_list_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
 import 'package:my_lms/presentation/screens/widgets/content_card.dart';
@@ -34,7 +33,7 @@ class _ContentListScreenState extends State<ContentListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.accentColor,
+      backgroundColor: MyColors.screenBgDarkColor,
       body: SafeArea(
         child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
@@ -52,7 +51,7 @@ class _ContentListScreenState extends State<ContentListScreen> {
                           padding: EdgeInsets.all(5.w),
                           child: Icon(
                             Icons.arrow_back_ios,
-                            color: MyColors.white,
+                            color: MyColors.textColorLight,
                             size: 20.sp,
                           ),
                         ),
@@ -65,14 +64,14 @@ class _ContentListScreenState extends State<ContentListScreen> {
                           Text(
                             widget.args.moduleName,
                             style: TextStyle(
-                                color: MyColors.white,
+                                color: MyColors.textColorLight,
                                 fontSize: 26.sp,
                                 fontWeight: FontWeight.w600),
                           ),
                           Text(
                             "contents",
                             style: TextStyle(
-                              color: MyColors.white,
+                              color: MyColors.textColorLight,
                               fontSize: 20.sp,
                             ),
                           ),
@@ -85,7 +84,7 @@ class _ContentListScreenState extends State<ContentListScreen> {
               Container(
                 height: (constraints.maxHeight * 85) / 100,
                 decoration: BoxDecoration(
-                  color: MyColors.backgroundWhite,
+                  color: MyColors.screenBgColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(8.w),
                     topRight: Radius.circular(8.w),
@@ -110,14 +109,17 @@ class _ContentListScreenState extends State<ContentListScreen> {
                           hintText: "Search contents..."),
                     ),
                     SizedBox(
-                      height: 5.w,
+                      height: 3.h,
                     ),
                     BlocBuilder<ContentListScreenCubit, ContentListScreenState>(
                       builder: (context, state) {
                         if (state is ContentListScreenInitial) {
                           return Center(child: Text("Initial State"));
                         } else if (state is ContentListScreenLoading) {
-                          return Center(child: CircularProgressIndicator());
+                          return Center(
+                              child: CircularProgressIndicator(
+                            color: MyColors.progressColor,
+                          ));
                         } else if (state is ContentListScreenLoaded) {
                           return ListView.builder(
                             padding: EdgeInsets.all(0),
