@@ -26,14 +26,14 @@ class MyPrograssBar extends StatelessWidget {
           Container(
             color: backgroundColor,
             height: 2.h,
-            width: width.w,
+            width: width,
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(1.h),
             child: Container(
               color: progressColor,
               height: 2.h,
-              width: countedProgress.w,
+              width: countedProgress,
             ),
           ),
         ],

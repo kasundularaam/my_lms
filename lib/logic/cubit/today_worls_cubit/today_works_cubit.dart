@@ -14,7 +14,14 @@ class TodayWorksCubit extends Cubit<TodayWorksState> {
       emit(TodayWorksLoading(loadingMsg: "Loading..."));
       String workedTime = await FirebaseRepo.getTodayWorkedTime();
       List<PieDataModel> pieDataList = await FirebaseRepo.getPieDataList();
-      emit(TodayWorksLoaded(workedTime: workedTime, pieDataList: pieDataList));
+      if (workedTime != "00:00:00") {
+        emit(
+            TodayWorksLoaded(workedTime: workedTime, pieDataList: pieDataList));
+      } else {
+        emit(TodayWorksNoWork(
+            message:
+                "You haven't done anything yet...\nTry to keep working everyday!!"));
+      }
     } catch (e) {
       emit(TodayWorksFailed(errorMsg: e.toString()));
     }

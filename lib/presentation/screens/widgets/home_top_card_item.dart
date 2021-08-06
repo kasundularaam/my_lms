@@ -45,7 +45,7 @@ class HomeTopCardItem extends StatelessWidget {
                 height: 2.w,
               ),
               MyPrograssBar(
-                  width: 20.w,
+                  width: 75.w,
                   max: state.contentCount,
                   progress: state.fireContentCount,
                   backgroundColor: MyColors.progressBgColor,

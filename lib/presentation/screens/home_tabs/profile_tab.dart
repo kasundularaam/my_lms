@@ -5,10 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/logic/cubit/logout_cubit/logout_cubit.dart';
 import 'package:my_lms/logic/cubit/profile_top_card_cubit/profile_top_card_cubit.dart';
+import 'package:my_lms/logic/cubit/sub_prog_card_cubit/sub_prog_card_cubit.dart';
 import 'package:my_lms/logic/cubit/today_worls_cubit/today_works_cubit.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:my_lms/presentation/screens/widgets/profile_top_card.dart';
+import 'package:my_lms/presentation/screens/widgets/sub_prog_card.dart';
 import 'package:my_lms/presentation/screens/widgets/today_worked_details.dart';
 import 'package:sizer/sizer.dart';
 
@@ -80,6 +82,13 @@ class _ProfileTabState extends State<ProfileTab> {
                         padding: EdgeInsets.symmetric(horizontal: 5.w),
                         child: TodayWorkedDetails(),
                       ),
+                    ),
+                  ),
+                  BlocProvider(
+                    create: (context) => SubProgCardCubit(),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      child: SubProgCard(),
                     ),
                   ),
                 ]);

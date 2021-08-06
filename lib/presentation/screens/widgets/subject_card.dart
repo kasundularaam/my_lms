@@ -114,7 +114,7 @@ class SubjectCard extends StatelessWidget {
                                           fontSize: 12.sp,
                                           fontWeight: FontWeight.w400)),
                                   MyPrograssBar(
-                                    width: 12.w,
+                                    width: 35.w,
                                     max: state.moduleCount,
                                     progress: state.completedModules,
                                     backgroundColor: MyColors.progressBgColor,
@@ -144,7 +144,7 @@ class SubjectCard extends StatelessWidget {
                                           fontSize: 12.sp,
                                           fontWeight: FontWeight.w400)),
                                   MyPrograssBar(
-                                    width: 12.w,
+                                    width: 35.w,
                                     max: state.contentCount,
                                     progress: state.completedContents,
                                     backgroundColor: MyColors.progressBgColor,

@@ -111,11 +111,45 @@ class TodayWorkedDetails extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "time has worked today",
+                            "time worked today",
                             style: TextStyle(
                                 color: MyColors.textColorDark, fontSize: 14.sp),
                           ),
                         ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else if (state is TodayWorksNoWork) {
+              return Container(
+                padding: EdgeInsets.all(5.w),
+                decoration: BoxDecoration(
+                    color: MyColors.white,
+                    borderRadius: BorderRadius.circular(5.w)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Today Progress",
+                      style: TextStyle(
+                          color: MyColors.textColorDark, fontSize: 18.sp),
+                    ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    Divider(
+                      color: MyColors.textColorDark,
+                      thickness: 0.2.w,
+                    ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    Center(
+                      child: Text(
+                        state.message,
+                        style: TextStyle(
+                            color: MyColors.textColorDark, fontSize: 14.sp),
                       ),
                     ),
                   ],
