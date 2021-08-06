@@ -19,6 +19,7 @@ class ErrorMsgBox extends StatelessWidget {
       ),
       child: Text(
         errorMsg,
+        textAlign: TextAlign.center,
         style: TextStyle(
             color: MyColors.primaryError,
             fontSize: 15.sp,

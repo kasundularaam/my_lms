@@ -46,4 +46,22 @@ class WorkingOnNow extends WorkingState {
   String toString() => 'WorkingOnNow(workingContentName: $workingContentName)';
 }
 
-class WorkingContentCompleted extends WorkingState {}
+class WorkingContentCompleted extends WorkingState {
+  final String contentName;
+  WorkingContentCompleted({
+    required this.contentName,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is WorkingContentCompleted && other.contentName == contentName;
+  }
+
+  @override
+  int get hashCode => contentName.hashCode;
+
+  @override
+  String toString() => 'WorkingContentCompleted(contentName: $contentName)';
+}

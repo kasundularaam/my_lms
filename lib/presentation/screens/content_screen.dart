@@ -5,7 +5,6 @@ import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
-import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
 

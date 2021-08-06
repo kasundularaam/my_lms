@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/shared_prefs_keys.dart';
 import 'package:my_lms/core/my_enums.dart';
 import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
@@ -74,26 +75,42 @@ class _AuthPageState extends State<AuthPage> {
           }
           return Container(
             child: Center(
-              child: Text(state.statusMsg),
+              child: Text(
+                state.statusMsg,
+                style: TextStyle(
+                  color: MyColors.progressColor,
+                  fontSize: 10.sp,
+                ),
+              ),
             ),
           );
         } else {
-          return Text("unhandled state excecuted!");
+          return Center(
+              child: ErrorMsgBox(errorMsg: "unhandled state excecuted!"));
         }
       },
     );
   }
 
   Widget buildFailedState(String errorMsg) {
-    return Column(children: [
-      ErrorMsgBox(errorMsg: errorMsg),
-      SizedBox(
-        height: 15.w,
-      ),
-      TextButton(
-        onPressed: () => BlocProvider.of<AuthCubit>(context).checkUserStatus(),
-        child: Text("Try Again"),
-      ),
-    ]);
+    return Center(
+      child: Column(children: [
+        ErrorMsgBox(errorMsg: errorMsg),
+        SizedBox(
+          height: 15.w,
+        ),
+        TextButton(
+          onPressed: () =>
+              BlocProvider.of<AuthCubit>(context).checkUserStatus(),
+          child: Text(
+            "Try Again",
+            style: TextStyle(
+              color: MyColors.hpTopCardBgColor,
+              fontSize: 16.sp,
+            ),
+          ),
+        ),
+      ]),
+    );
   }
 }

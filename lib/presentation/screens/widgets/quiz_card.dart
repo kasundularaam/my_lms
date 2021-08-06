@@ -162,7 +162,7 @@ class _QuizCardState extends State<QuizCard> {
         answBtnList.add(AnswerBtn(
             answer: answer,
             onPressed: () {},
-            txtColor: MyColors.hpTopCardBgColor,
+            txtColor: MyColors.textColorDark,
             bgColor: MyColors.progressColor));
       } else {
         answBtnList.add(AnswerBtn(
@@ -206,7 +206,6 @@ class AnswerBtn extends StatelessWidget {
             decoration: BoxDecoration(
               color: bgColor,
               borderRadius: BorderRadius.circular(3.w),
-              border: Border.all(color: txtColor, width: 0.5.w),
             ),
             child: Align(
               alignment: Alignment.centerLeft,

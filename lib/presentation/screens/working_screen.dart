@@ -45,7 +45,9 @@ class _WorkingScreenState extends State<WorkingScreen> {
             ),
           );
         } else if (state is WorkingContentCompleted) {
-          return CongratulationsTab();
+          return CongratulationsTab(
+            contentName: state.contentName,
+          );
         } else if (state is WorkingOnNow) {
           return WorkingOnAnotherTab(contentName: state.workingContentName);
         } else {

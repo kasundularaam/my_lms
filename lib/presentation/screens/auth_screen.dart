@@ -8,10 +8,11 @@ import 'package:my_lms/logic/cubit/login_cubit/login_cubit.dart';
 import 'package:my_lms/logic/cubit/select_sub_list_cubit/select_sub_list_cubit.dart';
 import 'package:my_lms/logic/cubit/select_subject_cubit/select_subject_cubit.dart';
 import 'package:my_lms/logic/cubit/signup_cubit/signup_cubit.dart';
-import 'package:my_lms/presentation/screens/pages/auth_page.dart';
-import 'package:my_lms/presentation/screens/pages/login_page.dart';
-import 'package:my_lms/presentation/screens/pages/select_subject_page.dart';
-import 'package:my_lms/presentation/screens/pages/signup_page.dart';
+import 'package:my_lms/presentation/screens/auth_pages/auth_page.dart';
+import 'package:my_lms/presentation/screens/auth_pages/login_page.dart';
+import 'package:my_lms/presentation/screens/auth_pages/select_subject_page.dart';
+import 'package:my_lms/presentation/screens/auth_pages/signup_page.dart';
+import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -30,49 +31,53 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.offWhite,
-      body: BlocBuilder<AuthscreenNavCubit, AuthscreenNavState>(
-        builder: (context, state) {
-          if (state is AuthscreenNavInitial) {
-            return BlocProvider(
-              create: (context) => AuthCubit(),
-              child: AuthPage(),
-            );
-          } else if (state is AuthscreenNavigate) {
-            if (state.authNav == AuthNav.toLogin) {
-              return BlocProvider(
-                create: (context) => LoginCubit(),
-                child: LoginPage(),
-              );
-            } else if (state.authNav == AuthNav.toSignUp) {
-              return BlocProvider(
-                create: (context) => SignupCubit(),
-                child: SignUpPage(),
-              );
-            } else if (state.authNav == AuthNav.toAuthPage) {
+      backgroundColor: MyColors.screenBgDarkColor,
+      body: SafeArea(
+        child: BlocBuilder<AuthscreenNavCubit, AuthscreenNavState>(
+          builder: (context, state) {
+            if (state is AuthscreenNavInitial) {
               return BlocProvider(
                 create: (context) => AuthCubit(),
                 child: AuthPage(),
               );
-            } else if (state.authNav == AuthNav.toSelectSubjectPage) {
-              return MultiBlocProvider(
-                providers: [
-                  BlocProvider<SelectSubListCubit>(
-                    create: (context) => SelectSubListCubit(),
-                  ),
-                  BlocProvider<SelectSubjectCubit>(
-                    create: (context) => SelectSubjectCubit(),
-                  )
-                ],
-                child: SelectSubjectPage(),
-              );
+            } else if (state is AuthscreenNavigate) {
+              if (state.authNav == AuthNav.toLogin) {
+                return BlocProvider(
+                  create: (context) => LoginCubit(),
+                  child: LoginPage(),
+                );
+              } else if (state.authNav == AuthNav.toSignUp) {
+                return BlocProvider(
+                  create: (context) => SignupCubit(),
+                  child: SignUpPage(),
+                );
+              } else if (state.authNav == AuthNav.toAuthPage) {
+                return BlocProvider(
+                  create: (context) => AuthCubit(),
+                  child: AuthPage(),
+                );
+              } else if (state.authNav == AuthNav.toSelectSubjectPage) {
+                return MultiBlocProvider(
+                  providers: [
+                    BlocProvider<SelectSubListCubit>(
+                      create: (context) => SelectSubListCubit(),
+                    ),
+                    BlocProvider<SelectSubjectCubit>(
+                      create: (context) => SelectSubjectCubit(),
+                    )
+                  ],
+                  child: SelectSubjectPage(),
+                );
+              } else {
+                return Center(
+                    child: ErrorMsgBox(errorMsg: "sorry no page available!"));
+              }
             } else {
-              return Center(child: Text("sorry no page available!"));
+              return Center(
+                  child: ErrorMsgBox(errorMsg: "unhandled state excecuted!"));
             }
-          } else {
-            return Center(child: Text("unhandled state excecuted!"));
-          }
-        },
+          },
+        ),
       ),
     );
   }

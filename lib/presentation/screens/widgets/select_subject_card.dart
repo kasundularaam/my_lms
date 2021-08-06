@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
-import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/data/models/subject_model.dart';
 
 class SelectSubjectCard extends StatefulWidget {
@@ -39,18 +38,21 @@ class _SelectSubjectCardState extends State<SelectSubjectCard> {
             }
           },
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 5.h),
+            padding: EdgeInsets.symmetric(vertical: 3.h),
             decoration: BoxDecoration(
-              color: selected ? MyColors.accentColor : MyColors.white,
+              color:
+                  selected ? MyColors.progressColor : MyColors.textColorLight,
               borderRadius: BorderRadius.circular(5.w),
             ),
             child: Center(
               child: Text(
                 widget.subject.name,
                 style: TextStyle(
-                    color: selected ? MyColors.white : MyColors.black,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w600),
+                  color: selected
+                      ? MyColors.textColorDark
+                      : MyColors.textColorDark,
+                  fontSize: 18.sp,
+                ),
               ),
             ),
           ),

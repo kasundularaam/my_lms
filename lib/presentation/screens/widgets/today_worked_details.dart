@@ -93,6 +93,7 @@ class TodayWorkedDetails extends StatelessWidget {
                       height: 1.h,
                     ),
                     Divider(
+                      color: MyColors.textColorDark,
                       thickness: 0.2.w,
                     ),
                     SizedBox(

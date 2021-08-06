@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/constants/my_styles.dart';
-import 'package:my_lms/presentation/router/app_router.dart';
 
 class WorkingOnAnotherTab extends StatefulWidget {
   final String contentName;
@@ -20,47 +20,62 @@ class _WorkingOnAnotherTabState extends State<WorkingOnAnotherTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.backgroundWhite,
+      backgroundColor: MyColors.screenBgDarkColor,
       body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.all(0),
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 5.w),
-              decoration: BoxDecoration(
-                color: MyColors.offWhite,
-                boxShadow: [MyStyles.boxShadow],
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(10.w),
-                  bottomRight: Radius.circular(10.w),
+        child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+          return Column(
+            children: [
+              Container(
+                height: (constraints.maxHeight * 10) / 100,
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: InkWell(
+                        onTap: () => Navigator.pop(context),
+                        child: Padding(
+                          padding: EdgeInsets.all(5.w),
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            color: MyColors.textColorLight,
+                            size: 20.sp,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "Warning!",
+                        style: TextStyle(
+                            color: MyColors.textColorLight,
+                            fontSize: 26.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(10.w),
-                  bottomRight: Radius.circular(10.w),
+              Container(
+                height: (constraints.maxHeight * 90) / 100,
+                decoration: BoxDecoration(
+                  color: MyColors.screenBgColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8.w),
+                    topRight: Radius.circular(8.w),
+                  ),
                 ),
-                child: Column(
+                child: ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
                   children: [
                     SizedBox(
-                      height: 20.h,
+                      height: 3.h,
                     ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.w),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: MyColors.green, width: 0.5.w),
-                        color: MyColors.white,
-                        borderRadius: BorderRadius.circular(5.w),
-                        boxShadow: [MyStyles.boxShadow],
-                      ),
-                      child: Text(
-                        "You are currently working on ${widget.contentName}. please pay your attention to the work",
-                        style: TextStyle(
-                            color: MyColors.green,
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w300),
-                      ),
+                    ErrorMsgBox(
+                        errorMsg:
+                            "You are currently working on ${widget.contentName}. please pay your attention to the work"),
+                    SizedBox(
+                      height: 3.h,
                     ),
                     SizedBox(
                       height: 3.h,
@@ -68,12 +83,9 @@ class _WorkingOnAnotherTabState extends State<WorkingOnAnotherTab> {
                   ],
                 ),
               ),
-            ),
-            SizedBox(
-              height: 3.h,
-            ),
-          ],
-        ),
+            ],
+          );
+        }),
       ),
     );
   }
