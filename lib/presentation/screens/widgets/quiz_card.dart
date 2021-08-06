@@ -5,7 +5,6 @@ import 'package:my_lms/presentation/screens/widgets/success_msg_box.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
-import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/data/models/question_model.dart';
 import 'package:my_lms/logic/cubit/quiz_card_cubit/quiz_card_cubit.dart';
 import 'package:my_lms/logic/cubit/select_answer_cubit/select_answer_cubit.dart';

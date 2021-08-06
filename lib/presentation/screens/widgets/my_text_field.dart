@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
-import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:sizer/sizer.dart';
 
 class MyTextField extends StatelessWidget {

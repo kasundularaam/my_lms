@@ -361,6 +361,7 @@ class FirebaseRepo {
           .collection("users")
           .doc(currentUid())
           .collection("contents")
+          .orderBy('startTimestamp', descending: true)
           .get();
       snapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
