@@ -29,20 +29,25 @@ class WorkCard extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(5.w),
+          padding: EdgeInsets.all(3.w),
           decoration: BoxDecoration(
               color: MyColors.textColorLight,
               borderRadius: BorderRadius.circular(5.w)),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   ClipOval(
                     child: Image.asset(
                       "assets/images/boy.jpg",
-                      width: 10.w,
-                      height: 10.w,
+                      width: 8.w,
+                      height: 8.w,
                     ),
+                  ),
+                  SizedBox(
+                    width: 2.w,
                   ),
                   Text(
                     "You",
@@ -51,24 +56,52 @@ class WorkCard extends StatelessWidget {
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600),
                   ),
-                  Text(fireContent.isCompleted
-                      ? "Complted a content on"
-                      : "Worked on"),
+                  Text(
+                    fireContent.isCompleted
+                        ? " completed a content on"
+                        : " worked on",
+                    style: TextStyle(
+                      color: MyColors.textColorDark,
+                      fontSize: 14.sp,
+                    ),
+                  )
                 ],
+              ),
+              SizedBox(
+                height: 1.h,
               ),
               Container(
                 padding: EdgeInsets.all(2.w),
                 decoration: BoxDecoration(color: MyColors.offWhite),
                 child: Text(
-                    "${fireContent.subjectName} > ${fireContent.moduleName} > ${fireContent.contentName}"),
+                  "${fireContent.subjectName} > ${fireContent.moduleName} > ${fireContent.contentName}",
+                  style: TextStyle(
+                      color: MyColors.textColorDark,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
-              Text("Worked time: $workedTime"),
+              SizedBox(
+                height: 1.h,
+              ),
+              Text(
+                "Worked time: $workedTime",
+                style: TextStyle(
+                    color: MyColors.textColorDark,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600),
+              ),
               Align(
-                alignment: Alignment.centerLeft,
+                alignment: Alignment.centerRight,
                 child: Text(
                   timeago.format(
                     DateTime.fromMillisecondsSinceEpoch(
-                        fireContent.startTimestamp),
+                      fireContent.startTimestamp,
+                    ),
+                  ),
+                  style: TextStyle(
+                    color: MyColors.textColorDark,
+                    fontSize: 12.sp,
                   ),
                 ),
               ),

@@ -77,28 +77,43 @@ class _ProfileTabState extends State<ProfileTab> {
                       ),
                     ],
                   ),
-                  Container(
-                    child: BlocProvider(
-                      create: (context) => TodayWorksCubit(),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: TodayWorkedDetails(),
+                  ListView(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    children: [
+                      Container(
+                        child: BlocProvider(
+                          create: (context) => TodayWorksCubit(),
+                          child: TodayWorkedDetails(),
+                        ),
                       ),
-                    ),
-                  ),
-                  BlocProvider(
-                    create: (context) => SubProgCardCubit(),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child: SubProgCard(),
-                    ),
-                  ),
-                  BlocProvider(
-                    create: (context) => WorkCardListCubit(),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child: WorkCardList(),
-                    ),
+                      BlocProvider(
+                        create: (context) => SubProgCardCubit(),
+                        child: SubProgCard(),
+                      ),
+                      Divider(
+                        thickness: 0.2.w,
+                        color: MyColors.textColorLight,
+                      ),
+                      SizedBox(
+                        height: 3.h,
+                      ),
+                      Text(
+                        "Your activities",
+                        style: TextStyle(
+                            color: MyColors.textColorLight,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 3.h,
+                      ),
+                      BlocProvider(
+                        create: (context) => WorkCardListCubit(),
+                        child: WorkCardList(),
+                      ),
+                    ],
                   ),
                 ]);
               } else if (state is LogoutLoading) {

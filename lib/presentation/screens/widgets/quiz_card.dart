@@ -56,7 +56,7 @@ class _QuizCardState extends State<QuizCard> {
                 "${widget.index}. "
                 "${widget.question.question}",
                 style:
-                    TextStyle(color: MyColors.textColorDark, fontSize: 20.sp),
+                    TextStyle(color: MyColors.textColorDark, fontSize: 16.sp),
               ),
               SizedBox(
                 height: 3.h,
@@ -213,7 +213,7 @@ class AnswerBtn extends StatelessWidget {
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   color: txtColor,
-                  fontSize: 16.sp,
+                  fontSize: 14.sp,
                 ),
               ),
             ),
