@@ -486,4 +486,25 @@ class FirebaseRepo {
       throw e;
     }
   }
+
+  static Future<List<CalEvent>> getCalEvents() async {
+    try {
+      List<CalEvent> events = [];
+      final int now = DateTime.now().millisecondsSinceEpoch;
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUid())
+          .collection("events")
+          .where("time", isGreaterThanOrEqualTo: now)
+          .get();
+      snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        events.add(
+            CalEvent(id: data["id"], title: data["title"], time: data["time"]));
+      }).toList();
+      return events;
+    } catch (e) {
+      throw e;
+    }
+  }
 }
