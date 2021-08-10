@@ -4,6 +4,7 @@ import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/my_enums.dart';
 import 'package:my_lms/logic/cubit/home_nav_cubit/home_nav_cubit.dart';
 import 'package:my_lms/logic/cubit/home_tab_cubit/home_tab_cubit.dart';
+import 'package:my_lms/presentation/screens/home_tabs/events_tab.dart';
 import 'package:my_lms/presentation/screens/home_tabs/home_tab.dart';
 import 'package:my_lms/presentation/screens/home_tabs/profile_tab.dart';
 import 'package:my_lms/presentation/screens/widgets/bottom_tab.dart';
@@ -44,6 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         } else if (state.homeNav == HomeNav.toProfile) {
                           return ProfileTab();
+                        } else if (state.homeNav == HomeNav.toEvents) {
+                          return EventsTab();
                         } else {
                           return BlocProvider.value(
                             value: _homeTabCubit,

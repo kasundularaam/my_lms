@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/core/screen_arguments/add_event_screen_args.dart';
 import 'package:my_lms/logic/cubit/download_pdf_cubit/download_pdf_cubit.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
@@ -209,6 +210,36 @@ class _ContentScreenState extends State<ContentScreen> {
                           child: Center(
                             child: Text(
                               "Start Working",
+                              style: TextStyle(
+                                color: MyColors.textColorDark,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3.h,
+                      ),
+                      GestureDetector(
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          AppRouter.addEventScreen,
+                          arguments: AddEventScreenArgs(
+                              subjectName: widget.args.subjectName,
+                              moduleName: widget.args.moduleName,
+                              contentName: widget.args.contentName),
+                        ),
+                        child: Container(
+                          padding: EdgeInsets.all(5.w),
+                          margin: EdgeInsets.symmetric(horizontal: 5.w),
+                          decoration: BoxDecoration(
+                            color: MyColors.progressColor,
+                            borderRadius: BorderRadius.circular(5.w),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Add to schedual",
                               style: TextStyle(
                                 color: MyColors.textColorDark,
                                 fontSize: 14.sp,

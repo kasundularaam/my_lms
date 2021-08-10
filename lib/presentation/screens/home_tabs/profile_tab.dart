@@ -28,19 +28,13 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => LogoutCubit(),
-      child: Container(
-        decoration: BoxDecoration(
-          color: MyColors.screenBgColor,
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10.w),
-            bottomRight: Radius.circular(10.w),
-          ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10.w),
+          bottomRight: Radius.circular(10.w),
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10.w),
-            bottomRight: Radius.circular(10.w),
-          ),
+        child: Container(
+          color: MyColors.screenBgColor,
           child: BlocConsumer<LogoutCubit, LogoutState>(
             listener: (context, state) {
               if (state is LogoutSucceed) {

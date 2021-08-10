@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/screen_arguments/end_tab_args.dart';
+import 'package:my_lms/data/models/cal_event_modle.dart';
 import 'package:my_lms/data/models/fire_content.dart';
 import 'package:my_lms/data/models/fire_module_model.dart';
 import 'package:my_lms/data/models/fire_user_model.dart';
@@ -465,6 +466,22 @@ class FirebaseRepo {
         i++;
       });
       return pieDataList;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<void> addCalEvents({required CalEvent calEvent}) async {
+    try {
+      CollectionReference reference = FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUid())
+          .collection("events");
+      reference.doc(calEvent.id).set({
+        "id": calEvent.id,
+        "title": calEvent.title,
+        "time": calEvent.time,
+      });
     } catch (e) {
       throw e;
     }

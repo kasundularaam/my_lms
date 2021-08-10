@@ -29,20 +29,13 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: MyColors.screenBgColor,
-        boxShadow: [MyStyles.boxShadow],
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(10.w),
-          bottomRight: Radius.circular(10.w),
-        ),
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(10.w),
+        bottomRight: Radius.circular(10.w),
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(10.w),
-          bottomRight: Radius.circular(10.w),
-        ),
+      child: Container(
+        color: MyColors.screenBgColor,
         child: BlocBuilder<HomeTabCubit, HomeTabState>(
           builder: (context, state) {
             if (state is HomeTabInitial) {

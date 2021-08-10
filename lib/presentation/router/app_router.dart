@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/core/screen_arguments/add_event_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/content_list_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/module_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/quiz_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/subject_screen_args.dart';
+import 'package:my_lms/logic/cubit/add_event_cal_cubit/add_event_cal_cubit.dart';
 import 'package:my_lms/logic/cubit/auth_nav_cubit/authscreen_nav_cubit.dart';
 import 'package:my_lms/logic/cubit/content_list_screen_cubit/content_list_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/module_screen_cubit/module_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/quiz_screen_cubit/quiz_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/subject_screen_cubit/subject_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/working_cubit/working_cubit.dart';
+import 'package:my_lms/presentation/screens/add_event_screen.dart';
 
 import 'package:my_lms/presentation/screens/auth_screen.dart';
 import 'package:my_lms/presentation/screens/content_list_screen.dart';
@@ -32,6 +35,7 @@ class AppRouter {
   static const String contentScreen = '/contentScreen';
   static const String quizScreen = '/quizScreen';
   static const String workingScreen = '/workingScreen';
+  static const String addEventScreen = '/addEventScreen';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     WorkingCubit _workingCubit = WorkingCubit();
@@ -108,6 +112,17 @@ class AppRouter {
                     args: args,
                   ),
                 ));
+      case addEventScreen:
+        final AddEventScreenArgs args =
+            settings.arguments as AddEventScreenArgs;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => AddEventCalCubit(),
+            child: AddEventScreen(
+              args: args,
+            ),
+          ),
+        );
       default:
         throw const RouteException('Route not found!');
     }
