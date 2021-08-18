@@ -1,21 +1,19 @@
 import 'dart:convert';
 
-class CalEvent {
-  final String id;
-  final String title;
-  final int time;
-  final String type;
+import 'package:flutter/material.dart';
+
+class AddEvCalCuMod {
+  final DateTime date;
+  final TimeOfDay time;
   final String subjectId;
   final String subjectName;
   final String moduleId;
   final String moduleName;
   final String contentId;
   final String contentName;
-  CalEvent({
-    required this.id,
-    required this.title,
+  AddEvCalCuMod({
+    required this.date,
     required this.time,
-    required this.type,
     required this.subjectId,
     required this.subjectName,
     required this.moduleId,
@@ -24,11 +22,9 @@ class CalEvent {
     required this.contentName,
   });
 
-  CalEvent copyWith({
-    String? id,
-    String? title,
-    int? time,
-    String? type,
+  AddEvCalCuMod copyWith({
+    DateTime? date,
+    TimeOfDay? time,
     String? subjectId,
     String? subjectName,
     String? moduleId,
@@ -36,11 +32,9 @@ class CalEvent {
     String? contentId,
     String? contentName,
   }) {
-    return CalEvent(
-      id: id ?? this.id,
-      title: title ?? this.title,
+    return AddEvCalCuMod(
+      date: date ?? this.date,
       time: time ?? this.time,
-      type: type ?? this.type,
       subjectId: subjectId ?? this.subjectId,
       subjectName: subjectName ?? this.subjectName,
       moduleId: moduleId ?? this.moduleId,
@@ -52,10 +46,8 @@ class CalEvent {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'title': title,
+      'date': date.millisecondsSinceEpoch,
       'time': time,
-      'type': type,
       'subjectId': subjectId,
       'subjectName': subjectName,
       'moduleId': moduleId,
@@ -65,12 +57,10 @@ class CalEvent {
     };
   }
 
-  factory CalEvent.fromMap(Map<String, dynamic> map) {
-    return CalEvent(
-      id: map['id'],
-      title: map['title'],
+  factory AddEvCalCuMod.fromMap(Map<String, dynamic> map) {
+    return AddEvCalCuMod(
+      date: DateTime.fromMillisecondsSinceEpoch(map['date']),
       time: map['time'],
-      type: map['type'],
       subjectId: map['subjectId'],
       subjectName: map['subjectName'],
       moduleId: map['moduleId'],
@@ -82,23 +72,21 @@ class CalEvent {
 
   String toJson() => json.encode(toMap());
 
-  factory CalEvent.fromJson(String source) =>
-      CalEvent.fromMap(json.decode(source));
+  factory AddEvCalCuMod.fromJson(String source) =>
+      AddEvCalCuMod.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'CalEvent(id: $id, title: $title, time: $time, type: $type, subjectId: $subjectId, subjectName: $subjectName, moduleId: $moduleId, moduleName: $moduleName, contentId: $contentId, contentName: $contentName)';
+    return 'AddEvCalCuMod(date: $date, time: $time, subjectId: $subjectId, subjectName: $subjectName, moduleId: $moduleId, moduleName: $moduleName, contentId: $contentId, contentName: $contentName)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is CalEvent &&
-        other.id == id &&
-        other.title == title &&
+    return other is AddEvCalCuMod &&
+        other.date == date &&
         other.time == time &&
-        other.type == type &&
         other.subjectId == subjectId &&
         other.subjectName == subjectName &&
         other.moduleId == moduleId &&
@@ -109,10 +97,8 @@ class CalEvent {
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        title.hashCode ^
+    return date.hashCode ^
         time.hashCode ^
-        type.hashCode ^
         subjectId.hashCode ^
         subjectName.hashCode ^
         moduleId.hashCode ^

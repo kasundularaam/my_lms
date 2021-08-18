@@ -226,8 +226,11 @@ class _ContentScreenState extends State<ContentScreen> {
                           context,
                           AppRouter.addEventScreen,
                           arguments: AddEventScreenArgs(
+                              subjectId: widget.args.subjectId,
                               subjectName: widget.args.subjectName,
+                              moduleId: widget.args.moduleId,
                               moduleName: widget.args.moduleName,
+                              contentId: widget.args.contentId,
                               contentName: widget.args.contentName),
                         ),
                         child: Container(

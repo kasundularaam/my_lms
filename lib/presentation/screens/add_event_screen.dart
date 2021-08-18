@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/data/models/add_eve_cal_cu_model.dart';
+import 'package:my_lms/logic/cubit/add_con_eve_cal_cubit/add_con_eve_cal_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/screen_arguments/add_event_screen_args.dart';
-import 'package:my_lms/logic/cubit/add_event_cal_cubit/add_event_cal_cubit.dart';
 import 'package:my_lms/logic/cubit/pick_date_cubit/pick_date_cubit.dart';
 import 'package:my_lms/logic/cubit/pick_time_cubit/pick_time_cubit.dart';
 import 'package:my_lms/presentation/screens/widgets/date_picker.dart';
@@ -129,17 +130,25 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     SizedBox(
                       height: 3.h,
                     ),
-                    BlocBuilder<AddEventCalCubit, AddEventCalState>(
+                    BlocBuilder<AddConEventToCalCubit, AddConEventToCalState>(
                       builder: (context, state) {
-                        if (state is AddEventCalInitial) {
+                        if (state is AddConEventToCalInitial) {
                           return GestureDetector(
                             onTap: () {
                               if (pickedDate != null && pickedTime != null) {
-                                BlocProvider.of<AddEventCalCubit>(context)
-                                    .addEventToCal(
-                                        date: pickedDate!,
-                                        time: pickedTime!,
-                                        title: title);
+                                BlocProvider.of<AddConEventToCalCubit>(context)
+                                    .addConEventToCal(
+                                  addEvCalCuMod: AddEvCalCuMod(
+                                    date: pickedDate!,
+                                    time: pickedTime!,
+                                    subjectId: widget.args.subjectId,
+                                    subjectName: widget.args.subjectName,
+                                    moduleId: widget.args.moduleId,
+                                    moduleName: widget.args.moduleName,
+                                    contentId: widget.args.contentId,
+                                    contentName: widget.args.contentName,
+                                  ),
+                                );
                               } else {
                                 print("date or time not picked");
                               }
@@ -162,13 +171,13 @@ class _AddEventScreenState extends State<AddEventScreen> {
                               ),
                             ),
                           );
-                        } else if (state is AddEventCalLoading) {
+                        } else if (state is AddConEventToCalLoading) {
                           return Center(child: CircularProgressIndicator());
-                        } else if (state is AddEventCalSucceed) {
+                        } else if (state is AddConEventToCalSucceed) {
                           return Center(
                               child:
                                   SuccessMsgBox(successMsg: "Remainder added"));
-                        } else if (state is AddEventCalFailed) {
+                        } else if (state is AddConEventToCalFailed) {
                           return Center(
                               child: ErrorMsgBox(errorMsg: state.errorMsg));
                         } else {

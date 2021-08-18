@@ -471,7 +471,7 @@ class FirebaseRepo {
     }
   }
 
-  static Future<void> addCalEvents({required CalEvent calEvent}) async {
+  static Future<void> addConEveToCal({required CalEvent calEvent}) async {
     try {
       CollectionReference reference = FirebaseFirestore.instance
           .collection("users")
@@ -481,6 +481,40 @@ class FirebaseRepo {
         "id": calEvent.id,
         "title": calEvent.title,
         "time": calEvent.time,
+        "type": calEvent.type,
+        "subjectId": calEvent.subjectId,
+        "subjectName": calEvent.subjectName,
+        "moduleId": calEvent.moduleId,
+        "moduleName": calEvent.moduleName,
+        "contentId": calEvent.contentId,
+        "contentName": calEvent.contentName,
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<void> addModEveToCal({
+    required List<CalEvent> calEvents,
+  }) async {
+    try {
+      CollectionReference reference = FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUid())
+          .collection("events");
+      calEvents.forEach((event) async {
+        await reference.doc(event.id).set({
+          "id": event.id,
+          "title": event.title,
+          "time": event.time,
+          "type": event.type,
+          "subjectId": event.subjectId,
+          "subjectName": event.subjectName,
+          "moduleId": event.moduleId,
+          "moduleName": event.moduleName,
+          "contentId": event.contentId,
+          "contentName": event.contentName,
+        });
       });
     } catch (e) {
       throw e;
@@ -496,11 +530,24 @@ class FirebaseRepo {
           .doc(currentUid())
           .collection("events")
           .where("time", isGreaterThanOrEqualTo: now)
+          .orderBy("time", descending: true)
           .get();
       snapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         events.add(
-            CalEvent(id: data["id"], title: data["title"], time: data["time"]));
+          CalEvent(
+            id: data["id"],
+            title: data["title"],
+            time: data["time"],
+            type: data["type"],
+            subjectId: data["subjectId"],
+            subjectName: data["subjectName"],
+            moduleId: data["moduleId"],
+            moduleName: data["moduleName"],
+            contentId: data["contentId"],
+            contentName: data["contentName"],
+          ),
+        );
       }).toList();
       return events;
     } catch (e) {

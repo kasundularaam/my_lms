@@ -32,6 +32,7 @@ class MyTextField extends StatelessWidget {
         onChanged: onChanged,
         onSubmitted: onSubmitted,
         focusNode: focusNode,
+        autofocus: false,
         style: TextStyle(
             fontSize: 18.sp,
             color: MyColors.shadedBlack,
