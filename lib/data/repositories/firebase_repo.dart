@@ -471,7 +471,7 @@ class FirebaseRepo {
     }
   }
 
-  static Future<void> addConEveToCal({required CalEvent calEvent}) async {
+  static Future<void> addEventToCal({required CalEvent calEvent}) async {
     try {
       CollectionReference reference = FirebaseFirestore.instance
           .collection("users")
@@ -494,33 +494,6 @@ class FirebaseRepo {
     }
   }
 
-  static Future<void> addModEveToCal({
-    required List<CalEvent> calEvents,
-  }) async {
-    try {
-      CollectionReference reference = FirebaseFirestore.instance
-          .collection("users")
-          .doc(currentUid())
-          .collection("events");
-      calEvents.forEach((event) async {
-        await reference.doc(event.id).set({
-          "id": event.id,
-          "title": event.title,
-          "time": event.time,
-          "type": event.type,
-          "subjectId": event.subjectId,
-          "subjectName": event.subjectName,
-          "moduleId": event.moduleId,
-          "moduleName": event.moduleName,
-          "contentId": event.contentId,
-          "contentName": event.contentName,
-        });
-      });
-    } catch (e) {
-      throw e;
-    }
-  }
-
   static Future<List<CalEvent>> getCalEvents() async {
     try {
       List<CalEvent> events = [];
@@ -530,7 +503,7 @@ class FirebaseRepo {
           .doc(currentUid())
           .collection("events")
           .where("time", isGreaterThanOrEqualTo: now)
-          .orderBy("time", descending: true)
+          .orderBy("time", descending: false)
           .get();
       snapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;

@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_lms/core/screen_arguments/add_event_screen_args.dart';
+import 'package:my_lms/core/screen_arguments/add_eve_to_con_scrn_args.dart';
+import 'package:my_lms/core/screen_arguments/add_eve_to_mod_scrn_args.dart';
 import 'package:my_lms/core/screen_arguments/content_list_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/module_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/quiz_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/subject_screen_args.dart';
 import 'package:my_lms/logic/cubit/add_con_eve_cal_cubit/add_con_eve_cal_cubit.dart';
+import 'package:my_lms/logic/cubit/add_mod_eve_cal_cubit/add_mod_eve_cal_cubit.dart';
 import 'package:my_lms/logic/cubit/auth_nav_cubit/authscreen_nav_cubit.dart';
 import 'package:my_lms/logic/cubit/content_list_screen_cubit/content_list_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/module_screen_cubit/module_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/quiz_screen_cubit/quiz_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/subject_screen_cubit/subject_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/working_cubit/working_cubit.dart';
-import 'package:my_lms/presentation/screens/add_event_main_screen.dart';
-import 'package:my_lms/presentation/screens/add_event_screen.dart';
+import 'package:my_lms/presentation/screens/add_event_to_mod_screen.dart';
+import 'package:my_lms/presentation/screens/add_event_to_con_screen.dart';
 
 import 'package:my_lms/presentation/screens/auth_screen.dart';
 import 'package:my_lms/presentation/screens/content_list_screen.dart';
@@ -36,8 +38,8 @@ class AppRouter {
   static const String contentScreen = '/contentScreen';
   static const String quizScreen = '/quizScreen';
   static const String workingScreen = '/workingScreen';
-  static const String addEventScreen = '/addEventScreen';
-  static const String addEventMainScreen = '/addEventMainScreen';
+  static const String addEventToConScreen = '/addEventToConScreen';
+  static const String addEventToModScreen = '/addEventToModScreen';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     WorkingCubit _workingCubit = WorkingCubit();
@@ -114,22 +116,25 @@ class AppRouter {
                     args: args,
                   ),
                 ));
-      case addEventScreen:
-        final AddEventScreenArgs args =
-            settings.arguments as AddEventScreenArgs;
+      case addEventToConScreen:
+        final AddEveToConScrnArgs args =
+            settings.arguments as AddEveToConScrnArgs;
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => AddConEventToCalCubit(),
-            child: AddEventScreen(
+            child: AddEventToConScreen(
               args: args,
             ),
           ),
         );
-      case addEventMainScreen:
+      case addEventToModScreen:
+        AddEveToModScrnArgs args = settings.arguments as AddEveToModScrnArgs;
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => AddConEventToCalCubit(),
-            child: AddEventMainScreen(),
+            create: (context) => AddModEveCalCubit(),
+            child: AddEventToModScreen(
+              args: args,
+            ),
           ),
         );
       default:

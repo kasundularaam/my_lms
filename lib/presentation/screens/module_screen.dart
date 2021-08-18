@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_lms/core/screen_arguments/add_eve_to_mod_scrn_args.dart';
 import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
 import 'package:my_lms/data/models/content_model.dart';
 import 'package:my_lms/logic/cubit/module_screen_cubit/module_screen_cubit.dart';
@@ -197,6 +198,38 @@ class _ModuleScreenState extends State<ModuleScreen> {
                                     color: MyColors.textColorLight,
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        GestureDetector(
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            AppRouter.addEventToModScreen,
+                            arguments: AddEveToModScrnArgs(
+                              subjectId: widget.args.subjectId,
+                              subjectName: widget.args.subjectName,
+                              moduleId: widget.args.moduleId,
+                              moduleName: widget.args.moduleName,
+                            ),
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.all(5.w),
+                            margin: EdgeInsets.symmetric(horizontal: 5.w),
+                            decoration: BoxDecoration(
+                              color: MyColors.progressColor,
+                              borderRadius: BorderRadius.circular(5.w),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Add to schedual",
+                                style: TextStyle(
+                                  color: MyColors.textColorDark,
+                                  fontSize: 14.sp,
+                                ),
                               ),
                             ),
                           ),

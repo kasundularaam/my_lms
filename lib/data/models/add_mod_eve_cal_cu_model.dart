@@ -1,16 +1,18 @@
-class AddEventScreenArgs {
+import 'package:flutter/material.dart';
+
+class AddModEveCalCuMod {
+  final DateTime date;
+  final TimeOfDay time;
   final String subjectId;
   final String subjectName;
   final String moduleId;
   final String moduleName;
-  final String contentId;
-  final String contentName;
-  AddEventScreenArgs({
+  AddModEveCalCuMod({
+    required this.date,
+    required this.time,
     required this.subjectId,
     required this.subjectName,
     required this.moduleId,
     required this.moduleName,
-    required this.contentId,
-    required this.contentName,
   });
 }

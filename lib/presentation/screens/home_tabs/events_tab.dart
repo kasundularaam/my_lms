@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/data/models/cal_event_modle.dart';
 import 'package:my_lms/logic/cubit/show_cal_events_cubit/show_cal_events_cubit.dart';
-import 'package:my_lms/presentation/router/app_router.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:my_lms/presentation/screens/widgets/event_card.dart';
 import 'package:my_lms/presentation/screens/widgets/my_text_field.dart';
@@ -51,12 +50,50 @@ class _EventsTabState extends State<EventsTab> {
               height: 3.h,
             ),
             GestureDetector(
-              onTap: () =>
-                  Navigator.pushNamed(context, AppRouter.addEventMainScreen),
+              onTap: () => showModalBottomSheet(
+                  context: context,
+                  builder: (bottomSheetContext) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 5.w),
+                          child: Text(
+                            "Add Reminder to",
+                            style: TextStyle(
+                              color: MyColors.textColorDark,
+                              fontSize: 18.sp,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        ListTile(
+                          leading: new Icon(Icons.person_rounded),
+                          title: new Text("Module"),
+                          onTap: () {
+                            Navigator.pop(bottomSheetContext);
+                          },
+                        ),
+                        ListTile(
+                          leading: new Icon(Icons.group_rounded),
+                          title: new Text("Content"),
+                          onTap: () {
+                            Navigator.pop(bottomSheetContext);
+                          },
+                        ),
+                      ],
+                    );
+                  }),
               child: Container(
                 decoration: BoxDecoration(
                     color: MyColors.textColorLight,
-                    borderRadius: BorderRadius.circular(5.w)),
+                    borderRadius: BorderRadius.circular(3.w)),
                 padding: EdgeInsets.all(5.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,7 +104,13 @@ class _EventsTabState extends State<EventsTab> {
                         SizedBox(
                           width: 3.w,
                         ),
-                        Text("Add new event"),
+                        Text(
+                          "Add new reminder",
+                          style: TextStyle(
+                            color: MyColors.textColorDark,
+                            fontSize: 14.sp,
+                          ),
+                        ),
                       ],
                     ),
                     Icon(Icons.add),

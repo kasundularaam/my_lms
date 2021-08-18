@@ -2,6 +2,9 @@ import 'dart:developer';
 
 import 'package:googleapis/calendar/v3.dart';
 import 'package:googleapis_auth/auth_io.dart';
+import 'package:my_lms/data/models/add_mod_eve_cal_cu_model.dart';
+import 'package:my_lms/data/models/cal_event_modle.dart';
+import 'package:my_lms/data/repositories/firebase_repo.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CalandarRepo {
@@ -30,8 +33,10 @@ class CalandarRepo {
     }
   }
 
-  static Future<List<String?>> addModEveToCal(
-      {required List<Event> events}) async {
+  static Future<void> addModEveToCal(
+      {required List<Event> events,
+      required AddModEveCalCuMod addModEveCalCuMod,
+      required DateTime selectedDateTime}) async {
     try {
       var clientId = new ClientId(clId, "");
       AuthClient authClient =
@@ -40,19 +45,47 @@ class CalandarRepo {
       CalendarList calendarList = await calendar.calendarList.list();
       print("CALENDAR LIST: $calendarList");
       String calendarId = "primary";
-      List<String?> eventsIds = [];
+
+      int weekIntForFire = 1;
+      int indexForFire = 0;
+
       events.forEach((singleEvent) async {
         Event addedEvent =
             await calendar.events.insert(singleEvent, calendarId);
         if (addedEvent.status == "confirmed") {
           log('Event added in google calendar');
-          eventsIds.add(addedEvent.id);
+
+          String titleForFire =
+              "${addModEveCalCuMod.subjectName} > ${addModEveCalCuMod.moduleName} | week $weekIntForFire";
+          int timeForFire = selectedDateTime
+              .add(
+                Duration(
+                  days: (7 * indexForFire),
+                ),
+              )
+              .millisecondsSinceEpoch;
+
+          await FirebaseRepo.addEventToCal(
+            calEvent: CalEvent(
+              id: addedEvent.id!,
+              title: titleForFire,
+              time: timeForFire,
+              type: "module",
+              subjectId: addModEveCalCuMod.subjectId,
+              subjectName: addModEveCalCuMod.subjectName,
+              moduleId: addModEveCalCuMod.moduleId,
+              moduleName: addModEveCalCuMod.moduleName,
+              contentId: "",
+              contentName: "",
+            ),
+          );
+
+          weekIntForFire++;
+          indexForFire++;
         } else {
           log("Unable to add event in google calendar");
-          eventsIds.add("");
         }
       });
-      return eventsIds;
     } catch (e) {
       throw e;
     }

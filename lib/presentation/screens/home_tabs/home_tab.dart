@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
-import 'package:my_lms/core/constants/my_styles.dart';
 import 'package:my_lms/data/models/subject_model.dart';
 import 'package:my_lms/logic/cubit/home_tab_cubit/home_tab_cubit.dart';
 import 'package:my_lms/logic/cubit/subject_card_cubit/subject_card_cubit.dart';

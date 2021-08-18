@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-class AddEvCalCuMod {
+class AddConEvCalCuMod {
   final DateTime date;
   final TimeOfDay time;
   final String subjectId;
@@ -11,7 +11,7 @@ class AddEvCalCuMod {
   final String moduleName;
   final String contentId;
   final String contentName;
-  AddEvCalCuMod({
+  AddConEvCalCuMod({
     required this.date,
     required this.time,
     required this.subjectId,
@@ -22,7 +22,7 @@ class AddEvCalCuMod {
     required this.contentName,
   });
 
-  AddEvCalCuMod copyWith({
+  AddConEvCalCuMod copyWith({
     DateTime? date,
     TimeOfDay? time,
     String? subjectId,
@@ -32,7 +32,7 @@ class AddEvCalCuMod {
     String? contentId,
     String? contentName,
   }) {
-    return AddEvCalCuMod(
+    return AddConEvCalCuMod(
       date: date ?? this.date,
       time: time ?? this.time,
       subjectId: subjectId ?? this.subjectId,
@@ -57,8 +57,8 @@ class AddEvCalCuMod {
     };
   }
 
-  factory AddEvCalCuMod.fromMap(Map<String, dynamic> map) {
-    return AddEvCalCuMod(
+  factory AddConEvCalCuMod.fromMap(Map<String, dynamic> map) {
+    return AddConEvCalCuMod(
       date: DateTime.fromMillisecondsSinceEpoch(map['date']),
       time: map['time'],
       subjectId: map['subjectId'],
@@ -72,8 +72,8 @@ class AddEvCalCuMod {
 
   String toJson() => json.encode(toMap());
 
-  factory AddEvCalCuMod.fromJson(String source) =>
-      AddEvCalCuMod.fromMap(json.decode(source));
+  factory AddConEvCalCuMod.fromJson(String source) =>
+      AddConEvCalCuMod.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -84,7 +84,7 @@ class AddEvCalCuMod {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is AddEvCalCuMod &&
+    return other is AddConEvCalCuMod &&
         other.date == date &&
         other.time == time &&
         other.subjectId == subjectId &&

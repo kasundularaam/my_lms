@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_lms/core/screen_arguments/add_event_screen_args.dart';
+import 'package:my_lms/core/screen_arguments/add_eve_to_con_scrn_args.dart';
 import 'package:my_lms/logic/cubit/download_pdf_cubit/download_pdf_cubit.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
@@ -224,8 +224,8 @@ class _ContentScreenState extends State<ContentScreen> {
                       GestureDetector(
                         onTap: () => Navigator.pushNamed(
                           context,
-                          AppRouter.addEventScreen,
-                          arguments: AddEventScreenArgs(
+                          AppRouter.addEventToConScreen,
+                          arguments: AddEveToConScrnArgs(
                               subjectId: widget.args.subjectId,
                               subjectName: widget.args.subjectName,
                               moduleId: widget.args.moduleId,

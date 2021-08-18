@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:meta/meta.dart';
-import 'package:my_lms/data/models/add_eve_cal_cu_model.dart';
+import 'package:my_lms/data/models/add_con_eve_cal_cu_model.dart';
 import 'package:my_lms/data/models/cal_event_modle.dart';
 import 'package:my_lms/data/repositories/calandar_repo.dart';
 import 'package:my_lms/data/repositories/firebase_repo.dart';
@@ -12,7 +12,8 @@ part 'add_con_eve_cal_state.dart';
 class AddConEventToCalCubit extends Cubit<AddConEventToCalState> {
   AddConEventToCalCubit() : super(AddConEventToCalInitial());
 
-  Future<void> addConEventToCal({required AddEvCalCuMod addEvCalCuMod}) async {
+  Future<void> addConEventToCal(
+      {required AddConEvCalCuMod addEvCalCuMod}) async {
     try {
       emit(AddConEventToCalLoading());
       DateTime startTime = DateTime(
@@ -38,7 +39,7 @@ class AddConEventToCalCubit extends Cubit<AddConEventToCalState> {
       event.summary = eventTitle;
       String? eventId = await CalandarRepo.addEventForAContent(event: event);
       if (eventId != null) {
-        await FirebaseRepo.addConEveToCal(
+        await FirebaseRepo.addEventToCal(
           calEvent: CalEvent(
             id: eventId,
             title: eventTitle,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_lms/data/models/add_eve_cal_cu_model.dart';
+import 'package:my_lms/data/models/add_con_eve_cal_cu_model.dart';
 import 'package:my_lms/logic/cubit/add_con_eve_cal_cubit/add_con_eve_cal_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
-import 'package:my_lms/core/screen_arguments/add_event_screen_args.dart';
+import 'package:my_lms/core/screen_arguments/add_eve_to_con_scrn_args.dart';
 import 'package:my_lms/logic/cubit/pick_date_cubit/pick_date_cubit.dart';
 import 'package:my_lms/logic/cubit/pick_time_cubit/pick_time_cubit.dart';
 import 'package:my_lms/presentation/screens/widgets/date_picker.dart';
@@ -13,18 +13,18 @@ import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:my_lms/presentation/screens/widgets/success_msg_box.dart';
 import 'package:my_lms/presentation/screens/widgets/time_picker.dart';
 
-class AddEventScreen extends StatefulWidget {
-  final AddEventScreenArgs args;
-  const AddEventScreen({
+class AddEventToConScreen extends StatefulWidget {
+  final AddEveToConScrnArgs args;
+  const AddEventToConScreen({
     Key? key,
     required this.args,
   }) : super(key: key);
 
   @override
-  _AddEventScreenState createState() => _AddEventScreenState();
+  _AddEventToConScreenState createState() => _AddEventToConScreenState();
 }
 
-class _AddEventScreenState extends State<AddEventScreen> {
+class _AddEventToConScreenState extends State<AddEventToConScreen> {
   DateTime? pickedDate;
   TimeOfDay? pickedTime;
   String title = "";
@@ -80,12 +80,13 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 ),
                 child: ListView(
                   padding: EdgeInsets.all(5.w),
+                  physics: BouncingScrollPhysics(),
                   children: [
                     Text("Content",
                         style: TextStyle(
                             color: MyColors.textColorLight, fontSize: 16.sp)),
                     SizedBox(
-                      height: 3.h,
+                      height: 2.h,
                     ),
                     Container(
                       padding: EdgeInsets.all(5.w),
@@ -100,13 +101,13 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 3.h,
+                      height: 2.h,
                     ),
                     Text("Date",
                         style: TextStyle(
                             color: MyColors.textColorLight, fontSize: 16.sp)),
                     SizedBox(
-                      height: 3.h,
+                      height: 2.h,
                     ),
                     BlocProvider(
                       create: (context) => PickDateCubit(),
@@ -114,13 +115,13 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           DatePicker(onSelectDate: (date) => pickedDate = date),
                     ),
                     SizedBox(
-                      height: 3.h,
+                      height: 2.h,
                     ),
                     Text("time",
                         style: TextStyle(
                             color: MyColors.textColorLight, fontSize: 16.sp)),
                     SizedBox(
-                      height: 3.h,
+                      height: 2.h,
                     ),
                     BlocProvider(
                       create: (context) => PickTimeCubit(),
@@ -138,7 +139,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                               if (pickedDate != null && pickedTime != null) {
                                 BlocProvider.of<AddConEventToCalCubit>(context)
                                     .addConEventToCal(
-                                  addEvCalCuMod: AddEvCalCuMod(
+                                  addEvCalCuMod: AddConEvCalCuMod(
                                     date: pickedDate!,
                                     time: pickedTime!,
                                     subjectId: widget.args.subjectId,
