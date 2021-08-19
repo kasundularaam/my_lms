@@ -24,12 +24,13 @@ class AddEventToModScreen extends StatefulWidget {
 }
 
 class _AddEventToModScreenState extends State<AddEventToModScreen> {
-  @override
   DateTime? pickedDate;
   TimeOfDay? pickedTime;
   String title = "";
   int weekCount = 1;
   bool switchValue = false;
+
+  @override
   Widget build(BuildContext context) {
     title = "${widget.args.subjectName} > ${widget.args.moduleName}";
     return Scaffold(

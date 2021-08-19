@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 
 import 'package:my_lms/data/models/subject_model.dart';
-import 'package:my_lms/data/repositories/firebase_repo.dart';
+import 'package:my_lms/data/repositories/firebase_repo/firebase_auth_repo.dart';
 
 part 'auth_state.dart';
 
@@ -12,7 +12,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   void checkUserStatus() {
     try {
-      bool userStatus = FirebaseRepo.checkUserStatus();
+      bool userStatus = FirebaseAuthRepo.checkUserStatus();
       String _statusMsg;
       if (userStatus) {
         _statusMsg = "Loading your data";

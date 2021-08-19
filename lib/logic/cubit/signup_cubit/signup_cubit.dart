@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:my_lms/data/repositories/firebase_repo.dart';
+import 'package:my_lms/data/repositories/firebase_repo/firebase_auth_repo.dart';
 import 'package:my_lms/data/value%20validator/auth_value_validator.dart';
 
 part 'signup_state.dart';
@@ -21,7 +21,7 @@ class SignupCubit extends Cubit<SignupState> {
         if (passwordFeedback == ValueValidator.validPassword) {
           try {
             emit(SignupLoading(loadingMsg: "Creating new account..."));
-            await FirebaseRepo.signUpNewUser(
+            await FirebaseAuthRepo.signUpNewUser(
                 email: email, name: name, password: password);
             emit(SignupSucceed());
           } catch (e) {

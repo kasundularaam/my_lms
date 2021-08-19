@@ -173,25 +173,24 @@ class _ModuleScreenState extends State<ModuleScreen> {
                         SizedBox(
                           height: 5.h,
                         ),
-                        GestureDetector(
-                          onTap: () => Navigator.pushNamed(
-                            context,
-                            AppRouter.contentListScreen,
-                            arguments: ContentListScreenArgs(
-                              subjectId: widget.args.subjectId,
-                              subjectName: widget.args.subjectName,
-                              moduleId: widget.args.moduleId,
-                              moduleName: widget.args.moduleName,
+                        Center(
+                          child: GestureDetector(
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              AppRouter.contentListScreen,
+                              arguments: ContentListScreenArgs(
+                                subjectId: widget.args.subjectId,
+                                subjectName: widget.args.subjectName,
+                                moduleId: widget.args.moduleId,
+                                moduleName: widget.args.moduleName,
+                              ),
                             ),
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.all(5.w),
-                            margin: EdgeInsets.symmetric(horizontal: 20.w),
-                            decoration: BoxDecoration(
-                              color: MyColors.hpTopCardBgColor,
-                              borderRadius: BorderRadius.circular(5.w),
-                            ),
-                            child: Center(
+                            child: Container(
+                              padding: EdgeInsets.all(5.w),
+                              decoration: BoxDecoration(
+                                color: MyColors.hpTopCardBgColor,
+                                borderRadius: BorderRadius.circular(5.w),
+                              ),
                               child: Text(
                                 "See All Contents",
                                 style: TextStyle(
@@ -205,25 +204,24 @@ class _ModuleScreenState extends State<ModuleScreen> {
                         SizedBox(
                           height: 3.h,
                         ),
-                        GestureDetector(
-                          onTap: () => Navigator.pushNamed(
-                            context,
-                            AppRouter.addEventToModScreen,
-                            arguments: AddEveToModScrnArgs(
-                              subjectId: widget.args.subjectId,
-                              subjectName: widget.args.subjectName,
-                              moduleId: widget.args.moduleId,
-                              moduleName: widget.args.moduleName,
+                        Center(
+                          child: GestureDetector(
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              AppRouter.addEventToModScreen,
+                              arguments: AddEveToModScrnArgs(
+                                subjectId: widget.args.subjectId,
+                                subjectName: widget.args.subjectName,
+                                moduleId: widget.args.moduleId,
+                                moduleName: widget.args.moduleName,
+                              ),
                             ),
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.all(5.w),
-                            margin: EdgeInsets.symmetric(horizontal: 5.w),
-                            decoration: BoxDecoration(
-                              color: MyColors.progressColor,
-                              borderRadius: BorderRadius.circular(5.w),
-                            ),
-                            child: Center(
+                            child: Container(
+                              padding: EdgeInsets.all(5.w),
+                              decoration: BoxDecoration(
+                                color: MyColors.progressColor,
+                                borderRadius: BorderRadius.circular(5.w),
+                              ),
                               child: Text(
                                 "Add to schedual",
                                 style: TextStyle(
@@ -260,24 +258,23 @@ class _ModuleScreenState extends State<ModuleScreen> {
                         SizedBox(
                           height: 5.h,
                         ),
-                        GestureDetector(
-                          onTap: () => Navigator.pushNamed(
-                            context,
-                            AppRouter.quizScreen,
-                            arguments: QuizScreenArgs(
-                              moduleId: widget.args.moduleId,
-                              moduleName: widget.args.moduleName,
+                        Center(
+                          child: GestureDetector(
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              AppRouter.quizScreen,
+                              arguments: QuizScreenArgs(
+                                moduleId: widget.args.moduleId,
+                                moduleName: widget.args.moduleName,
+                              ),
                             ),
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.all(5.w),
-                            margin: EdgeInsets.symmetric(horizontal: 20.w),
-                            decoration: BoxDecoration(
-                              color: MyColors.hpTopCardBgColor,
-                              borderRadius: BorderRadius.circular(5.w),
-                              boxShadow: [MyStyles.boxShadow],
-                            ),
-                            child: Center(
+                            child: Container(
+                              padding: EdgeInsets.all(5.w),
+                              decoration: BoxDecoration(
+                                color: MyColors.hpTopCardBgColor,
+                                borderRadius: BorderRadius.circular(5.w),
+                                boxShadow: [MyStyles.boxShadow],
+                              ),
                               child: Text(
                                 "Go To Quiz",
                                 style: TextStyle(

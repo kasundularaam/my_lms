@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:my_lms/data/repositories/firebase_repo.dart';
+import 'package:my_lms/data/repositories/firebase_repo/firebase_auth_repo.dart';
 
 part 'logout_state.dart';
 
@@ -12,7 +12,7 @@ class LogoutCubit extends Cubit<LogoutState> {
       emit(
         LogoutLoading(loadingMsg: "signing out..."),
       );
-      await FirebaseRepo.logOutUser();
+      await FirebaseAuthRepo.logOutUser();
       emit(LogoutSucceed());
     } catch (e) {
       emit(LogoutFailed(errorMsg: e.toString()));

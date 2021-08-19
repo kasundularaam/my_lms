@@ -4,7 +4,7 @@ import 'package:googleapis/calendar/v3.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:my_lms/data/models/add_mod_eve_cal_cu_model.dart';
 import 'package:my_lms/data/models/cal_event_modle.dart';
-import 'package:my_lms/data/repositories/firebase_repo.dart';
+import 'package:my_lms/data/repositories/firebase_repo/firebase_cal_repo.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CalandarRepo {
@@ -65,7 +65,7 @@ class CalandarRepo {
               )
               .millisecondsSinceEpoch;
 
-          await FirebaseRepo.addEventToCal(
+          await FirebaseCalRepo.addEventToCal(
             calEvent: CalEvent(
               id: addedEvent.id!,
               title: titleForFire,

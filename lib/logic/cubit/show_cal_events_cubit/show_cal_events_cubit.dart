@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:my_lms/data/models/cal_event_modle.dart';
-import 'package:my_lms/data/repositories/firebase_repo.dart';
+import 'package:my_lms/data/repositories/firebase_repo/firebase_cal_repo.dart';
 
 part 'show_cal_events_state.dart';
 
@@ -12,7 +12,7 @@ class ShowCalEventsCubit extends Cubit<ShowCalEventsState> {
   Future<void> loadEvents() async {
     try {
       emit(ShowCalEventsLoading());
-      List<CalEvent> calEvents = await FirebaseRepo.getCalEvents();
+      List<CalEvent> calEvents = await FirebaseCalRepo.getCalEvents();
       if (calEvents.isNotEmpty) {
         emit(ShowCalEventsLoaded(calEvents: calEvents));
       } else {
@@ -27,7 +27,7 @@ class ShowCalEventsCubit extends Cubit<ShowCalEventsState> {
     try {
       emit(ShowCalEventsLoading());
       String lCaseText = searchText.toLowerCase();
-      List<CalEvent> calEvents = await FirebaseRepo.getCalEvents();
+      List<CalEvent> calEvents = await FirebaseCalRepo.getCalEvents();
       List<CalEvent> filteredList = [];
       if (calEvents.isNotEmpty) {
         calEvents.forEach((singleEent) {

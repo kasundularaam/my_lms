@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:my_lms/data/repositories/firebase_repo.dart';
+import 'package:my_lms/data/repositories/firebase_repo/firebase_auth_repo.dart';
 import 'package:my_lms/data/value%20validator/auth_value_validator.dart';
 
 part 'login_state.dart';
@@ -17,7 +17,7 @@ class LoginCubit extends Cubit<LoginState> {
       if (passwordFeedback == ValueValidator.validPassword) {
         try {
           emit(LoginLoading(loadingMsg: "Logging to your account..."));
-          await FirebaseRepo.loginWithEmailAndpswd(
+          await FirebaseAuthRepo.loginWithEmailAndpswd(
               email: email, password: password);
           emit(LoginSucceed());
         } catch (e) {

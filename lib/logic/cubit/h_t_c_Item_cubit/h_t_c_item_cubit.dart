@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:my_lms/data/repositories/firebase_repo.dart';
+import 'package:my_lms/data/repositories/firebase_repo/firebase_content_repo.dart';
 
 part 'h_t_c_item_state.dart';
 
@@ -12,7 +12,8 @@ class HTCItemCubit extends Cubit<HTCItemState> {
       emit(HTCItemLoading());
       int contentCount = 3;
       int fireContentCount =
-          await FirebaseRepo.getCleanedContentsCountBySub(subjectId: subjectId);
+          await FirebaseContentRepo.getCleanedContentsCountBySub(
+              subjectId: subjectId);
       emit(HTCItemLoaded(
           contentCount: contentCount, fireContentCount: fireContentCount));
     } catch (e) {

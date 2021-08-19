@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:my_lms/data/models/add_con_eve_cal_cu_model.dart';
 import 'package:my_lms/data/models/cal_event_modle.dart';
 import 'package:my_lms/data/repositories/calandar_repo.dart';
-import 'package:my_lms/data/repositories/firebase_repo.dart';
+import 'package:my_lms/data/repositories/firebase_repo/firebase_cal_repo.dart';
 
 part 'add_con_eve_cal_state.dart';
 
@@ -39,7 +39,7 @@ class AddConEventToCalCubit extends Cubit<AddConEventToCalState> {
       event.summary = eventTitle;
       String? eventId = await CalandarRepo.addEventForAContent(event: event);
       if (eventId != null) {
-        await FirebaseRepo.addEventToCal(
+        await FirebaseCalRepo.addEventToCal(
           calEvent: CalEvent(
             id: eventId,
             title: eventTitle,
