@@ -158,4 +158,25 @@ class FirebaseContentRepo {
       throw e;
     }
   }
+
+  static Future<void> deleteFireConsForSub({required String subjectId}) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuthRepo.currentUid())
+          .collection('contents')
+          .where('subjectId', isEqualTo: subjectId)
+          .get();
+      querySnapshot.docs.forEach((doc) async {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuthRepo.currentUid())
+            .collection('contents')
+            .doc(doc.id)
+            .delete();
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
 }

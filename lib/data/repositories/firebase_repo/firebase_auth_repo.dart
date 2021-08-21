@@ -96,6 +96,19 @@ class FirebaseAuthRepo {
     }
   }
 
+  static String currentEmail() {
+    try {
+      User? currenUser = FirebaseAuth.instance.currentUser;
+      if (currenUser != null) {
+        return currenUser.email!;
+      } else {
+        throw "user not available";
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
   static Future<FireUser> getUserDetails() async {
     try {
       DocumentSnapshot snapshot = await FirebaseFirestore.instance
@@ -115,9 +128,28 @@ class FirebaseAuthRepo {
 
   static Future<void> updateUserName({required String newName}) async {
     try {
-      CollectionReference reference =
-          FirebaseFirestore.instance.collection("users");
-      await reference.doc(currentUid()).update({'name': newName});
+      if (newName.isNotEmpty) {
+        CollectionReference reference =
+            FirebaseFirestore.instance.collection("users");
+        await reference.doc(currentUid()).update({'name': newName});
+      } else {
+        throw "Name is empty!";
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<void> changePassword(
+      {required String currentPassword, required String newPassword}) async {
+    try {
+      if (currentPassword.isNotEmpty && newPassword.isNotEmpty) {
+        await loginWithEmailAndpswd(
+            email: currentEmail(), password: currentPassword);
+        await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
+      } else {
+        throw "Some fields are empty!";
+      }
     } catch (e) {
       throw e;
     }

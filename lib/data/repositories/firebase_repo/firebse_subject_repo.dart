@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_lms/data/models/subject_model.dart';
 import 'package:my_lms/data/repositories/firebase_repo/firebase_auth_repo.dart';
+import 'package:my_lms/data/repositories/firebase_repo/firebase_content_repo.dart';
+import 'package:my_lms/data/repositories/firebase_repo/firebase_module_repo.dart';
 
 class FirebaseSubjectRepo {
   static Future<void> addSubjects({
@@ -35,6 +37,36 @@ class FirebaseSubjectRepo {
         subjectList.add(Subject(id: data["id"], name: data["name"]));
       }).toList();
       return subjectList;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<Subject> getSubjectById({required String subjectId}) async {
+    try {
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuthRepo.currentUid())
+          .collection('subjects')
+          .doc(subjectId)
+          .get();
+      Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>;
+      return Subject(id: data['id'], name: data['name']);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<void> deleteSubjectById({required String subjectId}) async {
+    try {
+      DocumentReference reference = FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuthRepo.currentUid())
+          .collection('subjects')
+          .doc(subjectId);
+      await reference.delete();
+      await FirebaseModuleRepo.deleteMudulesForSub(subjectId: subjectId);
+      await FirebaseContentRepo.deleteFireConsForSub(subjectId: subjectId);
     } catch (e) {
       throw e;
     }

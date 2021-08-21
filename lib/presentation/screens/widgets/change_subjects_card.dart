@@ -1,14 +1,21 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_lms/core/screen_arguments/change_sub_args.dart';
+import 'package:my_lms/presentation/router/app_router.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/data/models/subject_model.dart';
 
 class ChangeSubjectsCard extends StatefulWidget {
+  final List<Subject> fireSubjects;
   final List<Subject> subjects;
+  final BuildContext screenContext;
   const ChangeSubjectsCard({
     Key? key,
+    required this.fireSubjects,
     required this.subjects,
+    required this.screenContext,
   }) : super(key: key);
 
   @override
@@ -42,7 +49,11 @@ class _ChangeSubjectsCardState extends State<ChangeSubjectsCard> {
           Align(
             alignment: Alignment.centerRight,
             child: InkWell(
-              onTap: () {},
+              onTap: () => Navigator.pushNamed(
+                  context, AppRouter.changeSubjectsScreen,
+                  arguments: ChangeSubScrnArgs(
+                      fireSubjects: widget.fireSubjects,
+                      subjects: widget.subjects)),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 5.w),
                 child: Text(
@@ -62,7 +73,7 @@ class _ChangeSubjectsCardState extends State<ChangeSubjectsCard> {
 
   List<Widget> buildSubjectList() {
     List<Widget> subList = [];
-    widget.subjects.forEach((sub) {
+    widget.fireSubjects.forEach((sub) {
       subList.add(buildSubject(subjectName: sub.name));
     });
     return subList;

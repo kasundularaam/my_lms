@@ -73,12 +73,13 @@ class _SelectSubjectPageState extends State<SelectSubjectPage> {
                         itemBuilder: (context, index) {
                           Subject subject = state.subjectList[index];
                           return SelectSubjectCard(
+                              isSelected: false,
                               subject: subject,
-                              isSelected: (subjectId) {
-                                if (selectedList.contains(subjectId)) {
-                                  selectedList.remove(subjectId);
+                              onSelected: (sub) {
+                                if (selectedList.contains(sub)) {
+                                  selectedList.remove(sub);
                                 } else {
-                                  selectedList.add(subjectId);
+                                  selectedList.add(sub);
                                 }
                               });
                         });

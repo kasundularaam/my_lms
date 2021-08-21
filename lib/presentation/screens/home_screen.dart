@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/my_enums.dart';
+import 'package:my_lms/logic/cubit/exam_countdown_cubit/exam_countdown_cubit.dart';
 import 'package:my_lms/logic/cubit/home_nav_cubit/home_nav_cubit.dart';
 import 'package:my_lms/logic/cubit/home_tab_cubit/home_tab_cubit.dart';
 import 'package:my_lms/logic/cubit/show_cal_events_cubit/show_cal_events_cubit.dart';
+import 'package:my_lms/presentation/screens/home_tabs/countdown_tab.dart';
 import 'package:my_lms/presentation/screens/home_tabs/events_tab.dart';
 import 'package:my_lms/presentation/screens/home_tabs/home_tab.dart';
 import 'package:my_lms/presentation/screens/home_tabs/profile_tab.dart';
@@ -50,6 +52,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           return BlocProvider(
                             create: (context) => ShowCalEventsCubit(),
                             child: EventsTab(),
+                          );
+                        } else if (state.homeNav == HomeNav.toCountDown) {
+                          return BlocProvider(
+                            create: (context) => ExamCountdownCubit(),
+                            child: CountDownTab(),
                           );
                         } else {
                           return BlocProvider.value(

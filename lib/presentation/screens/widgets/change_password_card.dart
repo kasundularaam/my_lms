@@ -1,15 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:my_lms/core/constants/my_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import 'package:my_lms/core/constants/my_colors.dart';
+import 'package:my_lms/logic/cubit/change_password_cubit/change_password_cubit.dart';
+
 class ChangePasswordCard extends StatefulWidget {
-  const ChangePasswordCard({Key? key}) : super(key: key);
+  final Function(String) onSucceed;
+  final Function(String) onFailed;
+  const ChangePasswordCard({
+    Key? key,
+    required this.onSucceed,
+    required this.onFailed,
+  }) : super(key: key);
 
   @override
   _ChangePasswordCardState createState() => _ChangePasswordCardState();
 }
 
 class _ChangePasswordCardState extends State<ChangePasswordCard> {
+  TextEditingController crntPswrdCntrlr = TextEditingController();
+  TextEditingController newPswrdCntrlr = TextEditingController();
+  String currentPassword = "";
+  String newPassword = "";
+  @override
+  void initState() {
+    super.initState();
+    crntPswrdCntrlr.text = "";
+    newPswrdCntrlr.text = "";
+  }
+
+  @override
+  void dispose() {
+    crntPswrdCntrlr.dispose();
+    newPswrdCntrlr.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +58,10 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
             height: 2.h,
           ),
           TextField(
-            onChanged: (t) {},
+            onChanged: (currentPasswordTxt) =>
+                currentPassword = currentPasswordTxt,
+            obscureText: true,
+            controller: crntPswrdCntrlr,
             style: TextStyle(
               fontSize: 14.sp,
               color: MyColors.textColorDark,
@@ -42,7 +72,9 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
             height: 2.h,
           ),
           TextField(
-            onChanged: (t) {},
+            onChanged: (newPasswordTxt) => newPassword = newPasswordTxt,
+            obscureText: true,
+            controller: newPswrdCntrlr,
             style: TextStyle(
               fontSize: 14.sp,
               color: MyColors.textColorDark,
@@ -54,19 +86,80 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
           ),
           Align(
             alignment: Alignment.centerRight,
-            child: InkWell(
-              onTap: () {},
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
-                child: Text(
-                  "SAVE",
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: MyColors.green,
+            child: BlocConsumer<ChangePasswordCubit, ChangePasswordState>(
+                listener: (context, state) {
+              if (state is ChangePasswordSucceed) {
+                crntPswrdCntrlr.text = "";
+                newPswrdCntrlr.text = "";
+                widget.onSucceed(state.message);
+              } else if (state is ChangePasswordFailed) {
+                widget.onFailed(state.errorMsg);
+              }
+            }, builder: (context, state) {
+              if (state is ChangePasswordInitial) {
+                return InkWell(
+                  onTap: () => BlocProvider.of<ChangePasswordCubit>(context)
+                      .changePassword(
+                          currentPassword: currentPassword,
+                          newPassword: newPassword),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Text(
+                      "CHANGE",
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: MyColors.green,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
+                );
+              } else if (state is ChangePasswordLoading) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: Text(
+                    "Loading...",
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      color: MyColors.primaryColor,
+                    ),
+                  ),
+                );
+              } else if (state is ChangePasswordFailed) {
+                return InkWell(
+                  onTap: () => BlocProvider.of<ChangePasswordCubit>(context)
+                      .changePassword(
+                          currentPassword: currentPassword,
+                          newPassword: newPassword),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Text(
+                      "SAVE",
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: MyColors.green,
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                return InkWell(
+                  onTap: () => BlocProvider.of<ChangePasswordCubit>(context)
+                      .changePassword(
+                          currentPassword: currentPassword,
+                          newPassword: newPassword),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Text(
+                      "SAVE",
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: MyColors.green,
+                      ),
+                    ),
+                  ),
+                );
+              }
+            }),
           ),
         ],
       ),

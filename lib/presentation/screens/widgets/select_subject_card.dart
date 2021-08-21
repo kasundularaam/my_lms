@@ -6,10 +6,12 @@ import 'package:my_lms/data/models/subject_model.dart';
 
 class SelectSubjectCard extends StatefulWidget {
   final Subject subject;
-  final Function(Subject) isSelected;
+  final Function(Subject) onSelected;
+  final bool isSelected;
   const SelectSubjectCard({
     Key? key,
     required this.subject,
+    required this.onSelected,
     required this.isSelected,
   }) : super(key: key);
   @override
@@ -18,6 +20,11 @@ class SelectSubjectCard extends StatefulWidget {
 
 class _SelectSubjectCardState extends State<SelectSubjectCard> {
   bool selected = false;
+  @override
+  void initState() {
+    super.initState();
+    selected = widget.isSelected;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +33,12 @@ class _SelectSubjectCardState extends State<SelectSubjectCard> {
         InkWell(
           onTap: () {
             if (selected) {
-              widget.isSelected(widget.subject);
+              widget.onSelected(widget.subject);
               setState(() {
                 selected = false;
               });
             } else {
-              widget.isSelected(widget.subject);
+              widget.onSelected(widget.subject);
               setState(() {
                 selected = true;
               });

@@ -3,9 +3,26 @@ import 'package:my_lms/data/http/http_requests.dart';
 import 'package:my_lms/data/models/content_model.dart';
 import 'package:my_lms/data/models/module_model.dart';
 import 'package:my_lms/data/models/question_model.dart';
+import 'package:my_lms/data/models/subject_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Repository {
+  static Future<List<Subject>> getSubjectById(
+      {required List<String> subjectIds}) async {
+    try {
+      List<Subject> subjects = await HttpRequests.getSubjects();
+      List<Subject> subsToAdd = [];
+      subjects.forEach((sub) {
+        if (subjectIds.contains(sub.id)) {
+          subsToAdd.add(sub);
+        }
+      });
+      return subsToAdd;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   static Future<int> getModuleCountBySubId({required String subjectId}) async {
     try {
       List<Module> moduleList =

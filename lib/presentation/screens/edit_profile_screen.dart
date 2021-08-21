@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
+import 'package:my_lms/logic/cubit/change_password_cubit/change_password_cubit.dart';
 import 'package:my_lms/logic/cubit/edit_name_cubit/edit_name_cubit.dart';
 import 'package:my_lms/logic/cubit/logout_cubit/logout_cubit.dart';
 import 'package:my_lms/logic/cubit/settings_cubit/setting_cubit.dart';
@@ -111,11 +112,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               SizedBox(
                                 height: 2.h,
                               ),
-                              ChangePasswordCard(),
+                              BlocProvider(
+                                create: (context) => ChangePasswordCubit(),
+                                child: ChangePasswordCard(onSucceed: (message) {
+                                  SnackBar succeedSnack =
+                                      SnackBar(content: Text(message));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(succeedSnack);
+                                }, onFailed: (errorMsg) {
+                                  SnackBar errorSnack =
+                                      SnackBar(content: Text(errorMsg));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(errorSnack);
+                                }),
+                              ),
                               SizedBox(
                                 height: 2.h,
                               ),
                               ChangeSubjectsCard(
+                                screenContext: context,
+                                fireSubjects: state.fireSubjects,
                                 subjects: state.subjects,
                               ),
                               SizedBox(

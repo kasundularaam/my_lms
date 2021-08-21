@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/screen_arguments/end_tab_args.dart';
 import 'package:my_lms/data/models/fire_content.dart';
+import 'package:my_lms/data/models/fire_module_model.dart';
 import 'package:my_lms/data/models/pie_data_model.dart';
 import 'package:my_lms/data/models/pie_sub_pres.dart';
 import 'package:my_lms/data/models/subject_model.dart';
@@ -40,9 +41,14 @@ class FirebaseWorkRepo {
               moduleId: endTabArgs.contentScreenArgs.moduleId);
       if (fireContentCountOfMod == contentCountOfMod) {
         FirebaseModuleRepo.addFireModule(
-            subjectId: endTabArgs.contentScreenArgs.subjectId,
+          fireModule: FireModule(
             moduleId: endTabArgs.contentScreenArgs.moduleId,
-            moduleName: endTabArgs.contentScreenArgs.moduleName);
+            moduleName: endTabArgs.contentScreenArgs.moduleName,
+            isCompleted: true,
+            subjectId: endTabArgs.contentScreenArgs.subjectId,
+            subjectName: endTabArgs.contentScreenArgs.subjectName,
+          ),
+        );
       }
     } catch (e) {
       throw e;

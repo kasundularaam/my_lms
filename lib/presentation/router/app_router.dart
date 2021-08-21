@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_lms/core/screen_arguments/add_eve_to_con_scrn_args.dart';
 import 'package:my_lms/core/screen_arguments/add_eve_to_mod_scrn_args.dart';
+import 'package:my_lms/core/screen_arguments/change_sub_args.dart';
 import 'package:my_lms/core/screen_arguments/content_list_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/content_screen_args.dart';
 import 'package:my_lms/core/screen_arguments/module_screen_args.dart';
@@ -10,6 +11,7 @@ import 'package:my_lms/core/screen_arguments/subject_screen_args.dart';
 import 'package:my_lms/logic/cubit/add_con_eve_cal_cubit/add_con_eve_cal_cubit.dart';
 import 'package:my_lms/logic/cubit/add_mod_eve_cal_cubit/add_mod_eve_cal_cubit.dart';
 import 'package:my_lms/logic/cubit/auth_nav_cubit/authscreen_nav_cubit.dart';
+import 'package:my_lms/logic/cubit/change_subjects_cubit/change_subjects_cubit.dart';
 import 'package:my_lms/logic/cubit/content_list_screen_cubit/content_list_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/module_screen_cubit/module_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/new_event_cubit/new_event_cubit.dart';
@@ -21,6 +23,7 @@ import 'package:my_lms/presentation/screens/add_event_to_mod_screen.dart';
 import 'package:my_lms/presentation/screens/add_event_to_con_screen.dart';
 
 import 'package:my_lms/presentation/screens/auth_screen.dart';
+import 'package:my_lms/presentation/screens/change_subjects_screen.dart';
 import 'package:my_lms/presentation/screens/content_list_screen.dart';
 import 'package:my_lms/presentation/screens/content_screen.dart';
 import 'package:my_lms/presentation/screens/edit_profile_screen.dart';
@@ -46,6 +49,7 @@ class AppRouter {
   static const String addEventToModScreen = '/addEventToModScreen';
   static const String newEventScreen = '/newEventScreen';
   static const String editProfileScreen = '/editProfileScreen';
+  static const String changeSubjectsScreen = '/changeSubjectsScreen';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     WorkingCubit _workingCubit = WorkingCubit();
@@ -155,6 +159,16 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) => SettingCubit(),
             child: EditProfileScreen(),
+          ),
+        );
+      case changeSubjectsScreen:
+        ChangeSubScrnArgs args = settings.arguments as ChangeSubScrnArgs;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => ChangeSubjectsCubit(),
+            child: ChangeSubjectScreen(
+              args: args,
+            ),
           ),
         );
       default:

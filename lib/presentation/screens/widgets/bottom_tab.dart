@@ -29,14 +29,17 @@ class _BottomTabState extends State<BottomTab> {
             return buildInitState();
           } else if (state is HomeScreenNavigate) {
             if (state.homeNav == HomeNav.toHome) {
-              return buildNavState(
-                  MyColors.white, MyColors.lightGray, MyColors.lightGray);
+              return buildNavState(MyColors.white, MyColors.lightGray,
+                  MyColors.lightGray, MyColors.lightGray);
             } else if (state.homeNav == HomeNav.toProfile) {
-              return buildNavState(
-                  MyColors.lightGray, MyColors.lightGray, MyColors.white);
+              return buildNavState(MyColors.lightGray, MyColors.lightGray,
+                  MyColors.lightGray, MyColors.white);
             } else if (state.homeNav == HomeNav.toEvents) {
-              return buildNavState(
-                  MyColors.lightGray, MyColors.white, MyColors.lightGray);
+              return buildNavState(MyColors.lightGray, MyColors.white,
+                  MyColors.lightGray, MyColors.lightGray);
+            } else if (state.homeNav == HomeNav.toCountDown) {
+              return buildNavState(MyColors.lightGray, MyColors.lightGray,
+                  MyColors.white, MyColors.lightGray);
             } else {
               return buildInitState();
             }
@@ -67,6 +70,12 @@ class _BottomTabState extends State<BottomTab> {
         ),
         BottomTabButton(
           color: MyColors.lightGray,
+          btnIcon: Icons.alarm_rounded,
+          onPressed: () => BlocProvider.of<HomeNavCubit>(context)
+              .homeNavigate(homeNav: HomeNav.toCountDown),
+        ),
+        BottomTabButton(
+          color: MyColors.lightGray,
           btnIcon: Icons.person_rounded,
           onPressed: () => BlocProvider.of<HomeNavCubit>(context)
               .homeNavigate(homeNav: HomeNav.toProfile),
@@ -75,7 +84,7 @@ class _BottomTabState extends State<BottomTab> {
     );
   }
 
-  Widget buildNavState(Color hColor, Color cColor, Color pColor) {
+  Widget buildNavState(Color hColor, Color cColor, Color aColor, Color pColor) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,6 +100,12 @@ class _BottomTabState extends State<BottomTab> {
           btnIcon: Icons.event_rounded,
           onPressed: () => BlocProvider.of<HomeNavCubit>(context)
               .homeNavigate(homeNav: HomeNav.toEvents),
+        ),
+        BottomTabButton(
+          color: aColor,
+          btnIcon: Icons.alarm_rounded,
+          onPressed: () => BlocProvider.of<HomeNavCubit>(context)
+              .homeNavigate(homeNav: HomeNav.toCountDown),
         ),
         BottomTabButton(
           color: pColor,

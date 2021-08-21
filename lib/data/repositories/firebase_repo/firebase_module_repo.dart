@@ -3,21 +3,18 @@ import 'package:my_lms/data/models/fire_module_model.dart';
 import 'package:my_lms/data/repositories/firebase_repo/firebase_auth_repo.dart';
 
 class FirebaseModuleRepo {
-  static Future<void> addFireModule(
-      {required String subjectId,
-      required String moduleId,
-      required String moduleName}) async {
+  static Future<void> addFireModule({required FireModule fireModule}) async {
     try {
       CollectionReference reference = FirebaseFirestore.instance
           .collection("users")
           .doc(FirebaseAuthRepo.currentUid())
-          .collection("subjects")
-          .doc(subjectId)
           .collection("modules");
-      reference.doc(moduleId).set({
-        'id': moduleId,
-        'name': moduleName,
-        'isCompleted': true,
+      reference.doc(fireModule.moduleId).set({
+        'moduleId': fireModule.moduleId,
+        'moduleName': fireModule.moduleName,
+        'isCompleted': fireModule.isCompleted,
+        'subjectId': fireModule.subjectId,
+        'subjectName': fireModule.subjectName,
       });
     } catch (e) {
       throw e;
@@ -31,16 +28,20 @@ class FirebaseModuleRepo {
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection("users")
           .doc(FirebaseAuthRepo.currentUid())
-          .collection("subjects")
-          .doc(subjectId)
           .collection("modules")
+          .where('subjectId', isEqualTo: subjectId)
           .get();
       snapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        moduleList.add(FireModule(
-            id: data['id'],
-            name: data['name'],
-            isCompleted: data['isCompleted']));
+        moduleList.add(
+          FireModule(
+            moduleId: data['moduleId'],
+            moduleName: data['moduleName'],
+            isCompleted: data['isCompleted'],
+            subjectId: data['subjectId'],
+            subjectName: data['subjectName'],
+          ),
+        );
       }).toList();
       return moduleList;
     } catch (e) {
@@ -52,6 +53,27 @@ class FirebaseModuleRepo {
     try {
       List<FireModule> moduleList = await getFiremodules(subjectId: subjectId);
       return moduleList.length;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<void> deleteMudulesForSub({required String subjectId}) async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuthRepo.currentUid())
+          .collection("modules")
+          .where('subjectId', isEqualTo: subjectId)
+          .get();
+      snapshot.docs.forEach((doc) async {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuthRepo.currentUid())
+            .collection('modules')
+            .doc(doc.id)
+            .delete();
+      });
     } catch (e) {
       throw e;
     }

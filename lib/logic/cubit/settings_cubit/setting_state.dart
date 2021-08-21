@@ -9,9 +9,11 @@ class SettingLoading extends SettingState {}
 
 class SettingLoaded extends SettingState {
   final FireUser fireUser;
+  final List<Subject> fireSubjects;
   final List<Subject> subjects;
   SettingLoaded({
     required this.fireUser,
+    required this.fireSubjects,
     required this.subjects,
   });
 
@@ -21,15 +23,17 @@ class SettingLoaded extends SettingState {
 
     return other is SettingLoaded &&
         other.fireUser == fireUser &&
+        listEquals(other.fireSubjects, fireSubjects) &&
         listEquals(other.subjects, subjects);
   }
 
   @override
-  int get hashCode => fireUser.hashCode ^ subjects.hashCode;
+  int get hashCode =>
+      fireUser.hashCode ^ fireSubjects.hashCode ^ subjects.hashCode;
 
   @override
   String toString() =>
-      'SettingLoaded(fireUser: $fireUser, subjects: $subjects)';
+      'SettingLoaded(fireUser: $fireUser, fireSubjects: $fireSubjects, subjects: $subjects)';
 }
 
 class SettingFailed extends SettingState {
