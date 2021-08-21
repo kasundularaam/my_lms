@@ -12,7 +12,9 @@ import 'package:my_lms/logic/cubit/add_mod_eve_cal_cubit/add_mod_eve_cal_cubit.d
 import 'package:my_lms/logic/cubit/auth_nav_cubit/authscreen_nav_cubit.dart';
 import 'package:my_lms/logic/cubit/content_list_screen_cubit/content_list_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/module_screen_cubit/module_screen_cubit.dart';
+import 'package:my_lms/logic/cubit/new_event_cubit/new_event_cubit.dart';
 import 'package:my_lms/logic/cubit/quiz_screen_cubit/quiz_screen_cubit.dart';
+import 'package:my_lms/logic/cubit/settings_cubit/setting_cubit.dart';
 import 'package:my_lms/logic/cubit/subject_screen_cubit/subject_screen_cubit.dart';
 import 'package:my_lms/logic/cubit/working_cubit/working_cubit.dart';
 import 'package:my_lms/presentation/screens/add_event_to_mod_screen.dart';
@@ -21,7 +23,9 @@ import 'package:my_lms/presentation/screens/add_event_to_con_screen.dart';
 import 'package:my_lms/presentation/screens/auth_screen.dart';
 import 'package:my_lms/presentation/screens/content_list_screen.dart';
 import 'package:my_lms/presentation/screens/content_screen.dart';
+import 'package:my_lms/presentation/screens/edit_profile_screen.dart';
 import 'package:my_lms/presentation/screens/module_screen.dart';
+import 'package:my_lms/presentation/screens/new_event_screen.dart';
 import 'package:my_lms/presentation/screens/quiz_screen.dart';
 import 'package:my_lms/presentation/screens/subject_screen.dart';
 import 'package:my_lms/presentation/screens/working_screen.dart';
@@ -40,6 +44,8 @@ class AppRouter {
   static const String workingScreen = '/workingScreen';
   static const String addEventToConScreen = '/addEventToConScreen';
   static const String addEventToModScreen = '/addEventToModScreen';
+  static const String newEventScreen = '/newEventScreen';
+  static const String editProfileScreen = '/editProfileScreen';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     WorkingCubit _workingCubit = WorkingCubit();
@@ -135,6 +141,20 @@ class AppRouter {
             child: AddEventToModScreen(
               args: args,
             ),
+          ),
+        );
+      case newEventScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => NewEventCubit(),
+            child: NewEventScreen(),
+          ),
+        );
+      case editProfileScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => SettingCubit(),
+            child: EditProfileScreen(),
           ),
         );
       default:

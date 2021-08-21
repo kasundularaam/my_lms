@@ -26,106 +26,80 @@ class ProfileTab extends StatefulWidget {
 class _ProfileTabState extends State<ProfileTab> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LogoutCubit(),
-      child: ClipRRect(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(10.w),
-          bottomRight: Radius.circular(10.w),
-        ),
-        child: Container(
-          color: MyColors.screenBgColor,
-          child: BlocConsumer<LogoutCubit, LogoutState>(
-            listener: (context, state) {
-              if (state is LogoutSucceed) {
-                Navigator.popAndPushNamed(context, AppRouter.authScreen);
-              }
-            },
-            builder: (context, state) {
-              if (state is LogoutInitial) {
-                return ListView(physics: BouncingScrollPhysics(), children: [
-                  SizedBox(height: 2.h),
-                  Row(
-                    children: [
-                      SizedBox(width: 5.w),
-                      Text(
-                        "Profile",
-                        style: TextStyle(
-                            color: MyColors.textColorLight,
-                            fontSize: 26.sp,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      BlocProvider(
-                        create: (context) => ProfileTopCardCubit(),
-                        child: ProfileTopCard(),
-                      ),
-                    ],
-                  ),
-                  ListView(
-                    physics: BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(horizontal: 5.w),
-                    children: [
-                      Container(
-                        child: BlocProvider(
-                          create: (context) => TodayWorksCubit(),
-                          child: TodayWorkedDetails(),
-                        ),
-                      ),
-                      BlocProvider(
-                        create: (context) => SubProgCardCubit(),
-                        child: SubProgCard(),
-                      ),
-                      Divider(
-                        thickness: 0.2.w,
-                        color: MyColors.textColorLight,
-                      ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Text(
-                        "Your activities",
-                        style: TextStyle(
-                            color: MyColors.textColorLight,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      BlocProvider(
-                        create: (context) => WorkCardListCubit(),
-                        child: WorkCardList(),
-                      ),
-                    ],
-                  ),
-                ]);
-              } else if (state is LogoutLoading) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (state is LogoutFailed) {
-                return Center(
-                  child: ErrorMsgBox(
-                    errorMsg: state.errorMsg,
-                  ),
-                );
-              } else {
-                return Text("unhandled state excecuted!");
-              }
-            },
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(10.w),
+        bottomRight: Radius.circular(10.w),
+      ),
+      child: Container(
+        color: MyColors.screenBgColor,
+        child: ListView(physics: BouncingScrollPhysics(), children: [
+          SizedBox(height: 2.h),
+          Row(
+            children: [
+              SizedBox(width: 5.w),
+              Text(
+                "Profile",
+                style: TextStyle(
+                    color: MyColors.textColorLight,
+                    fontSize: 26.sp,
+                    fontWeight: FontWeight.w600),
+              ),
+            ],
           ),
-        ),
+          SizedBox(
+            height: 2.h,
+          ),
+          Row(
+            children: [
+              SizedBox(
+                width: 5.w,
+              ),
+              BlocProvider(
+                create: (context) => ProfileTopCardCubit(),
+                child: ProfileTopCard(),
+              ),
+            ],
+          ),
+          ListView(
+            physics: BouncingScrollPhysics(),
+            shrinkWrap: true,
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            children: [
+              Container(
+                child: BlocProvider(
+                  create: (context) => TodayWorksCubit(),
+                  child: TodayWorkedDetails(),
+                ),
+              ),
+              BlocProvider(
+                create: (context) => SubProgCardCubit(),
+                child: SubProgCard(),
+              ),
+              Divider(
+                thickness: 0.2.w,
+                color: MyColors.textColorLight,
+              ),
+              SizedBox(
+                height: 3.h,
+              ),
+              Text(
+                "Your activities",
+                style: TextStyle(
+                    color: MyColors.textColorLight,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                height: 3.h,
+              ),
+              BlocProvider(
+                create: (context) => WorkCardListCubit(),
+                child: WorkCardList(),
+              ),
+            ],
+          ),
+        ]),
       ),
     );
   }

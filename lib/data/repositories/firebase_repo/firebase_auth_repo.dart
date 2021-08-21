@@ -112,4 +112,14 @@ class FirebaseAuthRepo {
       throw e;
     }
   }
+
+  static Future<void> updateUserName({required String newName}) async {
+    try {
+      CollectionReference reference =
+          FirebaseFirestore.instance.collection("users");
+      await reference.doc(currentUid()).update({'name': newName});
+    } catch (e) {
+      throw e;
+    }
+  }
 }

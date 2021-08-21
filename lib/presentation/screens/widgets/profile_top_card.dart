@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_lms/logic/cubit/logout_cubit/logout_cubit.dart';
 import 'package:my_lms/logic/cubit/profile_top_card_cubit/profile_top_card_cubit.dart';
+import 'package:my_lms/presentation/router/app_router.dart';
 import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
 import 'package:sizer/sizer.dart';
 
@@ -126,19 +126,37 @@ class ProfileTopCard extends StatelessWidget {
                 ],
               ),
               Align(
-                alignment: Alignment.bottomRight,
-                child: InkWell(
-                  onTap: () => BlocProvider.of<LogoutCubit>(context).logOut(),
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  onTap: () =>
+                      Navigator.pushNamed(context, AppRouter.editProfileScreen),
                   child: Container(
-                    child: Padding(
-                      padding: EdgeInsets.all(2.w),
-                      child: Text(
-                        "Log Out",
-                        style: TextStyle(
-                          color: MyColors.white,
-                          fontSize: 12.sp,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.w),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: MyColors.textColorLight,
                         ),
-                      ),
+                        borderRadius: BorderRadius.circular(2.w)),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.settings_rounded,
+                          size: 14.sp,
+                          color: MyColors.textColorLight,
+                        ),
+                        SizedBox(
+                          width: 1.w,
+                        ),
+                        Text(
+                          "Edit",
+                          style: TextStyle(
+                            color: MyColors.white,
+                            fontSize: 12.sp,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
