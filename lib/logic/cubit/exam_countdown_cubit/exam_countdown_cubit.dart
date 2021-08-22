@@ -15,8 +15,7 @@ class ExamCountdownCubit extends Cubit<ExamCountdownState> {
     int examTimeStamp =
         preferences.getInt(SharedPrefsKeys.examTimeStampKey) ?? 0;
     if (examTimeStamp == 0) {
-      print("EXAM TIME STMP: $examTimeStamp");
-      emit(ExamCountdownEdit());
+      emit(ExamCountdownEdit(available: false));
     } else {
       emit(ExamCountdownRunning(examTimeStamp: examTimeStamp));
     }

@@ -37,4 +37,18 @@ class MyColors {
   static const Color textColorDark = Color(0xff334756);
   static const Color progressBgColor = Color(0xffA0C1B8);
   static const Color progressColor = Color(0xffFFD717);
+
+  static const Color subjectColor1 = Color(0xffeca1a6);
+  static const Color subjectColor2 = Color(0xff92a8d1);
+  static const Color subjectColor3 = Color(0xffd5f4e6);
+  static const Color subjectColor4 = Color(0xff80ced6);
+  static const Color subjectColor5 = Color(0xfffefbd8);
+
+  static const List<Color> subjectColors = [
+    subjectColor1,
+    subjectColor2,
+    subjectColor3,
+    subjectColor4,
+    subjectColor5,
+  ];
 }

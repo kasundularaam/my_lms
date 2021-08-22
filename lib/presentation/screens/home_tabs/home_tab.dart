@@ -120,9 +120,13 @@ class _HomeTabState extends State<HomeTab> {
                       itemCount: state.subjectList.length,
                       itemBuilder: (context, index) {
                         Subject subject = state.subjectList[index];
+                        Color color = MyColors.subjectColors[index];
                         return BlocProvider(
                           create: (context) => SubjectCardCubit(),
-                          child: SubjectCard(subject: subject),
+                          child: SubjectCard(
+                            subject: subject,
+                            color: color,
+                          ),
                         );
                       })
                 ],

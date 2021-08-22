@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_lms/logic/cubit/subject_card_cubit/subject_card_cubit.dart';
-import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
-import 'package:my_lms/presentation/screens/widgets/loading_container.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:my_lms/core/constants/my_colors.dart';
 import 'package:my_lms/core/screen_arguments/subject_screen_args.dart';
 import 'package:my_lms/data/models/subject_model.dart';
+import 'package:my_lms/logic/cubit/subject_card_cubit/subject_card_cubit.dart';
 import 'package:my_lms/presentation/router/app_router.dart';
+import 'package:my_lms/presentation/screens/widgets/error_msg_box.dart';
+import 'package:my_lms/presentation/screens/widgets/loading_container.dart';
 import 'package:my_lms/presentation/screens/widgets/prograss_bar.dart';
 
 class SubjectCard extends StatelessWidget {
   final Subject subject;
+  final Color color;
   const SubjectCard({
     Key? key,
     required this.subject,
+    required this.color,
   }) : super(key: key);
 
   @override
@@ -37,7 +39,7 @@ class SubjectCard extends StatelessWidget {
             width: 90.w,
             padding: EdgeInsets.all(5.w),
             decoration: BoxDecoration(
-              color: MyColors.white,
+              color: color,
               borderRadius: BorderRadius.circular(5.w),
             ),
             child: Column(
@@ -117,7 +119,7 @@ class SubjectCard extends StatelessWidget {
                                     width: 35.w,
                                     max: state.moduleCount,
                                     progress: state.completedModules,
-                                    backgroundColor: MyColors.progressBgColor,
+                                    backgroundColor: MyColors.textColorLight,
                                     progressColor: MyColors.progressColor,
                                   ),
                                 ],
@@ -147,7 +149,7 @@ class SubjectCard extends StatelessWidget {
                                     width: 35.w,
                                     max: state.contentCount,
                                     progress: state.completedContents,
-                                    backgroundColor: MyColors.progressBgColor,
+                                    backgroundColor: MyColors.textColorLight,
                                     progressColor: MyColors.progressColor,
                                   ),
                                 ],

@@ -152,7 +152,7 @@ class _CountDownTabState extends State<CountDownTab> {
                     alignment: Alignment.bottomRight,
                     child: GestureDetector(
                       onTap: () => BlocProvider.of<ExamCountdownCubit>(context)
-                          .emit(ExamCountdownEdit()),
+                          .emit(ExamCountdownEdit(available: true)),
                       child: Container(
                         margin: EdgeInsets.all(5.w),
                         padding: EdgeInsets.all(3.w),
@@ -170,7 +170,7 @@ class _CountDownTabState extends State<CountDownTab> {
                   ),
                 ],
               );
-            } else {
+            } else if (state is ExamCountdownEdit) {
               return Stack(
                 children: [
                   ListView(
@@ -221,32 +221,83 @@ class _CountDownTabState extends State<CountDownTab> {
                     ],
                   ),
                   Align(
-                    alignment: Alignment.bottomRight,
-                    child: GestureDetector(
-                      onTap: () {
-                        if (pickedDate != null && pickedTime != null) {
-                          BlocProvider.of<ExamCountdownCubit>(context)
-                              .setExamDateTime(
-                                  dateTime: pickedDate!,
-                                  timeOfDay: pickedTime!);
-                        }
-                      },
-                      child: Container(
-                        margin: EdgeInsets.all(5.w),
-                        padding: EdgeInsets.all(3.w),
-                        decoration: BoxDecoration(
-                          color: MyColors.progressColor,
-                          shape: BoxShape.circle,
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        state.available
+                            ? GestureDetector(
+                                onTap: () =>
+                                    BlocProvider.of<ExamCountdownCubit>(context)
+                                        .loadCountDown(),
+                                child: Container(
+                                  margin: EdgeInsets.all(5.w),
+                                  padding: EdgeInsets.all(3.w),
+                                  decoration: BoxDecoration(
+                                    color: MyColors.progressColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.arrow_back,
+                                    size: 20.sp,
+                                    color: MyColors.textColorDark,
+                                  ),
+                                ),
+                              )
+                            : SizedBox(),
+                        GestureDetector(
+                          onTap: () {
+                            if (pickedDate != null && pickedTime != null) {
+                              BlocProvider.of<ExamCountdownCubit>(context)
+                                  .setExamDateTime(
+                                      dateTime: pickedDate!,
+                                      timeOfDay: pickedTime!);
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(5.w),
+                            padding: EdgeInsets.all(3.w),
+                            decoration: BoxDecoration(
+                              color: MyColors.progressColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.check_rounded,
+                              size: 20.sp,
+                              color: MyColors.textColorDark,
+                            ),
+                          ),
                         ),
-                        child: Icon(
-                          Icons.check_rounded,
-                          size: 20.sp,
-                          color: MyColors.textColorDark,
-                        ),
-                      ),
+                      ],
                     ),
                   ),
                 ],
+              );
+            } else {
+              return Align(
+                alignment: Alignment.bottomCenter,
+                child: GestureDetector(
+                  onTap: () {
+                    if (pickedDate != null && pickedTime != null) {
+                      BlocProvider.of<ExamCountdownCubit>(context)
+                          .setExamDateTime(
+                              dateTime: pickedDate!, timeOfDay: pickedTime!);
+                    }
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(5.w),
+                    padding: EdgeInsets.all(3.w),
+                    decoration: BoxDecoration(
+                      color: MyColors.progressColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.check_rounded,
+                      size: 20.sp,
+                      color: MyColors.textColorDark,
+                    ),
+                  ),
+                ),
               );
             }
           },
